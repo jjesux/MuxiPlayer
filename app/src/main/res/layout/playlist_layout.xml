@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <TextView
+        android:id="@+id/txtvwPlaylistID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="@string/play_list_name"
+        style="@style/nikoTextSize"
+
+        />
+
+    <LinearLayout
+        android:id="@+id/lnrlayoutPlaylist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="4"
+        android:layout_below="@id/txtvwPlaylistID"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal"
+        android:background="@drawable/border"
+        android:layout_margin="5dp">
+
+        <Button
+            android:id="@+id/btnPlayAllPlaylistID"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/play_list_play_all"
+            style="@style/nikoTextSize"
+            android:padding="5dp"
+            android:background="@drawable/button_corner"
+            android:enabled="true"/>
+
+
+        <Button
+            android:id="@+id/btnPlaylistDeleteSongID"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/play_list_delete"
+            style="@style/nikoUnEnableText"
+            android:padding="5dp"
+            android:background="@drawable/button_corner"
+            android:enabled="false"/>
+
+        <Button
+            android:id="@+id/btnPlaylistClearListID"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/play_list_clear"
+            style="@style/nikoTextSize"
+            android:padding="5dp"
+            android:background="@drawable/button_corner"
+            android:enabled="true"/>
+
+        <Button
+            android:id="@+id/btnUpdatePlaylistID"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/play_list_update"
+            style="@style/nikoTextSize"
+            android:padding="5dp"
+            android:background="@drawable/button_corner"
+            android:enabled="true"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lnrlayoutPlaylistLVID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lnrlayoutPlaylist"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:layout_margin="5dp"
+        android:background="@drawable/border">
+
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="#0A0A0A">
+
+        </ListView>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

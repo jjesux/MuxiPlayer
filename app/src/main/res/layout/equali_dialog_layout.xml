@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:text="Select Sound Preset"
+        style="@style/nikoTextSize"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:padding="3dp"
+        android:background="#0000FF"/>
+
+    <RadioGroup
+        android:id="@+id/radioGroupId"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#000000">
+
+        <RadioButton
+            android:id="@+id/rbUnoId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/equa_preset"
+            style="@style/nikoTextSize" />
+
+        <RadioButton
+            android:id="@+id/rbDosId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/equa_preset_2"
+            style="@style/nikoTextSize" />
+
+        <RadioButton
+            android:id="@+id/rbTresId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/equa_preset_3"
+            style="@style/nikoTextSize"/>
+
+        <RadioButton
+            android:id="@+id/rbCuatroId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/equa_preset_4"
+            style="@style/nikoTextSize"/>
+
+        <RadioButton
+            android:id="@+id/rbCincoId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/equa_preset_5"
+            style="@style/nikoTextSize"/>
+
+        <RadioButton
+            android:id="@+id/rbSeisId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/equa_preset_6"
+            style="@style/nikoTextSize"/>
+
+        <RadioButton
+            android:id="@+id/rbSieteId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/equa_preset_7"
+            style="@style/nikoTextSize"/>
+
+        <RadioButton
+            android:id="@+id/rbOchoId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/equa_preset_8"
+            style="@style/nikoTextSize"/>
+
+        <RadioButton
+            android:id="@+id/rbNueveId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/equa_preset_9"
+            style="@style/nikoTextSize"/>
+
+        <RadioButton
+            android:id="@+id/rbDiezId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/equa_preset_10"
+            style="@style/nikoTextSize"/>
+
+        <RadioButton
+            android:id="@+id/rbOnceId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/equa_preset_11"
+            style="@style/nikoTextSize"/>
+
+        <RadioButton
+            android:id="@+id/rbDoceId"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/equa_preset_12"
+            style="@style/nikoTextSize"/>
+
+    </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_margin="3dp"
+        android:background="#0000FF"/>
+
+</LinearLayout>

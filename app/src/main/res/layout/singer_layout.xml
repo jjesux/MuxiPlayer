@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <TextView
+        android:id="@+id/txtvwSingerID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:padding="5dp"
+        android:layout_marginStart="5dp"
+        android:text="@string/singer_list_name"
+        style="@style/nikoTextSize"
+        />
+
+    <LinearLayout
+        android:id="@+id/lnrlayoutSingerID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="4"
+        android:layout_below="@id/txtvwSingerID"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal"
+        android:layout_margin="5dp"
+        android:background="@drawable/border">
+
+        <Button
+            android:id="@+id/btnPlayAllSingerID"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/singer_list_play_all"
+            style="@style/nikoTextSize"
+            android:padding="5dp"
+            android:background="@drawable/button_corner"
+            android:enabled="true"/>
+
+        <Button
+            android:id="@+id/btnAddSingerID"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/singer_list_add"
+            style="@style/nikoUnEnableText"
+            android:padding="5dp"
+            android:background="@drawable/button_corner"
+            android:enabled="false"/>
+
+        <Button
+            android:id="@+id/btnAddSingerAllID"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/singer_list_add_all"
+            style="@style/nikoUnEnableText"
+            android:padding="5dp"
+            android:background="@drawable/button_corner"
+            android:enabled="false"/>
+
+
+        <Button
+            android:id="@+id/btnUpdateSingerID"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/singer_list_update"
+            style="@style/nikoTextSize"
+            android:padding="5dp"
+            android:background="@drawable/button_corner"
+            android:enabled="true"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lnrlayoutSingerLVID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lnrlayoutSingerID"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:layout_margin="5dp"
+        android:background="@drawable/border">
+
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="#0A0A0A">
+        </ListView>
+
+    </LinearLayout>
+
+</RelativeLayout>

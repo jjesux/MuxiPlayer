@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <TextView
+        android:id="@+id/txtvwAllFilesID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:padding="5dp"
+        android:layout_marginStart="5dp"
+        android:text="@string/full_list_name"
+        style="@style/nikoTextSize"
+        />
+
+
+    <LinearLayout
+        android:id="@+id/lnrlayoutAllmp3ID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="4"
+        android:layout_below="@id/txtvwAllFilesID"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal"
+        android:background="@drawable/border"
+        android:layout_margin="5dp">
+
+        <Button
+            android:id="@+id/btnPlayAllFilesID"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/full_list_play_all"
+            style="@style/nikoTextSize"
+            android:padding="5dp"
+            android:background="@drawable/button_corner"/>
+
+
+        <Button
+            android:id="@+id/btnAddOneFileToPlaylistID"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/full_list_add_playlist"
+            style="@style/nikoUnEnableText"
+            android:padding="5dp"
+            android:background="@drawable/button_corner"
+            android:enabled="false"/>
+
+
+        <Button
+            android:id="@+id/btnUpdateDBFullListID"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/full_list_add"
+            style="@style/nikoTextSize"
+            android:padding="5dp"
+            android:background="@drawable/button_corner"
+            android:enabled="true"/>
+
+        <Button
+            android:id="@+id/btnUpdateDBID"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/full_list_update"
+            style="@style/nikoTextSize"
+            android:padding="5dp"
+            android:background="@drawable/button_corner"
+            android:enabled="true"/>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/lnrlayoutAllMP3LVID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/lnrlayoutAllmp3ID"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical"
+        android:layout_margin="5dp"
+        android:background="@drawable/border">
+
+        <ListView
+            android:id="@android:id/list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:background="#0A0A0A"
+            android:choiceMode="singleChoice">
+
+        </ListView>
+
+    </LinearLayout>
+
+</RelativeLayout>
+

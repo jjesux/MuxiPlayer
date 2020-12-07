@@ -1,0 +1,47 @@
+
+
+Esta version fue creada en 12/5/2020.
+
+Se usa el android studio 6.3.6.
+
+
+Esta es un primera version del programa Muxico que se ha actualizado  para usar
+librerias que estan en el android studio 6.3.6.
+Es casi igual, hasta ahora 12/5/2020, una diferencia seria que en esta ocasion
+android estudio creo una tabbed activity para acceder a la libreria de la app y
+este file/clase is diferente al the app original.
+
+Revisar el funcionamiento para ver que le falta funcionalmente o para que tenga
+una mejor presentacion.
+
+*******************************************************************************
+
+Update sobre el estado de la app fue hecho en 12/6/2020 como a la 6:11 pm.
+
+
+Faltaria ver como hacer para que la cancion que se esta tocando cambiarle el
+color en la playlist y asi talvez quitar la nombre de la cancion que se esta
+tocando de la parte mas arriba de la app.
+
+Falta componer los botones de alertdialog que aparece cuando se activa el
+equalizador. Por ahora talvez es bueno quitar al boton de manual.
+
+Ver si es posible que cuando se esta en la libreria se puede regresar a la
+UI principal usando un swipe cuando se esta en el primer fragmento o el tab
+play songs.
+
+Cuando se agrega una cancion desde el fragmento all MP3's la row seleccionada
+cambia a color rojo, pero creo que no funciona bien. Asi que hay que ver como
+quitar esa feature que tiene hasta ahora.
+
+Faltaria tambien ver si es posible cambiar los java files de los fragmentos
+al folder de nombre ui.main  . Esto es solo para que tenga mayor consistencia
+el projecto.
+
+Falta organizar un poco mas los archivos que estan en el folder de values.
+
+
+Falta ver como acceder a la sdcard, ya que hasta este momento se le tiene que
+estar cambiando al file path que se encuentra en el archivo ElModelo.java.
+
+*******************************************************************************

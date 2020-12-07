@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity"
+    android:background="#000000">
+
+    <TextView
+        android:id="@+id/txtvw1"
+        android:text="@string/radio_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        style="@style/nikoTextSize"
+        android:textStyle="bold|italic"/>
+
+    <LinearLayout
+        android:id="@+id/lnrLay0"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_below="@id/txtvw1"
+        android:layout_marginTop="3dp"
+        android:orientation="vertical"
+        android:background="@drawable/estrella">
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lnrLay1"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_below="@id/txtvw1"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
+        android:background="@drawable/border">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            android:text="@string/radio_station"
+            style="@style/nikoTextSize"/>
+
+        <TextView
+            android:id="@+id/txtvwStationInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="5dp"
+            android:text="La Rancherita AM"
+            style="@style/nikoTextSize"/>
+
+        <TextView
+            android:id="@+id/txtvwStationIP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            android:text="1130 AM"
+            style="@style/nikoTextSize"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lnrLay2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:padding="5dp"
+        android:layout_below="@id/lnrLay1"
+        android:orientation="horizontal"
+        android:background="@drawable/border">
+
+        <Button
+            android:id="@+id/btnRadioStop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="@string/radio_off"
+            style="@style/nikoTextSize"
+            android:background="@drawable/button_corner"/>
+
+        <Button
+            android:id="@+id/btnRadioPlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="@string/radio_play"
+            style="@style/nikoTextSize"
+            android:background="@drawable/button_corner"/>
+
+        <Button
+            android:id="@+id/btnRadioPreset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="@string/radio_preset"
+            style="@style/nikoTextSize"
+            android:background="@drawable/button_corner"/>
+
+        <Button
+            android:id="@+id/btnRadioEquali"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="@string/radio_equal"
+            style="@style/nikoTextSize"
+            android:background="@drawable/button_corner"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_below="@id/lnrLay2"
+        android:background="@drawable/border">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RadioGroup
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp">
+
+                <RadioButton
+                    android:id="@+id/rdbtnStation0"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_buena_onda"
+                    style="@style/nikoTextSize"
+                    android:button="@drawable/button_radio"/>
+
+                <RadioButton
+                    android:id="@+id/rdbtnStation1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_rancherita"
+                    style="@style/nikoTextSize"
+                    android:button="@drawable/button_radio"/>
+
+                <RadioButton
+                    android:id="@+id/rdbtnStation2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_variedades"
+                    style="@style/nikoTextSize"
+                    android:button="@drawable/button_radio"/>
+
+                <RadioButton
+                    android:id="@+id/rdbtnStation3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_rancherita_leo"
+                    style="@style/nikoTextSize"
+                    android:button="@drawable/button_radio"/>
+
+                <RadioButton
+                    android:id="@+id/rdbtnStation4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_cafe"
+                    style="@style/nikoTextSize"
+                    android:button="@drawable/button_radio"/>
+
+                <RadioButton
+                    android:id="@+id/rdbtnStation5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radio_salsa"
+                    style="@style/nikoTextSize"
+                    android:button="@drawable/button_radio"/>
+
+            </RadioGroup>
+        </ScrollView>
+
+    </RelativeLayout>
+
+</RelativeLayout>

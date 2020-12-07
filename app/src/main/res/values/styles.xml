@@ -1,0 +1,34 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <!--Color del texto en los botones, listas, nonbre de cancion y del progress bar. -->
+    <style name="nikoTextSize" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <!--Color de los botones que estan desactivados, por ejemplo para borrar una cancion. -->
+    <!--Estan solo en la listas de los fragmentos. -->
+    <style name="nikoUnEnableText" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorBtnDesactivadoStyle</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+</resources>

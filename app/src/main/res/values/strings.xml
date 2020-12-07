@@ -1,0 +1,66 @@
+<resources>
+    <string name="app_name">MuxiPlayer</string>
+
+
+    <string name="action_settings">Settings</string>
+
+    <string name="txtvw_song">Playing: </string>
+    <string name="txtvw_song_name">Song Name</string>
+
+    <string name="play_list_name">Play Songs</string>
+    <string name="play_list_play_all">Play All</string>
+    <string name="play_list_delete">Delete</string>
+    <string name="play_list_clear">Clear</string>
+    <string name="play_list_update">Update</string>
+
+    <string name="full_list_name">All MP3`s</string>
+    <string name="full_list_play_all">Play</string>
+    <string name="full_list_add_playlist">Add List</string>
+    <string name="full_list_add">Upd L</string>
+    <string name="full_list_update">Upd DB</string>
+
+    <string name="singer_list_name">All Singers</string>
+    <string name="singer_list_play_all">Play</string>
+    <string name="singer_list_add">Add It</string>
+    <string name="singer_list_add_all">Add All</string>
+    <string name="singer_list_update">Upd List</string>
+
+    <string name="ma_prog_min">min:sec</string>
+    <string name="ma_prog_max">max:sec</string>
+    <string name="ma_prog_radio">Radio</string>
+    <string name="ma_prog_lib">Library</string>
+    <string name="ma_prog_off">OFF</string>
+
+    <string name="radio_name">Radio NYKZ</string>
+    <string name="radio_station">Radio Station</string>
+    <string name="radio_off">Off</string>
+    <string name="radio_play">Play</string>
+    <string name="radio_preset">Presets</string>
+    <string name="radio_equal">Equal</string>
+    <string name="radio_buena_onda">La Buena Onda</string>
+    <string name="radio_rancherita">La Rancherita</string>
+    <string name="radio_variedades">Radio Variedades</string>
+    <string name="radio_rancherita_leo">Rancherita XELEO</string>
+    <string name="radio_cafe">Cafe Romantico Radio</string>
+    <string name="radio_salsa">Radio Salsa"</string>
+
+
+    <string name="equa_preset">Select Sound Preset</string>
+    <string name="equa_preset_1">Preset 1</string>
+    <string name="equa_preset_2">Preset 2</string>
+    <string name="equa_preset_3">Preset 3</string>
+    <string name="equa_preset_4">Preset 4</string>
+    <string name="equa_preset_5">Preset 5</string>
+    <string name="equa_preset_6">Preset 6</string>
+    <string name="equa_preset_7">Preset 7</string>
+    <string name="equa_preset_8">Preset 8</string>
+    <string name="equa_preset_9">Preset 9</string>
+    <string name="equa_preset_10">Preset 10</string>
+    <string name="equa_preset_11">Preset 11</string>
+    <string name="equa_preset_12">Preset 12</string>
+    <string name="title_activity_mus_lib2">MusLib2</string>
+
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+
+</resources>
