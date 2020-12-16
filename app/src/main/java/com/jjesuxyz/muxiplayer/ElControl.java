@@ -1,9 +1,7 @@
 package com.jjesuxyz.muxiplayer;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.audiofx.Equalizer;
@@ -16,8 +14,6 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-
-
 
 import com.jjesuxyz.muxiplayer.DBData.DBAccess;
 import com.jjesuxyz.muxiplayer.DBData.DBAccessHelper;
@@ -57,6 +53,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
     private Equalizer equalizer;
     private int numberBands;
     private short numberPresets;
+
     private short presetSelectedNumber = -1;
     private ArrayList<String> presetNamesList;
                                   //Song time information
@@ -67,6 +64,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
     private boolean bIsSongPaused = false;
                                   //Index sof song being played
     private int iSongPlayingNumber = 0;
+                                  //Variable used to show a UI with equalizer btns
+    private AlertDialog alertDialog = null;
 
 
 
@@ -242,7 +241,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      *
      * @return type int
      */
-    public int getMdPlayerAudioSessionId(){
+    private int getMdPlayerAudioSessionId(){
         if(mdPlayer != null) {
             return mdPlayer.getAudioSessionId();
         }
@@ -596,15 +595,19 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
     private void showSoundPresetsDialog(){
                                   //Getting and customizing the dialog window
         LayoutInflater layoutInflater = LayoutInflater.from(contextoMA);
+                                  //Inflating the layout file to customize UI
         View promptView = layoutInflater.inflate(R.layout.equali_dialog_layout, null);
+                                  //Getting the AD UI button to control it
+        Button btnOK = promptView.findViewById(R.id.btnEquOKId);
+        Button btnNegative = promptView.findViewById(R.id.btnEquCancelId);
+        Button btnManual = promptView.findViewById(R.id.btnEquManualId);
 
-        AlertDialog.Builder alertDiaBuil = new AlertDialog.Builder(contextoMA);
+        final AlertDialog.Builder alertDiaBuil = new AlertDialog.Builder(contextoMA);
         alertDiaBuil.setView(promptView);
-                                  //Getting the list of Radio Buttons that are
-                                  //in the dialog window with the equalizer
-                                  //preset options
-        ArrayList<RadioButton> radioButtonsArr = new ArrayList<RadioButton>();
+                                  //Creating the set of radio buttons
         RadioGroup radioGroup = promptView.findViewById(R.id.radioGroupId);
+                                  //Getting the number of radio buttons that the
+                                  //equalizer needs
         int radioGroupSize = radioGroup.getChildCount();
         for(int i = 0; i < radioGroupSize; i++){
             RadioButton radioBtnTmp = (RadioButton) radioGroup.getChildAt(i);
@@ -638,53 +641,58 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
         });
                                   //Dialog button listeners to handle click events
                                   //on these buttons.
-        alertDiaBuil.setCancelable(false)
-                                  //OK Btn used mainly to remove dialog window.
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dbgFunc("Btn OK");
-                                  //If user do not select any option equalizer
-                                  //remains OFF
-                        if(presetSelectedNumber < 0){
-                            releaseEqualizer(0);
-                        }
-                    }
-                })
-                                  //Cancel btn used to release equalizer object
-                                  //and activation process.
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dbgFunc("Cancelando: Doing nothing");
-                                  //setting equalizer object to null, preset
-                                  //number to -1
-                                  //main window equalizer button to OFF
-                        releaseEqualizer(0);
-                    }
-                })
-                                  //Right now it is not implemented
-                .setNeutralButton("Manual", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dbgFunc("Manual Equalization");
-                    }
-                });               //.show(); con this show no se cannot be
-                                  //customize the dialog buttons creating
-                                  //the equalizer preset dialog window
-
-        AlertDialog alertDialog = alertDiaBuil.create();
-                                  //customizeDialogButtons(alertDialog); si se pone
-                                  //here no function, return a button null
+        alertDiaBuil.setCancelable(false);
+                                  //Creating the user interface, but showing it
+        alertDialog = alertDiaBuil.create();
+                                  //Showing the AlertDialog UI
         alertDialog.show();
-                                  //Setting dialog buttons background to blue
-        customizeDialogButtons(alertDialog);
+                                  //This set of buttons are not the buttons that
+                                  //are part of the AlertDialog UI. These buttons
+                                  //are part of the layout file used to customize
+                                  //the AlertDialog UI
+
+                                  //Setting the OK button click listener
+        btnOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(presetSelectedNumber < 0){
+                                  //Turning off the equalizer, it is not used
+                    releaseEqualizer(0);
+                }
+                else {
+                                  //Closing the AlertDialog UI
+                    alertDialog.dismiss();
+                }
+            }
+        });
+
+                                  //Setting the Cancel button click listener
+        btnNegative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                                  //Turning off the equalizer, it is not used
+                releaseEqualizer(0);
+            }
+        });
+
+                                  //Setting the Manual button click listener
+        btnManual.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(contextoMA, "This feature no implemented yet.", Toast.LENGTH_SHORT).show();
+                                  //Turning off the equalizer, it is not used
+                releaseEqualizer(0);
+            }
+        });
 
     }   // End of function showSoundPresetsDialog()
 
 
 
     /**
+     * Note: en esta version del programa esta funcion no se usa. Pero la deje
+     * aqui solo para tenerla de referencia.
+     *
      * The customizeDialogButtons(AlertDialog aD), is used to customize the
      * equalizer preset dialog buttons. Cancel, Manual and OK buttons. So far
      * it just sets the buttons background color to blue.
@@ -692,21 +700,23 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      * @param aD type AlertDialog
      */
     private void customizeDialogButtons(AlertDialog aD){
+
         Button btnCancelTmp = aD.getButton(AlertDialog.BUTTON_NEGATIVE);
-        btnCancelTmp.setBackgroundColor(Color.BLACK);
-        btnCancelTmp.setTextColor(Color.BLUE);
+        btnCancelTmp.setBackground(contextoMA.getDrawable(R.drawable.dialog_btn));
+        btnCancelTmp.setTextColor(contextoMA.getColor(R.color.colorPrimary));
         btnCancelTmp.setTextSize(18.0f);
+
         Button btnPositivelTmp = aD.getButton(AlertDialog.BUTTON_POSITIVE);
-        btnPositivelTmp.setBackgroundColor(Color.BLACK);
-        btnPositivelTmp.setTextColor(Color.BLUE);
+        btnPositivelTmp.setBackground(contextoMA.getDrawable(R.drawable.dialog_btn));
+        btnPositivelTmp.setTextColor(contextoMA.getColor(R.color.colorPrimary));
         btnPositivelTmp.setTextSize(18.0f);
+
         Button btnNeutralTmp = aD.getButton(AlertDialog.BUTTON_NEUTRAL);
-        btnNeutralTmp.setBackgroundColor(Color.BLACK);
-        btnNeutralTmp.setTextColor(Color.BLUE);
+        btnNeutralTmp.setBackground(contextoMA.getDrawable(R.drawable.dialog_btn));
+        btnNeutralTmp.setTextColor(contextoMA.getColor(R.color.colorPrimary));
         btnNeutralTmp.setTextSize(18.0f);
 
     }   //End of function customizeDialogButtons()
-
 
 
 
@@ -734,6 +744,12 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
             contextoMA.setBtnSoundEqualizerState("OFF");
             dbgFunc("Equalizer is OFF");
         }
+                                  //Checking that AlertDialog var is not invoked
+                                  //before it is created.
+        if (alertDialog != null) {
+            alertDialog.dismiss();
+        }
+
 
     }   //End of releaseEqualizer() function
 

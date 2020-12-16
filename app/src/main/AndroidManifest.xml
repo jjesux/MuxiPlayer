@@ -32,12 +32,6 @@
         </activity>
 
         <activity
-            android:name=".MusLib"
-            android:configChanges="orientation"
-            android:label="Music Library"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".NKRadio"
             android:configChanges="orientation"
             android:label="Radio"

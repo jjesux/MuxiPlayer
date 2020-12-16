@@ -60,6 +60,11 @@
     <string name="equa_preset_12">Preset 12</string>
     <string name="title_activity_mus_lib2">MusLib2</string>
 
+    <string name="btn_eq_done">Done</string>
+    <string name="btn_eq_cancel">Cancel</string>
+    <string name="btn_eq_manual">Manual</string>
+    <string name="txtvw_eq_title">Select Sound Preset</string>
+
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
 

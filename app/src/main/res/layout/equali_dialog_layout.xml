@@ -2,15 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_weight="15"
     android:background="#000000"
     android:orientation="vertical">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:background="#000000"
+        android:padding="5dp"
         android:layout_margin="3dp"
-        android:text="Select Sound Preset"
-        style="@style/nikoTextSize"/>
+        android:text="@string/txtvw_eq_title"
+        style="@style/nikoTextSize"
+        android:textSize="20sp"/>
 
     <View
         android:layout_width="match_parent"
@@ -21,13 +27,24 @@
     <RadioGroup
         android:id="@+id/radioGroupId"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#000000">
+        android:layout_height="0dp"
+        android:layout_weight="12"
+        android:layout_gravity="center_vertical"
+        android:padding="10dp"
+        android:background="@android:color/transparent">
 
         <RadioButton
             android:id="@+id/rbUnoId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_margin="2dp"
+            android:background="@drawable/custom_rbtn_bg"
+            android:buttonTint="@color/colorLetras"
+            android:checked="false"
             android:text="@string/equa_preset"
             style="@style/nikoTextSize" />
 
@@ -35,6 +52,14 @@
             android:id="@+id/rbDosId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_margin="2dp"
+            android:background="@drawable/custom_rbtn_bg"
+            android:buttonTint="@color/colorLetras"
+            android:checked="false"
             android:text="@string/equa_preset_2"
             style="@style/nikoTextSize" />
 
@@ -42,6 +67,14 @@
             android:id="@+id/rbTresId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_margin="2dp"
+            android:background="@drawable/custom_rbtn_bg"
+            android:buttonTint="@color/colorLetras"
+            android:checked="false"
             android:text="@string/equa_preset_3"
             style="@style/nikoTextSize"/>
 
@@ -49,6 +82,14 @@
             android:id="@+id/rbCuatroId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_margin="2dp"
+            android:background="@drawable/custom_rbtn_bg"
+            android:buttonTint="@color/colorLetras"
+            android:checked="false"
             android:text="@string/equa_preset_4"
             style="@style/nikoTextSize"/>
 
@@ -56,6 +97,14 @@
             android:id="@+id/rbCincoId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_margin="2dp"
+            android:background="@drawable/custom_rbtn_bg"
+            android:buttonTint="@color/colorLetras"
+            android:checked="false"
             android:text="@string/equa_preset_5"
             style="@style/nikoTextSize"/>
 
@@ -63,6 +112,14 @@
             android:id="@+id/rbSeisId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_margin="2dp"
+            android:background="@drawable/custom_rbtn_bg"
+            android:buttonTint="@color/colorLetras"
+            android:checked="false"
             android:text="@string/equa_preset_6"
             style="@style/nikoTextSize"/>
 
@@ -70,6 +127,14 @@
             android:id="@+id/rbSieteId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_margin="2dp"
+            android:background="@drawable/custom_rbtn_bg"
+            android:buttonTint="@color/colorLetras"
+            android:checked="false"
             android:text="@string/equa_preset_7"
             style="@style/nikoTextSize"/>
 
@@ -77,6 +142,14 @@
             android:id="@+id/rbOchoId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_margin="2dp"
+            android:background="@drawable/custom_rbtn_bg"
+            android:buttonTint="@color/colorLetras"
+            android:checked="false"
             android:text="@string/equa_preset_8"
             style="@style/nikoTextSize"/>
 
@@ -84,6 +157,14 @@
             android:id="@+id/rbNueveId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_margin="2dp"
+            android:background="@drawable/custom_rbtn_bg"
+            android:buttonTint="@color/colorLetras"
+            android:checked="false"
             android:text="@string/equa_preset_9"
             style="@style/nikoTextSize"/>
 
@@ -91,6 +172,14 @@
             android:id="@+id/rbDiezId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_margin="2dp"
+            android:background="@drawable/custom_rbtn_bg"
+            android:buttonTint="@color/colorLetras"
+            android:checked="false"
             android:text="@string/equa_preset_10"
             style="@style/nikoTextSize"/>
 
@@ -98,6 +187,14 @@
             android:id="@+id/rbOnceId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_margin="2dp"
+            android:background="@drawable/custom_rbtn_bg"
+            android:buttonTint="@color/colorLetras"
+            android:checked="false"
             android:text="@string/equa_preset_11"
             style="@style/nikoTextSize"/>
 
@@ -105,10 +202,70 @@
             android:id="@+id/rbDoceId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:layout_margin="2dp"
+            android:background="@drawable/custom_rbtn_bg"
+            android:buttonTint="@color/colorLetras"
+            android:checked="false"
             android:text="@string/equa_preset_12"
             style="@style/nikoTextSize"/>
 
     </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_margin="3dp"
+        android:background="#0000FF"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#000000"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="#000000"
+            android:layout_weight="3"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+
+
+            <Button
+                android:id="@+id/btnEquManualId"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/btn_eq_manual"
+                android:background="@drawable/button_mw_corner"
+                style="@style/nikoTextSize"/>
+
+            <Button
+                android:id="@+id/btnEquCancelId"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/btn_eq_cancel"
+                android:background="@drawable/button_mw_corner"
+                style="@style/nikoTextSize"/>
+
+            <Button
+                android:id="@+id/btnEquOKId"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/btn_eq_done"
+                android:background="@drawable/button_mw_corner"
+                style="@style/nikoTextSize"/>
+        </LinearLayout>
+
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"

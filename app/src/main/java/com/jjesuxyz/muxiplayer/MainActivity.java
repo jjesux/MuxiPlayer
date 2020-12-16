@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,10 +15,13 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -479,9 +483,10 @@ public class MainActivity extends ListActivity {
                     if(elControl.getMdPlayer() == null && !elControl.isMdPlayerPlaying()){
                                   //Asking user to start playing a song first
                         Toast.makeText(getApplicationContext(), "Start playing a song first.",
-                                Toast.LENGTH_SHORT).show();
+                                                                          Toast.LENGTH_SHORT).show();
                     }
                     else {
+
                                   //Starting the sound equalizer activation process.
                                   //This is done in ElControl class.
                         elControl.setEqualizerState();

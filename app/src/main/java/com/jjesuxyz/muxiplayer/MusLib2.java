@@ -12,7 +12,7 @@ import com.jjesuxyz.muxiplayer.ui.main.SectionsPagerAdapter;
 
 
 /**
- * MusLib class is used to create fragments. This activity will host those
+ * MusLib2 class is used to create fragments. This activity will host those
  * fragments. This class will also create tabs that will be inserted and
  * displayed in the action bar app. This class will also synchronize swipe
  * action with tabs and fragments. It also sends data to those fragments.
@@ -174,8 +174,8 @@ public class MusLib2 extends AppCompatActivity
     }   //End of l() function
 
 
-}   //End of Class MusLib
+}   //End of Class MusLib2
 
 
 
-/**************************END OF FILE MusLib.java*****************************/
+/**************************END OF FILE MusLib2.java*****************************/

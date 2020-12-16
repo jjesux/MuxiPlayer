@@ -17,14 +17,25 @@ una mejor presentacion.
 *******************************************************************************
 
 Update sobre el estado de la app fue hecho en 12/6/2020 como a la 6:11 pm.
+Update mas actual fue hecho 12/15/2020 como a las 6:00 pm.
 
+En esta ultima version se elimaron algunos files que no se usaban ya en esta
+version. Algunos fueron xml, png y algunos java files.
+
+
+Falta ver como acceder a la sdcard, ya que hasta este momento se le tiene que
+estar cambiando al file path que se encuentra en el archivo ElModelo.java.
+
+Faltaria ver como cambiar el boton play a pause cuando se hace click y asi
+eliminar el boton de pause. Seria cosa de mesclar la funcionalidad de los
+dos botones.
 
 Faltaria ver como hacer para que la cancion que se esta tocando cambiarle el
 color en la playlist y asi talvez quitar la nombre de la cancion que se esta
 tocando de la parte mas arriba de la app.
 
-Falta componer los botones de alertdialog que aparece cuando se activa el
-equalizador. Por ahora talvez es bueno quitar al boton de manual.
+Se necesita sacar la parte que crea la AlertDialog UI del file ElControl.java
+para que haya cierta consistencia.
 
 Ver si es posible que cuando se esta en la libreria se puede regresar a la
 UI principal usando un swipe cuando se esta en el primer fragmento o el tab
@@ -40,8 +51,11 @@ el projecto.
 
 Falta organizar un poco mas los archivos que estan en el folder de values.
 
+Falta ver lo del tamanho de los botones de equalizador. Todos estan de
+diferente tamanho.
+Ver como hacer para si esta ON y se regresa a esa UI high light el boton
+que fue seleccionado anteriormente.
 
-Falta ver como acceder a la sdcard, ya que hasta este momento se le tiene que
-estar cambiando al file path que se encuentra en el archivo ElModelo.java.
+Ver como cerrar la UI del radio cuando el boton de off se hace click.
 
 *******************************************************************************
