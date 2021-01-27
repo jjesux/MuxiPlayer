@@ -1,4 +1,4 @@
-package com.jjesuxyz.muxiplayer.ui.main;
+package com.jjesuxyz.muxiplayer;
 
 import android.content.Context;
 
@@ -12,8 +12,6 @@ import com.jjesuxyz.muxiplayer.ListaCompletaFrgmTab;
 import com.jjesuxyz.muxiplayer.PlayListFrgmTab;
 import com.jjesuxyz.muxiplayer.R;
 import com.jjesuxyz.muxiplayer.SingerListFragTab;
-
-
 
 
 /**

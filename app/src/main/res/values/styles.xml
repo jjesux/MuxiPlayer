@@ -10,6 +10,7 @@
 
 
     <!--Color del texto en los botones, listas, nonbre de cancion y del progress bar. -->
+    <!--El txt size para el lg is de 12 y para el zte 16 -->
     <style name="nikoTextSize" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:textSize">16dp</item>

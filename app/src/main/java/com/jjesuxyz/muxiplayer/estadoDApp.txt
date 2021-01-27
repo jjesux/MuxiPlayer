@@ -19,8 +19,18 @@ una mejor presentacion.
 Update sobre el estado de la app fue hecho en 12/6/2020 como a la 6:11 pm.
 Update mas actual fue hecho 12/15/2020 como a las 6:00 pm.
 
-En esta ultima version se elimaron algunos files que no se usaban ya en esta
-version. Algunos fueron xml, png y algunos java files.
+Updated en 1/24/2021 como a las 7:20 pm.
+Updated en 1/27/2021 como a las 12:43 pm Se compuso algunas cosas que del
+equalizer, no funcionaban bien pero todo era de UI. Tambien se hicieron
+algunos cambios en la UI de la radio.
+
+**********
+Tambien en esta fecha-version se eliminaron algunas lineas del UI del
+equalizador que estaban en ElControl.java file. Solo ver si no afecta
+el funcionamiento.
+**********
+
+
 
 
 Falta ver como acceder a la sdcard, ya que hasta este momento se le tiene que
@@ -34,9 +44,6 @@ Faltaria ver como hacer para que la cancion que se esta tocando cambiarle el
 color en la playlist y asi talvez quitar la nombre de la cancion que se esta
 tocando de la parte mas arriba de la app.
 
-Se necesita sacar la parte que crea la AlertDialog UI del file ElControl.java
-para que haya cierta consistencia.
-
 Ver si es posible que cuando se esta en la libreria se puede regresar a la
 UI principal usando un swipe cuando se esta en el primer fragmento o el tab
 play songs.
@@ -45,17 +52,12 @@ Cuando se agrega una cancion desde el fragmento all MP3's la row seleccionada
 cambia a color rojo, pero creo que no funciona bien. Asi que hay que ver como
 quitar esa feature que tiene hasta ahora.
 
-Faltaria tambien ver si es posible cambiar los java files de los fragmentos
-al folder de nombre ui.main  . Esto es solo para que tenga mayor consistencia
-el projecto.
-
 Falta organizar un poco mas los archivos que estan en el folder de values.
 
-Falta ver lo del tamanho de los botones de equalizador. Todos estan de
-diferente tamanho.
-Ver como hacer para si esta ON y se regresa a esa UI high light el boton
-que fue seleccionado anteriormente.
+Ver que hacer con los botones de la UI del radio. Talvez eliminar algunos.
+Talvez modificar todo el UI de la radio.
 
-Ver como cerrar la UI del radio cuando el boton de off se hace click.
+faltaria ver como sicronizar el boton del equalizador para que cuando se
+apaga o deja de funcionar el equalizador el boton refleje esr estado.
 
 *******************************************************************************

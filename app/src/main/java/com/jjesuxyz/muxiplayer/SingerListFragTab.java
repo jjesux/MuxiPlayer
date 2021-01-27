@@ -23,7 +23,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.ListFragment;
 
-import com.jjesuxyz.muxiplayer.DBData.DBAccessHelper;
+import com.jjesuxyz.muxiplayer.modelo.DBData.DBAccessHelper;
+import com.jjesuxyz.muxiplayer.modelo.ElModelo;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -251,7 +252,7 @@ public class SingerListFragTab extends ListFragment
                     }
                                   //Code executed only when user click the button
                     if (blPerformeByUser) {
-                                  //Deleting all data from DB full list table
+                                  //Deleting all data from DB singer list table
                         elModelo.deleteAllRecordsOnSingerListTable();
                                   //Getting data from SD Card and inserting it
                                   //into ArrayList

@@ -1,4 +1,4 @@
-package com.jjesuxyz.muxiplayer;
+package com.jjesuxyz.muxiplayer.modelo;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -6,8 +6,8 @@ import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.jjesuxyz.muxiplayer.DBData.DBAccess;
-import com.jjesuxyz.muxiplayer.DBData.DBAccessHelper;
+import com.jjesuxyz.muxiplayer.modelo.DBData.DBAccess;
+import com.jjesuxyz.muxiplayer.modelo.DBData.DBAccessHelper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -399,7 +399,9 @@ public class ElModelo {
 
             //NEW CODE TO BE RESOLVED-HAY ERRORES CUANDO SON DEVICES DIFERENTES
   //esta es para el lg madreado
-            //file = new File("/storage/emulated/0");
+            // este como que ya no funciona file = new File("/storage/emulated/0");
+            //este creo que si funciona
+            //file = new File("/storage/3061-6433/");
  //esta es para el zte nougat
             file = new File("/storage/78C9-1509/Music/");
 //esta es en el nexus 5x api 27 virtual device

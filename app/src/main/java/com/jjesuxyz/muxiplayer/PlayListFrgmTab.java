@@ -15,6 +15,8 @@ import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.ListFragment;
 
+import com.jjesuxyz.muxiplayer.modelo.ElModelo;
+
 import java.util.ArrayList;
 
 

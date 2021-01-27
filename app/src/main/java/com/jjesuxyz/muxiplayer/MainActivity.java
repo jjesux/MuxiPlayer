@@ -26,6 +26,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.jjesuxyz.muxiplayer.control.ElControl;
+import com.jjesuxyz.muxiplayer.modelo.ElModelo;
+
 import java.io.File;
 import java.util.ArrayList;
 
@@ -111,6 +114,16 @@ public class MainActivity extends ListActivity {
     ElModelo elModelo;
 
 
+    ///////////////////////////////////////////////////////////////////////////
+    private ArrayList<String> presetNamesList;
+    private short presetSelectedNumber = -1;
+    AlertDialog alertDialog = null;
+    AlertDialog.Builder alertDiaBuilder = null;
+    MainActivity mainActivity;
+    ///////////////////////////////////////////////////////////////////////////
+
+
+
 
 
 
@@ -126,6 +139,11 @@ public class MainActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        //////////////////////////////////////////////////////////////////////////////////
+        mainActivity = this;
+        //////////////////////////////////////////////////////////////////////////////////
 
                                   //Checking and asking permission to access
                                   //storage
@@ -486,10 +504,134 @@ public class MainActivity extends ListActivity {
                                                                           Toast.LENGTH_SHORT).show();
                     }
                     else {
-
-                                  //Starting the sound equalizer activation process.
-                                  //This is done in ElControl class.
+                                  //Starting the sound equalizer activation
+                                  //process. This is done in ElControl class
                         elControl.setEqualizerState();
+                                  //AL holding the equalizer preset names
+                        presetNamesList = new ArrayList<String>();
+                                  //Getting all equalizer preset names from ElControl
+                        presetNamesList.addAll(elControl.getpresetNamesList());
+                                  //Getting and customizing the dialog window
+                        LayoutInflater layoutInflater = LayoutInflater.from(mainActivity);
+                                  //Inflating the layout file to customize UI
+                        View prompView = layoutInflater.inflate(R.layout.equali_dialog_layout, null);
+                                  //Getting the AD UI button to control it
+                        final Button btnOK = prompView.findViewById(R.id.btnEquOKId);
+                        final Button btnNegative = prompView.findViewById(R.id.btnEquCancelId);
+                        final Button btnManual = prompView.findViewById(R.id.btnEquManualId);
+                                  //Creating the AlertDialog builder
+                        alertDiaBuilder = new AlertDialog.Builder(mainActivity);
+                                  //Setting which layout file to use for the AD
+                        alertDiaBuilder.setView(prompView);
+
+                                  //Creating the set of radio buttons
+                        RadioGroup radioGroup = prompView.findViewById(R.id.radioGroupId);
+                                  //Getting the number of radio buttons that the
+                                  //equalizer needs
+                        int radioGroupSize = radioGroup.getChildCount();
+                        for(int i = 0; i < radioGroupSize; i++) {
+                            RadioButton radioBtnTmp = (RadioButton) radioGroup.getChildAt(i);
+                                  //Set of RB that will be visible in the dialog
+                                  //window
+                            if (i < presetNamesList.size()) {
+                                radioBtnTmp.setText(presetNamesList.get(i).toString());
+                            }
+                            else {
+                                  //Set of RB that will not be visible in dialog
+                                  //window
+                                radioBtnTmp.setEnabled(false);
+                                radioBtnTmp.setVisibility(View.GONE);
+                            }
+                        }
+
+                                  //RadioGroup listener that is called when user
+                                  //select a equalizer preset option
+                        radioGroup.setOnCheckedChangeListener(
+                                new RadioGroup.OnCheckedChangeListener() {
+                                    @Override
+                                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                                        RadioButton rdBtnTmp = group.findViewById(checkedId);
+                                  //Getting preset number, setting equalizer to
+                                  //that preset
+                                        presetSelectedNumber = (short) presetNamesList.indexOf(rdBtnTmp.getText().toString());
+                                  //Synchronizing the value of presetSelectedNumber
+                                  //with that variable with same name that lives in
+                                  //ElControl class
+                                        elControl.setPresetSelectedNumber(presetSelectedNumber);
+                                  //Activating the equalizer preset selected
+                                        elControl.equalizerUsePreset(presetSelectedNumber);
+                                  //Setting the main window equalizer button text
+                                        btnSoundEqualizer.setText(R.string.btn_eq_is_on);
+                                  //Enabling AlertDialog custom button and setting
+                                  //the color text.
+                                        btnOK.setEnabled(true);
+                                        btnOK.setTextColor(ContextCompat.getColor(mainActivity, R.color.colorLetras));
+                                    }
+                                });
+
+                                  //Dialog button listeners to handle click events
+                                  //on these buttons
+                        alertDiaBuilder.setCancelable(false);
+                                  //Creating the user interface, but showing it
+                        alertDialog = alertDiaBuilder.create();
+                                  //Showing the AlertDialog UI
+                        alertDialog.show();
+
+                                  //Checking if equalizer is ON and a preset has
+                                  //has been selected.
+                        if (presetSelectedNumber >= 0) {
+                                  //Turning on the preset selected
+                            radioGroup.check(radioGroup.getChildAt(presetSelectedNumber).getId());
+                        }
+
+                                  //This set of buttons are not the buttons that
+                                  //are part of the AlertDialog UI. These buttons
+                                  //are part of the layout file used to customize
+                                  //the AlertDialog UI
+
+                                  //Setting the OK button click listener
+                        btnOK.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (presetSelectedNumber <= -1) {
+                                  //Turning equalizer off. It is not used
+                                    elControl.releaseEqualizer(0);
+                                }
+                                  //Closing AD UI
+                                alertDialog.dismiss();
+                            }
+                        });
+
+                                  //Setting the Cancel button click listener
+                        btnNegative.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                  //Turning equalizer off. It is not used
+                                elControl.releaseEqualizer(0);
+                                  //Closing AD UI
+                                alertDialog.dismiss();
+                                  //Setting MainActivity button text
+                                ////////////////////////////////////////////////////////////////////////////////
+                                btnSoundEqualizer.setText(R.string.btn_eq_is_off);//"EQU-OFF");
+                                ////////////////////////////////////////////////////////////////////////////////
+
+                                presetSelectedNumber = -1;
+                                //Synchronizing the value of presetSelectedNumber
+                                //with that variable with same name that lives in
+                                //ElControl class
+                                elControl.setPresetSelectedNumber(presetSelectedNumber);
+                            }
+                        });
+
+                                  //Setting the Manual button click listener
+                                  //This feature is not working on this version
+                        btnManual.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(getApplicationContext(), "This feature no implemented yet.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
                     }
                     break;
                                   //Activate radio feature

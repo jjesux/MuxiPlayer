@@ -35,7 +35,7 @@
 
         <RadioButton
             android:id="@+id/rbUnoId"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -50,7 +50,7 @@
 
         <RadioButton
             android:id="@+id/rbDosId"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -65,7 +65,7 @@
 
         <RadioButton
             android:id="@+id/rbTresId"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -80,7 +80,7 @@
 
         <RadioButton
             android:id="@+id/rbCuatroId"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -95,7 +95,7 @@
 
         <RadioButton
             android:id="@+id/rbCincoId"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -110,7 +110,7 @@
 
         <RadioButton
             android:id="@+id/rbSeisId"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -125,7 +125,7 @@
 
         <RadioButton
             android:id="@+id/rbSieteId"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -140,7 +140,7 @@
 
         <RadioButton
             android:id="@+id/rbOchoId"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -155,7 +155,7 @@
 
         <RadioButton
             android:id="@+id/rbNueveId"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -170,7 +170,7 @@
 
         <RadioButton
             android:id="@+id/rbDiezId"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -185,7 +185,7 @@
 
         <RadioButton
             android:id="@+id/rbOnceId"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -200,7 +200,7 @@
 
         <RadioButton
             android:id="@+id/rbDoceId"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -244,7 +244,8 @@
                 android:layout_weight="1"
                 android:text="@string/btn_eq_manual"
                 android:background="@drawable/button_mw_corner"
-                style="@style/nikoTextSize"/>
+                style="@style/nikoUnEnableText"
+                android:enabled="false"/>
 
             <Button
                 android:id="@+id/btnEquCancelId"
@@ -262,7 +263,8 @@
                 android:layout_weight="1"
                 android:text="@string/btn_eq_done"
                 android:background="@drawable/button_mw_corner"
-                style="@style/nikoTextSize"/>
+                style="@style/nikoUnEnableText"
+                android:enabled="false"/>
         </LinearLayout>
 
     </LinearLayout>

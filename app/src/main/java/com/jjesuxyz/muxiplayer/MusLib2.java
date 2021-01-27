@@ -8,8 +8,6 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.jjesuxyz.muxiplayer.ui.main.SectionsPagerAdapter;
-
 
 /**
  * MusLib2 class is used to create fragments. This activity will host those

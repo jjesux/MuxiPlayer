@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -39,6 +40,7 @@ import java.util.ArrayList;
 public class NKRadio extends Activity {
 
                                   //Set of variables used in this project
+    public final String TAG = "NICKY";
     private MediaPlayer mdPlayer;
                                   //Button and listener variables
     private Button btnRadioPlay;
@@ -405,10 +407,9 @@ public class NKRadio extends Activity {
             mdPlayer.reset();
             mdPlayer.release();
             mdPlayer = null;
-        }else{
-            dbgFunc("Radio Player is OFF", 0);
         }
 
+        finish();
     }   //End of stopPlayingRadio() function
 
 
@@ -501,8 +502,10 @@ public class NKRadio extends Activity {
             switch (view.getId()){
                                   //Connect to a radio station and play it.
                 case BTN_RADIOPLAY_ID:
-                    stopPlayingRadio();
-                    playRadio();
+                    Toast.makeText(getApplicationContext(), R.string.feature_not, Toast.LENGTH_SHORT).show();
+                                  //STIILL DEBUGGING THIS CASE AND NEXT 2 FUNC
+                    //stopPlayingRadio();
+                    //playRadio();
                     break;
                                   //Stopping or turning off the radio player
                 case BTN_RADIOSTOP_ID:
@@ -510,16 +513,17 @@ public class NKRadio extends Activity {
                     break;
                                   //Show or refresh the preset radio stations
                 case BTN_RADIOPRESETS_ID:
-                    getRadioButtonTextFromPresetFile(1);
-                    setRadioButtonsText();
+                    Toast.makeText(getApplicationContext(), R.string.feature_not, Toast.LENGTH_SHORT).show();
+                                  //STIILL DEBUGGING THIS CASE AND NEXT 2 FUNC
+                    //getRadioButtonTextFromPresetFile(1);
+                    //setRadioButtonsText();
                     break;
                                   //Still working on this case
                 case BTN_RADIOEQUALI_ID:
-                    dbgFunc("Boton EQUALIZER", 0);
-                                  //STIILL DEBUGGING THIS CASE
-                    // writeRadioStationSelectedToFile();
-                    dbgFunc("XXXXXXXXXXXXXXX", 0);
-                    readRadioStationSelectedToFile();
+                    Toast.makeText(getApplicationContext(), R.string.feature_not, Toast.LENGTH_SHORT).show();
+                                  //STIILL DEBUGGING THIS CASE AND NEXT 2 FUNC
+                    //writeRadioStationSelectedToFile();
+                    //readRadioStationSelectedToFile();
                     break;
             }   //End of switch block
 
@@ -600,7 +604,7 @@ public class NKRadio extends Activity {
                                   //run
             writeRadioStationSelectedToFile(strRdStationPlayingIP + ">>" + strRdStationPlayingInfo);
                                   //Playing radio station selected
-            stopPlayingRadio();
+            //stopPlayingRadio();
             playRadio();
 
         }   //End of onClick() function
@@ -646,6 +650,22 @@ public class NKRadio extends Activity {
         }
 
     }   //End of dbgFunc() function
+
+
+
+    /**
+     * The l(String) function is used only to debug this class. It uses the
+     * Log.d() function to pass the information to the Android Monitor window.
+     * This information contains the class name and some information about the
+     * error or data about the debugging process.
+     *
+     * @param str type String
+     */
+    private void l(String str){
+        Log.d(TAG, this.getClass().getSimpleName() + " -> " + str);
+
+    }   //End of l() function
+
 
 
 

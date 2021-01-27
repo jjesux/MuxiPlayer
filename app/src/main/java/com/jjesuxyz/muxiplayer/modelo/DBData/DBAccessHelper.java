@@ -1,4 +1,4 @@
-package com.jjesuxyz.muxiplayer.DBData;
+package com.jjesuxyz.muxiplayer.modelo.DBData;
 
 import android.content.Context;
 import android.database.SQLException;

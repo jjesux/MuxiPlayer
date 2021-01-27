@@ -1,4 +1,4 @@
-package com.jjesuxyz.muxiplayer;
+package com.jjesuxyz.muxiplayer.control;
 
 import android.app.AlertDialog;
 import android.database.Cursor;
@@ -15,8 +15,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.jjesuxyz.muxiplayer.DBData.DBAccess;
-import com.jjesuxyz.muxiplayer.DBData.DBAccessHelper;
+import androidx.core.content.ContextCompat;
+
+import com.jjesuxyz.muxiplayer.MainActivity;
+import com.jjesuxyz.muxiplayer.R;
+import com.jjesuxyz.muxiplayer.modelo.DBData.DBAccess;
+import com.jjesuxyz.muxiplayer.modelo.DBData.DBAccessHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -53,16 +57,17 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
     private Equalizer equalizer;
     private int numberBands;
     private short numberPresets;
-
+                                  //Number of equalizer presets
     private short presetSelectedNumber = -1;
-    private ArrayList<String> presetNamesList;
+                                  //Names of equalizer presets
+    private ArrayList<String> presetNamesList = null;
                                   //Song time information
     private int iSongCurrentTime = 0;
     private int iSongTotalTime = 0;
                                   //Vars to manage pause and loop states
     private boolean btnLoopState = false;
     private boolean bIsSongPaused = false;
-                                  //Index sof song being played
+                                  //Index of song being played
     private int iSongPlayingNumber = 0;
                                   //Variable used to show a UI with equalizer btns
     private AlertDialog alertDialog = null;
@@ -163,7 +168,6 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
 
 
 
-
     /**
      * The getArrListFiles() function is used by other function in this class
      * or in other classes to get the list of audio files, mp3's, that are
@@ -180,7 +184,6 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
         }
 
     }   //End of getArrListFiles() function
-
 
 
 
@@ -233,7 +236,6 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
 
 
 
-
     /**
      * The getMdPlayerAudioSessionId() function is used to return the audio
      * session id of the media player playing an audio file.  If media player
@@ -253,14 +255,13 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
 
 
 
-
     /**
      * The isMdPlayerPlaying() function is used to inquire if the media player
      * is playing any audio file. It returns true if it is, false otherwise.
      *
      * @return type boolean
      */
-    boolean isMdPlayerPlaying(){
+    public boolean isMdPlayerPlaying(){
                                   //True song is being played
         if(mdPlayer != null) {
             return mdPlayer.isPlaying();
@@ -280,12 +281,11 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      *
      * @return type int
      */
-    int getSongTotalTime(){
+    public int getSongTotalTime(){
                                   //Variable set when song starts playing
         return iSongTotalTime;
 
     }   //End of getSongTotalTime() function
-
 
 
 
@@ -295,7 +295,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      * media player, equalizer and the SeekBar synchronizing object.
      *
      */
-    void stopPlaying(){
+    public void stopPlaying(){
         bIsSongPaused = false;
                                   //SeekBar object
         if(asyThrMngSeekBar != null){
@@ -314,14 +314,13 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
 
 
 
-
     /**
      * The pausePlayingSong() function is used to pause the audio file being
      * played. It also restarts playing the song if user click the paused button
      * again.
      *
      */
-    void pausePlayingSong(){
+    public void pausePlayingSong(){
         if(mdPlayer != null){
                                   //Pausing song
             if(mdPlayer.isPlaying()){
@@ -345,7 +344,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      * list get to the end of the list of files.
      *
      */
-    void playNextSong(){
+    public void playNextSong(){
                                   //Making sure song number is not beyond ArrayList range
         if((iSongPlayingNumber + 1) < arrayListPlayList.size()){
             iSongPlayingNumber = iSongPlayingNumber + 1;
@@ -368,7 +367,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      * device sdcard.
      *
      */
-    void playPreviousSong(){
+    public void playPreviousSong(){
                                   //Making sure song number is not negative
         if((iSongPlayingNumber - 1) >= 0){
             iSongPlayingNumber = iSongPlayingNumber - 1;
@@ -390,7 +389,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      *
      * @param position type int
      */
-    void playSongFromList(int position){
+    public void playSongFromList(int position){
                                   //Making sure song number is within ArrayList size range
         if(position >= 0 && position <= arrayListPlayList.size()){
             iSongPlayingNumber = position;
@@ -411,7 +410,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      *
      * @param songNamePar type String
      */
-    void playSong(String songNamePar){
+    public void playSong(String songNamePar){
                                   //Making sure song number is within ArrayList size range
         if(iSongPlayingNumber >= 0 && iSongPlayingNumber < arrayListPlayList.size()){
             String songName = arrayListPlayList.get(iSongPlayingNumber);
@@ -508,7 +507,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      *
      * @param btnLoopState type boolean
      */
-    void setBtnLoopState(boolean btnLoopState){
+    public void setBtnLoopState(boolean btnLoopState){
         this.btnLoopState = btnLoopState;
 
     }   //End of setBtnLoopState() function
@@ -573,9 +572,6 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
                 for (short i = 0; i < numberPresets; i++) {
                     presetNamesList.add(equalizer.getPresetName(i));
                 }
-                                  //Calling a function to show user the preset
-                                  //option
-                showSoundPresetsDialog();
             }
         }
 
@@ -584,139 +580,58 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
 
 
     /**
-     * The showSoundPresetsDialog() function is used to show the user the build
-     * in equalizer list of presets in a dialog window. This function also
-     * completes the equalizer activation process, gets user preset, and sets the
-     * equalizer to that preset. This function also sets the RadioGroup listener
-     * as well as the OK, Cancel, and Manual button listeners to handle user
-     * decision events.
+     * setPresetSelectedNumber(short) function is used to set the value of the
+     * variable holding the equalizer preset number that is been used at the
+     * time this function is called.
+     * In this project it is used to synchronize the value of this variable with
+     * the variable with same name that lives in the MainActivity class. This
+     * synchronizing the equalizer UI with the control.
      *
+     * @param presetSelectedNumberPar
      */
-    private void showSoundPresetsDialog(){
-                                  //Getting and customizing the dialog window
-        LayoutInflater layoutInflater = LayoutInflater.from(contextoMA);
-                                  //Inflating the layout file to customize UI
-        View promptView = layoutInflater.inflate(R.layout.equali_dialog_layout, null);
-                                  //Getting the AD UI button to control it
-        Button btnOK = promptView.findViewById(R.id.btnEquOKId);
-        Button btnNegative = promptView.findViewById(R.id.btnEquCancelId);
-        Button btnManual = promptView.findViewById(R.id.btnEquManualId);
-
-        final AlertDialog.Builder alertDiaBuil = new AlertDialog.Builder(contextoMA);
-        alertDiaBuil.setView(promptView);
-                                  //Creating the set of radio buttons
-        RadioGroup radioGroup = promptView.findViewById(R.id.radioGroupId);
-                                  //Getting the number of radio buttons that the
-                                  //equalizer needs
-        int radioGroupSize = radioGroup.getChildCount();
-        for(int i = 0; i < radioGroupSize; i++){
-            RadioButton radioBtnTmp = (RadioButton) radioGroup.getChildAt(i);
-                                  //Set of RB that will be visible in the dialog
-                                  //window
-            if(i < presetNamesList.size()) {
-                radioBtnTmp.setText(presetNamesList.get(i).toString());
-            }
-            else{
-                                  //Set of RB that will not be visible in dialog
-                                  //window
-                radioBtnTmp.setEnabled(false);
-                radioBtnTmp.setVisibility(View.GONE);
-
-            }
-        }
-                                  //RadioGroup listener that is called when user
-                                  //select a equalizer preset option
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton rdBtnTmp = group.findViewById(checkedId);
-                dbgFunc(rdBtnTmp.getText().toString());
-                                  //Getting preset number, setting equalizer to
-                                  //that preset
-                presetSelectedNumber = (short)presetNamesList.indexOf(rdBtnTmp.getText().toString());
-                equalizer.usePreset((short)presetNamesList.indexOf(rdBtnTmp.getText().toString()));
-                                  //Setting the main window equalizer button ON
-                contextoMA.setBtnSoundEqualizerState("ON");
-            }
-        });
-                                  //Dialog button listeners to handle click events
-                                  //on these buttons.
-        alertDiaBuil.setCancelable(false);
-                                  //Creating the user interface, but showing it
-        alertDialog = alertDiaBuil.create();
-                                  //Showing the AlertDialog UI
-        alertDialog.show();
-                                  //This set of buttons are not the buttons that
-                                  //are part of the AlertDialog UI. These buttons
-                                  //are part of the layout file used to customize
-                                  //the AlertDialog UI
-
-                                  //Setting the OK button click listener
-        btnOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(presetSelectedNumber < 0){
-                                  //Turning off the equalizer, it is not used
-                    releaseEqualizer(0);
-                }
-                else {
-                                  //Closing the AlertDialog UI
-                    alertDialog.dismiss();
-                }
-            }
-        });
-
-                                  //Setting the Cancel button click listener
-        btnNegative.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                                  //Turning off the equalizer, it is not used
-                releaseEqualizer(0);
-            }
-        });
-
-                                  //Setting the Manual button click listener
-        btnManual.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(contextoMA, "This feature no implemented yet.", Toast.LENGTH_SHORT).show();
-                                  //Turning off the equalizer, it is not used
-                releaseEqualizer(0);
-            }
-        });
-
-    }   // End of function showSoundPresetsDialog()
+    public void setPresetSelectedNumber(short presetSelectedNumberPar) {
+        presetSelectedNumber = presetSelectedNumberPar;
+    }
 
 
 
     /**
-     * Note: en esta version del programa esta funcion no se usa. Pero la deje
-     * aqui solo para tenerla de referencia.
+     * getPresetSelectedNumber() function is used to get or pass the value of
+     * the presetSelectedNumber variable to the part of the code that calls this
+     * function. At this moment it is not been used.
      *
-     * The customizeDialogButtons(AlertDialog aD), is used to customize the
-     * equalizer preset dialog buttons. Cancel, Manual and OK buttons. So far
-     * it just sets the buttons background color to blue.
-     *
-     * @param aD type AlertDialog
+     * @return short
      */
-    private void customizeDialogButtons(AlertDialog aD){
+    public short getPresetSelectedNumber() {
+        return presetSelectedNumber;
+    }
 
-        Button btnCancelTmp = aD.getButton(AlertDialog.BUTTON_NEGATIVE);
-        btnCancelTmp.setBackground(contextoMA.getDrawable(R.drawable.dialog_btn));
-        btnCancelTmp.setTextColor(contextoMA.getColor(R.color.colorPrimary));
-        btnCancelTmp.setTextSize(18.0f);
 
-        Button btnPositivelTmp = aD.getButton(AlertDialog.BUTTON_POSITIVE);
-        btnPositivelTmp.setBackground(contextoMA.getDrawable(R.drawable.dialog_btn));
-        btnPositivelTmp.setTextColor(contextoMA.getColor(R.color.colorPrimary));
-        btnPositivelTmp.setTextSize(18.0f);
 
-        Button btnNeutralTmp = aD.getButton(AlertDialog.BUTTON_NEUTRAL);
-        btnNeutralTmp.setBackground(contextoMA.getDrawable(R.drawable.dialog_btn));
-        btnNeutralTmp.setTextColor(contextoMA.getColor(R.color.colorPrimary));
-        btnNeutralTmp.setTextSize(18.0f);
+    /**
+     * getpresetNamesList() function is used to return o pass the list of the
+     * equalizer preset names. The ArrayList of names is initialized in another
+     * part of the program. It may also return null.
+     *
+     * @return ArrayList
+     */
+    public ArrayList getpresetNamesList() {
+        return presetNamesList;
+    }   //End of getpresetNamesList() function
 
-    }   //End of function customizeDialogButtons()
+
+
+    /**
+     * equalizerUsePreset(short) function is used to set the preset that the
+     * equalizer should activated. The preset name is passed to this function
+     * as a short number.
+     *
+     * @param presetNumber
+     */
+    public void equalizerUsePreset(short presetNumber) {
+        equalizer.usePreset(presetNumber);
+
+    }   //End of equalizerUsePreset() function
 
 
 
@@ -729,27 +644,23 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      *
      * @param totalRelease type int
      */
-    void releaseEqualizer(int totalRelease){
+    public void releaseEqualizer(int totalRelease){
                                   //Release and disabling equalizer
         if(equalizer != null) {
             equalizer.setEnabled(false);
             equalizer.release();
             equalizer = null;
         }
+
+                                  //Nulling the ArrayList of preset names
+        presetNamesList = null;
                                   //Code execute only when the dialog equalizer
                                   //presets cancel button is clicked. It turns
                                   //equalizer OFF
         if(totalRelease == 0) {
             presetSelectedNumber = -1;
-            contextoMA.setBtnSoundEqualizerState("OFF");
-            dbgFunc("Equalizer is OFF");
+            contextoMA.setBtnSoundEqualizerState(contextoMA.getResources().getString(R.string.btn_eq_is_off));
         }
-                                  //Checking that AlertDialog var is not invoked
-                                  //before it is created.
-        if (alertDialog != null) {
-            alertDialog.dismiss();
-        }
-
 
     }   //End of releaseEqualizer() function
 
@@ -859,7 +770,9 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
          */
         @Override
         protected void onPostExecute(String contador){
-            contextoMA.setTxtvwSongCurrentTime("Song Ended at: " + contador + " secs");
+            String song_end = contextoMA.getResources().getString(R.string.ma_song_end) + " ";
+            String secs = " " + contextoMA.getResources().getString(R.string.ma_secs);
+            contextoMA.setTxtvwSongCurrentTime(song_end + contador + secs);
             contextoMA.setSeekBarProgress(0);
 
         }   //End of function
@@ -874,7 +787,9 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
          */
         @Override
         protected void onCancelled(String contador){
-            contextoMA.setTxtvwSongCurrentTime("Song Ended at: " + contador + " secs");
+            String song_end = contextoMA.getResources().getString(R.string.ma_song_end) + " ";
+            String secs = " " + contextoMA.getResources().getString(R.string.ma_secs);
+            contextoMA.setTxtvwSongCurrentTime(song_end + contador + secs);
             contextoMA.setSeekBarProgress(0);
 
         }

@@ -31,6 +31,9 @@
     <string name="ma_prog_lib">Library</string>
     <string name="ma_prog_off">OFF</string>
 
+    <string name="ma_song_end">Song Ended at:</string>
+    <string name="ma_secs">Secs</string>
+
     <string name="radio_name">Radio NYKZ</string>
     <string name="radio_station">Radio Station</string>
     <string name="radio_off">Off</string>
@@ -64,6 +67,10 @@
     <string name="btn_eq_cancel">Cancel</string>
     <string name="btn_eq_manual">Manual</string>
     <string name="txtvw_eq_title">Select Sound Preset</string>
+    <string name="btn_eq_is_on">EQ IS ON</string>
+    <string name="btn_eq_is_off">EQ IS OFF</string>
+
+    <string name="feature_not">This feature is not implemented yet.</string>
 
     <string name="tab_text_1">Tab 1</string>
     <string name="tab_text_2">Tab 2</string>
