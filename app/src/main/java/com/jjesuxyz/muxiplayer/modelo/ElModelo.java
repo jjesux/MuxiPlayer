@@ -393,21 +393,23 @@ public class ElModelo {
     private void getAllMP3FilesFromSDCard(File file, int level){
                                   //Checking if it is the first function call
         if(file == null && level <= 1){
-            l("BaseDirectorio:  " + Environment.getExternalStorageDirectory().getAbsolutePath());
-            Toast.makeText(context, "BaseDirectorio:  " + Environment.getExternalStorageDirectory().getAbsolutePath(), Toast.LENGTH_SHORT).show();
-
+            //l("BaseDirectorioXXX:  " + Environment.getExternalStorageDirectory().getAbsolutePath());
+            Toast.makeText(context, "BaseDirectorioLength:  recursion 0", Toast.LENGTH_SHORT).show();
 
             //NEW CODE TO BE RESOLVED-HAY ERRORES CUANDO SON DEVICES DIFERENTES
-  //esta es para el lg madreado
+  //This file path works for LG with screen broken and for Motorola G Power with Android 10
             // este como que ya no funciona file = new File("/storage/emulated/0");
-            //este creo que si funciona
-            //file = new File("/storage/3061-6433/");
- //esta es para el zte nougat
-            file = new File("/storage/78C9-1509/Music/");
-//esta es en el nexus 5x api 27 virtual device
+            file = new File("/storage/3061-6433/");
+
+ //This file path works for ZTE with android Nougat
+            //file = new File("/storage/78C9-1509/Music/");
+
+//This file path works for virtual device Nexus 5X api 27
             //file = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
+
             //NEW CODE END/////////////////////////////////////////////////////
 
+            Toast.makeText(context, "BaseDirectorio:  " + file.getPath(), Toast.LENGTH_SHORT).show();
             getAllMP3FilesFromSDCard(file, ++level);
         }
         else{
@@ -427,6 +429,9 @@ public class ElModelo {
                                   //This recursive function is calling itself
                             getAllMP3FilesFromSDCard(arrFiles[i], level);
                         }
+                    }
+                    else{
+                        l("Directory is possible empty. Array of files is null:  ");
                     }
                 }
             }

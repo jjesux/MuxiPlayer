@@ -24,12 +24,8 @@ Updated en 1/27/2021 como a las 12:43 pm Se compuso algunas cosas que del
 equalizer, no funcionaban bien pero todo era de UI. Tambien se hicieron
 algunos cambios en la UI de la radio.
 
-**********
-Tambien en esta fecha-version se eliminaron algunas lineas del UI del
-equalizador que estaban en ElControl.java file. Solo ver si no afecta
-el funcionamiento.
-**********
-
+updated en 1/27/2021 como a las 9:20 pm. se sincronizaron algunos botones de
+la MainActivity.
 
 
 
@@ -57,7 +53,20 @@ Falta organizar un poco mas los archivos que estan en el folder de values.
 Ver que hacer con los botones de la UI del radio. Talvez eliminar algunos.
 Talvez modificar todo el UI de la radio.
 
-faltaria ver como sicronizar el boton del equalizador para que cuando se
-apaga o deja de funcionar el equalizador el boton refleje esr estado.
+
+*******************************************************************************
+
+Update sobre el estado de la app fue hecho en 12/3/2021 como a la 1:36 pm.
+
+Se hizo un update al manifest file para que fncionara en el telfono de
+motorola g power con android 10.  Con este update la app pudo acceder a los
+archivos que estan en la sdcard. El problema es que en android 10 hay otro
+procedimiento para acceder a la sd card.
+Se le agrego android:requestLegacyEternalStorage.
+
+Tambien se le cambio el text size ya que se veia muy pequena en la pantalla
+de dicho celular.
+Faltaria ver como ponerle algun mecanismo para que se pudiera escoger el text
+size directamente en app ui.
 
 *******************************************************************************

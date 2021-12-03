@@ -114,13 +114,19 @@ public class MainActivity extends ListActivity {
     ElModelo elModelo;
 
 
-    ///////////////////////////////////////////////////////////////////////////
+                                  //This set of variables are used to created
+                                  //AlertDialog to manage the equalizer UI
+
+                                  //List of equalizer preset names
     private ArrayList<String> presetNamesList;
+                                  //Variable holding the user preset selection
     private short presetSelectedNumber = -1;
+
     AlertDialog alertDialog = null;
     AlertDialog.Builder alertDiaBuilder = null;
+
+                                  //A variable reference to this class
     MainActivity mainActivity;
-    ///////////////////////////////////////////////////////////////////////////
 
 
 
@@ -139,12 +145,9 @@ public class MainActivity extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        //////////////////////////////////////////////////////////////////////////////////
+                                  //Just getting a reference to this class to be
+                                  //used when 'this' reference is not valid
         mainActivity = this;
-        //////////////////////////////////////////////////////////////////////////////////
-
                                   //Checking and asking permission to access
                                   //storage
         checkStorageAccessPermission();
@@ -159,7 +162,6 @@ public class MainActivity extends ListActivity {
                                   //Buttons Click event listener
         uiBtnEventMngmt = new UIBotonListener();
         setButtonsClickListener();
-
 
                                   //ListView Setting
         elModelo = new ElModelo(contexto);
@@ -177,10 +179,10 @@ public class MainActivity extends ListActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView tvw = view.findViewById(R.id.txtvwMP3FilePath);
-                Toast.makeText(MainActivity.this, tvw.getText(), Toast.LENGTH_SHORT).show();
                                   //Playing song by clicking one in the ListView
                                   //of songs
                 elControl.playSongFromList(position);
+                btnPlay.setTextColor(ContextCompat.getColor(contexto, R.color.colorVerde));
                                   //Activating the pause button
                 btnPause.setEnabled(true);
                                   //Setting the boolean pause var to true
@@ -188,7 +190,8 @@ public class MainActivity extends ListActivity {
                                   //Managing the pause button color to let user
                                   //know if this button was activated
                 setBtnPauseColorState();
-
+                                  //Checking if loop button should be enabled
+                                  //and change text color to yellow
                 if (bBtnLoopState == false) {
                     btnLoop.setEnabled(true);
                     btnLoop.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
@@ -331,6 +334,46 @@ public class MainActivity extends ListActivity {
 
 
 
+    /**
+     * setPresetSelectedNumber(short) function is used to set the value of the
+     * variable holding the equalizer preset number selected by the user.
+     *
+     * @param presetSelectedNumberPar
+     */
+    public void setPresetSelectedNumber(short presetSelectedNumberPar) {
+        presetSelectedNumber = presetSelectedNumberPar;
+
+    }   //End of setPresetSelectedNumber(short) function
+
+    /**
+     * getPresetSelectedNumber() function is used to get the value of the
+     * variable holding the equalizer preset number selected by the user.
+     *
+     * @return short
+     */
+    public short getPresetSelectedNumber() {
+        return presetSelectedNumber;
+
+    }   //End of getPresetSelectedNumber() function
+
+    /**
+     * setBtnPlayTextColor(boolean) function is used to the play button text
+     * color. This color is green when the app is playing a song, and it is
+     * yellow when the app is not playing any song.
+     *
+     * @param bBtnOnOff
+     */
+    public void setBtnPlayTextColor(boolean bBtnOnOff) {
+        if (bBtnOnOff == false) {
+            btnPlay.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorLetras));
+        }
+        else {
+            btnPlay.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorVerde));
+        }
+
+    }   //End of setBtnPlayTextColor(boolean) function
+
+
 
     /**
      * setButtons() function is used to get all the buttons that are in the main
@@ -401,6 +444,9 @@ public class MainActivity extends ListActivity {
                     if (arrListPlaylistFromDB.size() >= 1) {
                         elControl.setiSongPlayingNumber(0);
                         elControl.playSong("BOTON");
+                                  //Setting the play button text color to green
+                        btnPlay.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorVerde));
+
                         txtvwPlayingSongName.setText(elControl.getCurrentPlayingSongName());
                         txtvwSongCurrentTime.setText("0");
                                   //Button pause is originally unable
@@ -429,6 +475,8 @@ public class MainActivity extends ListActivity {
                                   //know if this button was activated
                         setBtnPauseColorState();
                         elControl.playNextSong();
+                                  //Setting the play button text color to green
+                        btnPlay.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorVerde));
                                   //Checking if the button is in the deactivated
                                   //state, if so change it
                         if (bBtnLoopState == false) {
@@ -450,6 +498,8 @@ public class MainActivity extends ListActivity {
                                   //know if this button was activated
                         setBtnPauseColorState();
                         elControl.playPreviousSong();
+                                  //Setting the play button text color to green
+                        btnPlay.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorVerde));
                                   //Checking if the button is in the deactivated
                                   //state, if so change it
                         if (bBtnLoopState == false) {
@@ -474,8 +524,12 @@ public class MainActivity extends ListActivity {
                 case BTN_STOPPLAY_ID:
                                   //Checking music playing list is not empty
                     if (arrListPlaylistFromDB.size() >= 1) {
-                        elControl.stopPlaying();
-                                  //Un-enabling the pause button
+                                  //Parameter zero means totally turn off the
+                                  //equalizer
+                        elControl.stopPlaying(0);
+                                  //Setting the play button text color to green
+                        btnPlay.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorLetras));
+                                  //Disabling the pause button
                         btnPause.setEnabled(false);
                                   //Setting the pause button to deactivated color
                         btnPause.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBtnDesactivadoStyle));
@@ -485,11 +539,21 @@ public class MainActivity extends ListActivity {
                                   //all the songs for ever or until the app is
                                   //stopped
                 case BTN_LOOP_ID:
-                    elControl.setBtnLoopState(true);
-
-                    bBtnLoopState = true;
+                                  //When the loop button is OFF
+                    if (bBtnLoopState == false) {
+                        elControl.setBtnLoopState(true);
+                        bBtnLoopState = true;
                                   //Setting the loop button to activated
-                    btnLoop.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorVerde));
+                        btnLoop.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorVerde));
+                    }
+                                  //When the loop button is ON
+                    else {
+                        elControl.setBtnLoopState(false);
+                        bBtnLoopState = false;
+                                  //Setting the loop button to deactivated
+                        btnLoop.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorLetras));
+                    }
+
                     break;
                                   //Start activity to manage play library list
                 case BTN_MUS_LIB_ID:
@@ -611,14 +675,12 @@ public class MainActivity extends ListActivity {
                                   //Closing AD UI
                                 alertDialog.dismiss();
                                   //Setting MainActivity button text
-                                ////////////////////////////////////////////////////////////////////////////////
-                                btnSoundEqualizer.setText(R.string.btn_eq_is_off);//"EQU-OFF");
-                                ////////////////////////////////////////////////////////////////////////////////
+                                btnSoundEqualizer.setText(R.string.btn_eq_is_off);
 
                                 presetSelectedNumber = -1;
-                                //Synchronizing the value of presetSelectedNumber
-                                //with that variable with same name that lives in
-                                //ElControl class
+                                  //Synchronizing the value of presetSelectedNumber
+                                  //with that variable with same name that lives in
+                                  //ElControl class
                                 elControl.setPresetSelectedNumber(presetSelectedNumber);
                             }
                         });
@@ -637,8 +699,8 @@ public class MainActivity extends ListActivity {
                                   //Activate radio feature
                 case BTN_RADIO_ID:
                     l("Starting radio intent");
-                                  //Stoping mp3 playing and equalizer
-                    elControl.stopPlaying();
+                                  //Stopping mp3 playing and equalizer
+                    elControl.stopPlaying(0);
                     elControl.releaseEqualizer(0);
                                   //Starting the radio turn on activity
                     Intent intento = new Intent(contexto, NKRadio.class);
@@ -706,7 +768,7 @@ public class MainActivity extends ListActivity {
             if (arrListPlaylistFromDB != null && arrListPlaylistFromDB.size() == 0) {
                                   //Synchronizing data functioning on controling
                                   //class
-                elControl.stopPlaying();
+                elControl.stopPlaying(1);
                 elControl.getArrayListPlayList().clear();
                 elControl.setiSongPlayingNumber(0);
                                   //Setting info about song that maybe playing now
@@ -747,7 +809,7 @@ public class MainActivity extends ListActivity {
         super.onDestroy();
                                   //Stopping the music being playing by another
                                   //class
-        elControl.stopPlaying();
+        elControl.stopPlaying(0);
         elControl.releaseEqualizer(0);
 
     }   //End of onDestroy() function

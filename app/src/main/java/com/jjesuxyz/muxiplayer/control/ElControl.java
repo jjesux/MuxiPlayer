@@ -8,14 +8,7 @@ import android.media.audiofx.Equalizer;
 import android.os.AsyncTask;
 import android.os.SystemClock;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.Button;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.Toast;
-
-import androidx.core.content.ContextCompat;
 
 import com.jjesuxyz.muxiplayer.MainActivity;
 import com.jjesuxyz.muxiplayer.R;
@@ -194,9 +187,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      * @return type String
      */
     public String getCurrentPlayingSongName(){
-        //l("control->songplayingnumber:  " + iSongPlayingNumber);
         if (arrayListPlayList.size() >= 1) {
-            //l("control->songplayingnumber:  " + iSongPlayingNumber);
             String currentPlayingSongName = arrayListPlayList.get(iSongPlayingNumber);
             return currentPlayingSongName;
         }
@@ -295,7 +286,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      * media player, equalizer and the SeekBar synchronizing object.
      *
      */
-    public void stopPlaying(){
+    public void stopPlaying(int turnOffType){
         bIsSongPaused = false;
                                   //SeekBar object
         if(asyThrMngSeekBar != null){
@@ -308,7 +299,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
             mdPlayer = null;
         }
                                   //Equalizer object
-        releaseEqualizer(1);
+        releaseEqualizer(turnOffType);//1);
 
     }   //End of stopPlaying() function
 
@@ -437,7 +428,9 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      */
     private void playMySong(String songName){
                                   //Making sure MediaPLayer variable is null
-        stopPlaying();
+                                  //parameter 1 means not totally turn off
+                                  //equalizer, off then on for next song
+        stopPlaying(1);
                                   //MP object created
         mdPlayer = new MediaPlayer();
                                   //Listen when song ends playing
@@ -445,7 +438,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
             @Override
             public void onCompletion(MediaPlayer mp) {
                                   //Making sure that song being played is stopped
-                stopPlaying();
+                stopPlaying(1);
                 iSongCurrentTime = 0;
                 iSongTotalTime = 0;
                                   //Checking the end of the list of audio files
@@ -461,6 +454,10 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
                 else {
                                   //No more playing
                     mdPlayer = null;
+                                  //Parameter zero means totally turn off the
+                                  //equalizer
+                    releaseEqualizer(0);
+                    contextoMA.setBtnPlayTextColor(false);
                 }
             }
         });
@@ -471,7 +468,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
             mdPlayer.setDataSource(songName);
             mdPlayer.prepare();
             mdPlayer.start();
-                                  //Getting and setting song info for users on SeekBar
+                                  //Getting and setting song info for users on
+                                  //SeekBar
             iSongCurrentTime = mdPlayer.getCurrentPosition();
             iSongTotalTime = mdPlayer.getDuration() / 1000;
             contextoMA.setSeekBarMax(iSongTotalTime);
@@ -485,7 +483,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
             contextoMA.getMyListView().smoothScrollToPositionFromTop(iSongPlayingNumber, 0, 1000);
                                   //Activating the equalizer if button is clicked
             if(presetSelectedNumber >= 0){
-                                  //no modify preset y btnEqualizer en MainAct
+                                  //No modify preset y btnEqualizer en MainAct
                 releaseEqualizer(1);
                 equalizer = new Equalizer(0, mdPlayer.getAudioSessionId());
                 equalizer.setEnabled(true);
@@ -659,6 +657,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
                                   //equalizer OFF
         if(totalRelease == 0) {
             presetSelectedNumber = -1;
+            contextoMA.setPresetSelectedNumber(presetSelectedNumber);
             contextoMA.setBtnSoundEqualizerState(contextoMA.getResources().getString(R.string.btn_eq_is_off));
         }
 

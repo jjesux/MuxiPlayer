@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Esta es el layout de cada row en la listview donde se muestran la lista
+     de canciones. -->
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -9,7 +11,7 @@
     <TextView
         android:id="@+id/txtvwRowNumber"
         android:layout_width="0dp"
-        android:layout_weight="2"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         style="@style/nikoTextSize"
         android:textStyle="italic"/>
@@ -17,7 +19,7 @@
     <TextView
         android:id="@+id/txtvwMP3FilePath"
         android:layout_width="0dp"
-        android:layout_weight="8"
+        android:layout_weight="9"
         android:layout_height="wrap_content"
         style="@style/nikoTextSize"
         android:textStyle="italic"/>
