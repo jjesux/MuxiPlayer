@@ -32,7 +32,7 @@ import com.jjesuxyz.muxiplayer.SingerListFragTab;
  * Created on 12/5/2022 3:16 pm.
  */
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
-                                  //Tabs names gotten from string file
+                                  //Tabs names gotten from string file.
     @StringRes
     private static final int[] TAB_TITLES = new int[]{R.string.play_list_name, R.string.full_list_name, R.string.singer_list_name};
     private final Context mContext;
@@ -48,7 +48,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
         super(fm);
         mContext = context;
-    }
+
+    }   //End of SectionsPagerAdapter(Context, FragmentManager) function.
+
 
 
 
@@ -83,7 +85,8 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
                                   //Just in case something goes wrong.
         return null;
 
-    }   //End of getItem(int) function
+    }   //End of getItem(int) function.
+
 
 
 
@@ -96,7 +99,9 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return mContext.getResources().getString(TAB_TITLES[position]);
-    }   //End of getPageTitle(int) function
+
+    }   //End of getPageTitle(int) function.
+
 
 
 
@@ -109,10 +114,12 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
                                   // Show 3 total pages.
         return 3;
-    }   //End of getCount() function
+
+    }   //End of getCount() function.
 
 
-}   //End of SectionsPagerAdapter class
+
+}   //End of SectionsPagerAdapter class.
 
 
 

@@ -40,34 +40,23 @@ import java.util.ArrayList;
  * SeekBar widget with the song to be played. It also ask the class controller
  * to synchronize its ArrayList data from the db play list table.
  *
- * Note: 12/5/2020 at this date some changes were done on the onActivityResult()
- * function. This changes make the ListView on the main UI of this app to load
- * data from the DB every time that main UI is put on the top of the stack.
- * Before this change the main UI only loaded data from the DB when there were
- * data updates. The code that were comment out will remain there until some
- * test are done. Trying to make sure that that change does not broke the app
- * functionality.
  *
  ** Created on 12/5/2020 12:41 pm.
  */
 public class MainActivity extends ListActivity {
 
-                                  //Global variables for debugging
-    public final String TAG = "NICKY";
-    public boolean bolDebuging = false;
-
-                                  //Context passed to other classes
+                                  //Context passed to other classes.
     private Context contexto = this;
-                                  //Class to control MP3 file playing
+                                  //Class to control MP3 file playing.
     private ElControl elControl = null;
     private MediaPlayer mdPlayer = null;
-                                  //Set TextView to show info about song playing
+                                  //Set TextView to show info about song playing.
     private TextView txtvwPlayingSongName;
     private TextView txtvwSongCurrentTime;
     private TextView txtvwSongTotalTime;
-                                  //Set of main window buttons and ID's variables
+                                  //Set of main window buttons and ID's variables.
     private Button btnPlay;
-                                  //ID's are used in a switch block
+                                  //ID's are used in a switch block.
     private final int BTN_PLAY_ID = R.id.btnPlayID;
     private Button btnNext;
     private final int BTN_PLAYNEXT_ID = R.id.btnNextID;
@@ -80,29 +69,29 @@ public class MainActivity extends ListActivity {
     private Button btnLoop;
     private final int BTN_LOOP_ID = R.id.btnLoopID;
     boolean bBtnLoopState = false;
-                                  //Button to display music library
+                                  //Button to display music library.
     private Button btnMusLib;
     private final int BTN_MUS_LIB_ID = R.id.btnMusLibID;
-                                  //Button to turn the radio on
+                                  //Button to turn the radio on.
     private Button btnRadio;
     private final int BTN_RADIO_ID = R.id.btnRadioID;
-                                  //Button to turn the equalizer on
+                                  //Button to turn the equalizer on.
     private Button btnSoundEqualizer;
     private final int BTN_SOUNDEQUALIZER_ID = R.id.btnSoundEqualizerID;
-                                  //Class to handle buttons events
+                                  //Class to handle buttons events.
     private UIBotonListener uiBtnEventMngmt;
-                                  //List of song in the device sdcard
+                                  //List of song in the device sdcard.
     private ArrayList<String> arrListPlaylistFromDB;
-                                  //ListView to show list of song
+                                  //ListView to show list of song.
     private ListView lView;
-                                  //ListView Adapter
+                                  //ListView Adapter.
     MuxListViewAdapter muxListViewAdapter;
-                                  //Represent the song being played progress
+                                  //Represent the song being played progress.
     private SeekBar seekBar;
-                                  //State of the pause button
+                                  //State of the pause button.
     private boolean bBtnPauseState = false;
                                   //Variable set to manage permission to access
-                                  //device storage
+                                  //device storage.
     private final int PERMISION_ACCESS_CODE = 3456;
     private boolean bPermissionsState = false;
 
@@ -110,24 +99,30 @@ public class MainActivity extends ListActivity {
 
     public static final String UPDATE_NEEDED = "UPDATE_MUS_LIB";
     public static final String PLAYLIST_EMPTY = "PLAYLIST_IS_EMPTY";
-                                  //Variable to get data from DB play list table
+                                  //Variable to get data from DB play list table.
     ElModelo elModelo;
 
 
                                   //This set of variables are used to created
-                                  //AlertDialog to manage the equalizer UI
+                                  //AlertDialog to manage the equalizer UI.
 
-                                  //List of equalizer preset names
+                                  //List of equalizer preset names.
     private ArrayList<String> presetNamesList;
-                                  //Variable holding the user preset selection
+                                  //Variable holding the user preset selection.
     private short presetSelectedNumber = -1;
 
     AlertDialog alertDialog = null;
     AlertDialog.Builder alertDiaBuilder = null;
 
-                                  //A variable reference to this class
+                                  //A variable reference to this class.
     MainActivity mainActivity;
 
+                                  //Variable to hold the random playing mode
+                                  //state, ON or OFF.
+    private boolean bRandonPlay = false;
+                                  //Variable used to change the loop button
+                                  //text between LOOP and RAND.
+    private int iSecCounter = 1;
 
 
 
@@ -146,91 +141,109 @@ public class MainActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
                                   //Just getting a reference to this class to be
-                                  //used when 'this' reference is not valid
+                                  //used when 'this' reference is not valid.
         mainActivity = this;
                                   //Checking and asking permission to access
-                                  //storage
+                                  //storage.
         checkStorageAccessPermission();
 
-                                  //TextView variables initialization
+                                  //TextView variables initialization.
         txtvwPlayingSongName = findViewById(R.id.txtvwPlayingSongNameID);
         txtvwSongCurrentTime = findViewById(R.id.txtvwSongCurrentTimeID);
         txtvwSongTotalTime = findViewById( R.id.txtvwSongTotalTimeID);
 
-                                  //Button variables, & listener initialization
+                                  //Button variables, & listener initialization.
         setButtons();
-                                  //Buttons Click event listener
+                                  //Buttons Click event listener.
         uiBtnEventMngmt = new UIBotonListener();
         setButtonsClickListener();
 
-                                  //ListView Setting
+                                  //ListView Setting.
         elModelo = new ElModelo(contexto);
         arrListPlaylistFromDB = elModelo.getArrayListFromPlayListTable();
         muxListViewAdapter = new MuxListViewAdapter(this, arrListPlaylistFromDB);
-                                  //Music controller setting
+                                  //Music controller setting.
         elControl = new ElControl(MainActivity.this);
         elControl.setArrayListPlaylist(arrListPlaylistFromDB);
 
         lView = getListView();
-                                  //Setting the ListView Adapter
+                                  //Setting the ListView Adapter.
         lView.setAdapter(muxListViewAdapter);
-                                  //ListView listener implementation
+                                  //ListView listener implementation.
         lView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView tvw = view.findViewById(R.id.txtvwMP3FilePath);
                                   //Playing song by clicking one in the ListView
-                                  //of songs
+                                  //of songs.
                 elControl.playSongFromList(position);
                 btnPlay.setTextColor(ContextCompat.getColor(contexto, R.color.colorVerde));
-                                  //Activating the pause button
+                                  //Activating the pause button.
                 btnPause.setEnabled(true);
-                                  //Setting the boolean pause var to true
+                                  //Setting the boolean pause var to true.
                 bBtnPauseState = true;
                                   //Managing the pause button color to let user
-                                  //know if this button was activated
+                                  //know if this button was activated.
                 setBtnPauseColorState();
                                   //Checking if loop button should be enabled
-                                  //and change text color to yellow
+                                  //and change text color to yellow.
                 if (bBtnLoopState == false) {
                     btnLoop.setEnabled(true);
                     btnLoop.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
                 }
             }
         });
-                                  //End of ListView code
+                                  //End of ListView code.
 
                                   //Setting seek bar to show the progress of
-                                  //song being played SeekBar var initialization
+                                  //song being played SeekBar var initialization.
         seekBar = findViewById(R.id.seekBID);
-                                  //SeekBar listener implementation
+                                  //SeekBar listener implementation.
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+                                  //if block to change the loop btn text between
+                                  //LOOP to RAND every two seconds. SeekBar
+                                  //widget progress is used for this.
+                if(bRandonPlay == true) {
+                    iSecCounter++;
+                    if (iSecCounter >= 4) {
+                        btnLoop.setText("RAND");
+                        btnLoop.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorVerde2));
+                        iSecCounter = 0;
+                    } else if (iSecCounter == 2) {
+                        btnLoop.setText("LOOP");
+                        btnLoop.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorVerde));
+                    }
+                }
+
+
                 if(fromUser) {
                     mdPlayer = elControl.getMdPlayer();
-                                  //Song is being playing
+                                  //Checking if MP is playing a song.
                     if(mdPlayer != null && progress < elControl.getSongTotalTime()) {
+                                  //Synchronizing MP and SeekBar progress.
                         mdPlayer.seekTo(progress * 1000);
                     }
-                    else{         //Song ended or it is not being played
+                    else{         //Song ended or it is not being played.
                         seekBar.setProgress(0);
                     }
                 }
 
             }
                                   //Function part of Listener, not implemented
-                                  //in this app
+                                  //in this app.
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {}
                                   //Function part of Listener, not implemented
-                                  //in this app
+                                  //in this app.
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
 
-        });                       //End of SeekBar implementation
+        });                       //End of SeekBar implementation.
 
-    }   //End of onCreate() function
+    }   //End of onCreate() function.
 
 
 
@@ -243,7 +256,7 @@ public class MainActivity extends ListActivity {
     public ListView getMyListView(){
         return lView;
 
-    }   //End of getMyListView() function
+    }   //End of getMyListView() function.
 
 
 
@@ -258,7 +271,7 @@ public class MainActivity extends ListActivity {
     public void setBtnSoundEqualizerState(String stateONOFF){
         btnSoundEqualizer.setText(stateONOFF);
 
-    }   //End of setBtnSoundEqualizerState() function
+    }   //End of setBtnSoundEqualizerState() function.
 
 
 
@@ -271,10 +284,10 @@ public class MainActivity extends ListActivity {
      */
     public void setTxtvwPlayingSongName(String actualPlayingSongName){
         File file = new File(actualPlayingSongName);
-                                  //Displaying song name being played
+                                  //Displaying song name being played.
         txtvwPlayingSongName.setText(file.getName());
 
-    }   //End of setTxtvwPlayingSongName() function
+    }   //End of setTxtvwPlayingSongName() function.
 
 
 
@@ -288,7 +301,7 @@ public class MainActivity extends ListActivity {
     public void setTxtvwSongTotalTime(String strTiempoTotal){
         txtvwSongTotalTime.setText(strTiempoTotal);
 
-    }   //End of setTxtvwSongTotalTime() function
+    }   //End of setTxtvwSongTotalTime() function.
 
 
 
@@ -302,7 +315,7 @@ public class MainActivity extends ListActivity {
     public void setTxtvwSongCurrentTime(String strCurrentTime){
         txtvwSongCurrentTime.setText(strCurrentTime);
 
-    }   //End of setTxtvwSongCurrentTime() function
+    }   //End of setTxtvwSongCurrentTime() function.
 
 
 
@@ -316,7 +329,7 @@ public class MainActivity extends ListActivity {
     public void setSeekBarProgress(int progreso){
         seekBar.setProgress(progreso);
 
-    }   //End of setSeekBarProgress() function
+    }   //End of setSeekBarProgress() function.
 
 
 
@@ -330,7 +343,8 @@ public class MainActivity extends ListActivity {
     public void setSeekBarMax(int songTiempoTotal){
         seekBar.setMax(songTiempoTotal);
 
-    }   //End of setSeekBarMax() function
+    }   //End of setSeekBarMax() function.
+
 
 
 
@@ -343,7 +357,11 @@ public class MainActivity extends ListActivity {
     public void setPresetSelectedNumber(short presetSelectedNumberPar) {
         presetSelectedNumber = presetSelectedNumberPar;
 
-    }   //End of setPresetSelectedNumber(short) function
+    }   //End of setPresetSelectedNumber(short) function.
+
+
+
+
 
     /**
      * getPresetSelectedNumber() function is used to get the value of the
@@ -354,7 +372,10 @@ public class MainActivity extends ListActivity {
     public short getPresetSelectedNumber() {
         return presetSelectedNumber;
 
-    }   //End of getPresetSelectedNumber() function
+    }   //End of getPresetSelectedNumber() function.
+
+
+
 
     /**
      * setBtnPlayTextColor(boolean) function is used to the play button text
@@ -372,6 +393,7 @@ public class MainActivity extends ListActivity {
         }
 
     }   //End of setBtnPlayTextColor(boolean) function
+
 
 
 
@@ -413,7 +435,53 @@ public class MainActivity extends ListActivity {
         btnRadio.setOnClickListener(uiBtnEventMngmt);
         btnSoundEqualizer.setOnClickListener(uiBtnEventMngmt);
 
-    }   //End of setButtonsClickListener() function
+
+                                  // Implementing long click on loop button to
+                                  //activate random mode playing.
+        btnLoop.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                                  //Random is OFF and it is turned ON.
+                if (bRandonPlay == false) {
+                    bRandonPlay = true;
+                                  //If loop mode is OFF, turn it ON.
+                    if(bBtnLoopState == false) {
+                        btnLoop.performClick();
+                    }
+                }
+                                  //Random is ON and it is turned OFF.
+                else {            //if bRandomPlay == true.
+                    bRandonPlay = false;
+                    btnLoop.setText("LOOP");
+                    if (bBtnLoopState == true){
+                        btnLoop.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorVerde));
+                    }
+                }
+
+                String str = Boolean.toString(bRandonPlay);
+                Toast.makeText(getApplicationContext(), "RANDOM MODE IS " + str, Toast.LENGTH_LONG).show();
+                                  //Setting random mode ON-OFF on ElControl
+                                  //class.
+                elControl.setbRandomPlay(bRandonPlay);
+
+                return true;
+            }
+        });
+
+    }   //End of setButtonsClickListener() function.
+
+
+
+
+    /**
+     *  performAStopBtnClick() function is used to perform a click event
+     *  programmatically on the loop button. So far this function is mainly
+     *  used by the ElControl class.
+     */
+    public void performAStopBtnClick(){
+        btnStop.performClick();
+
+    }   //End of performAStopBtnClick() function.
 
 
 
@@ -438,193 +506,213 @@ public class MainActivity extends ListActivity {
         public void onClick(View vw) {
 
             switch (vw.getId()){
-                                  //Right now start playing the song
+                                  //Right now start playing the song.
                 case BTN_PLAY_ID:
-                                  //Checking music playing list is not empty
+                                  //Checking music playing list is not empty.
                     if (arrListPlaylistFromDB.size() >= 1) {
                         elControl.setiSongPlayingNumber(0);
                         elControl.playSong("BOTON");
-                                  //Setting the play button text color to green
+                                  //Setting the play button text color to green.
                         btnPlay.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorVerde));
 
                         txtvwPlayingSongName.setText(elControl.getCurrentPlayingSongName());
                         txtvwSongCurrentTime.setText("0");
-                                  //Button pause is originally unable
+                                  //Button pause is originally unable.
                         btnPause.setEnabled(true);
                         bBtnPauseState = true;
                                   //Managing the pause button color to let user
-                                  //know if this button was activated
+                                  //know if this button was activated.
                         setBtnPauseColorState();
                                   //Checking if the button is in the deactivated
-                                  //state, if so change it
+                                  //state, if so change it.
                         if (bBtnLoopState == false) {
                             btnLoop.setEnabled(true);
-                                  //Changing the loop button color to activated
+                                  //Changing the loop button color to activated.
                             btnLoop.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
                         }
                     }
                     break;
-                                  //Playing next song right now
+                                  //Playing next song right now.
                 case BTN_PLAYNEXT_ID:
-                                  //Checking music playing list is not empty
+                                  //Checking music playing list is not empty.
                     if (arrListPlaylistFromDB.size() >= 1) {
-                                  //Button pause is originally unable
+                                  //Button pause is originally unable.
                         btnPause.setEnabled(true);
                         bBtnPauseState = true;
                                   //Managing the pause button color to let user
-                                  //know if this button was activated
+                                  //know if this button was activated.
                         setBtnPauseColorState();
                         elControl.playNextSong();
-                                  //Setting the play button text color to green
+                                  //Setting the play button text color to green.
                         btnPlay.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorVerde));
                                   //Checking if the button is in the deactivated
-                                  //state, if so change it
+                                  //state, if so change it.
                         if (bBtnLoopState == false) {
                             btnLoop.setEnabled(true);
-                                  //Changing the loop button color to activated
+                                  //Changing the loop button color to activated.
                             btnLoop.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
                         }
                     }
                     break;
-                                  //Playing previous song right now
+                                  //Playing previous song right now.
                 case BTN_PLAYPREVIOUS_ID:
-                                  //Checking music playing list is not empty
+                                  //Checking music playing list is not empty.
                     if (arrListPlaylistFromDB.size() >= 1) {
-                                  //Button pause is originally unable
+                                  //Button pause is originally unable.
                         btnPause.setEnabled(true);
-                                  //Setting boolean pause var to know it is on
+                                  //Setting boolean pause var to know it is on.
                         bBtnPauseState = true;
                                   //Managing the pause button color to let user
-                                  //know if this button was activated
+                                  //know if this button was activated.
                         setBtnPauseColorState();
                         elControl.playPreviousSong();
-                                  //Setting the play button text color to green
+                                  //Setting the play button text color to green.
                         btnPlay.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorVerde));
                                   //Checking if the button is in the deactivated
-                                  //state, if so change it
+                                  //state, if so change it.
                         if (bBtnLoopState == false) {
                             btnLoop.setEnabled(true);
-                                  //Changing the loop button color to activated
+                                  //Changing the loop button color to activated.
                             btnLoop.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
                         }
                     }
                     break;
-                                  //Pause song being played
+                                  //Pause song being played.
                 case BTN_PAUSEPLAY_ID:
-                                  //Checking music playing list is not empty
+                                  //Checking music playing list is not empty.
                     if (arrListPlaylistFromDB.size() >= 1) {
                         elControl.pausePlayingSong();
 
                                   //Managing the pause button color to let user
-                                  //know if this button was activated
+                                  //know if this button was activated.
                         setBtnPauseColorState();
                     }
                     break;
-                                  //Stop the song being played
+                                  //Stop the song being played.
                 case BTN_STOPPLAY_ID:
-                                  //Checking music playing list is not empty
+                                  //Checking music playing list is not empty.
                     if (arrListPlaylistFromDB.size() >= 1) {
                                   //Parameter zero means totally turn off the
-                                  //equalizer
+                                  //equalizer.
                         elControl.stopPlaying(0);
-                                  //Setting the play button text color to green
+                                  //Setting the play button text color to green.
                         btnPlay.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorLetras));
-                                  //Disabling the pause button
+                                  //Disabling the pause button.
                         btnPause.setEnabled(false);
-                                  //Setting the pause button to deactivated color
+                                  //Setting the pause button to deactivated color.
                         btnPause.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBtnDesactivadoStyle));
-                    }
-                    break;
-                                  //This button set the player to loop playing
-                                  //all the songs for ever or until the app is
-                                  //stopped
-                case BTN_LOOP_ID:
-                                  //When the loop button is OFF
-                    if (bBtnLoopState == false) {
-                        elControl.setBtnLoopState(true);
-                        bBtnLoopState = true;
-                                  //Setting the loop button to activated
-                        btnLoop.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorVerde));
-                    }
-                                  //When the loop button is ON
-                    else {
-                        elControl.setBtnLoopState(false);
+
+                                  //Setting the loop button state to disabled.
+                        btnLoop.setEnabled(false);
+                        btnLoop.setText("LOOP");
+                        btnLoop.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorBtnDesactivadoStyle));
+                                  //False means loop playing mode is OFF.
                         bBtnLoopState = false;
-                                  //Setting the loop button to deactivated
-                        btnLoop.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorLetras));
+
                     }
 
                     break;
-                                  //Start activity to manage play library list
+                                  //This button set the player to loop playing
+                                  //all the songs for ever or until the app is
+                                  //stopped.
+                case BTN_LOOP_ID:
+                                  //When the loop button is OFF.
+                    if (bBtnLoopState == false) {
+                        elControl.setBtnLoopState(true);
+                        bBtnLoopState = true;
+                                  //Setting the loop button to activated.
+                        btnLoop.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorVerde));
+                    }
+                                  //When the loop button is ON.
+                    else {
+                        elControl.setBtnLoopState(false);
+                        bBtnLoopState = false;
+                                  //Setting the loop button to deactivated.
+                        btnLoop.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.colorLetras));
+
+                                  //Turning OFF random song selection if it is ON.
+                        if (bRandonPlay == true){
+                                  //False means random song selection is OFF.
+                            bRandonPlay = false;
+                                  //Setting random mode OFF on ElControl class.
+                            elControl.setbRandomPlay(bRandonPlay);
+                            btnLoop.setText("LOOP");
+                        }
+
+                    }
+
+                    break;
+                                  //Start activity to manage play library list.
                 case BTN_MUS_LIB_ID:
                     Intent intentoMusLib = new Intent(contexto, MusLib2.class);
                     startActivityForResult(intentoMusLib, RESULT_FROM_ACTIVITY);
                     break;
-                                  //Activate sound equalizer
+                                  //Activate sound equalizer.
                 case BTN_SOUNDEQUALIZER_ID:
                     if(elControl.getMdPlayer() == null && !elControl.isMdPlayerPlaying()){
-                                  //Asking user to start playing a song first
+                                  //Asking user to start playing a song first.
                         Toast.makeText(getApplicationContext(), "Start playing a song first.",
                                                                           Toast.LENGTH_SHORT).show();
                     }
                     else {
                                   //Starting the sound equalizer activation
-                                  //process. This is done in ElControl class
+                                  //process. This is done in ElControl class.
                         elControl.setEqualizerState();
-                                  //AL holding the equalizer preset names
+                                  //AL holding the equalizer preset names.
                         presetNamesList = new ArrayList<String>();
-                                  //Getting all equalizer preset names from ElControl
+                                  //Getting all equalizer preset names from
+                                  //ElControl.
                         presetNamesList.addAll(elControl.getpresetNamesList());
-                                  //Getting and customizing the dialog window
+                                  //Getting and customizing the dialog window.
                         LayoutInflater layoutInflater = LayoutInflater.from(mainActivity);
-                                  //Inflating the layout file to customize UI
+                                  //Inflating the layout file to customize UI.
                         View prompView = layoutInflater.inflate(R.layout.equali_dialog_layout, null);
-                                  //Getting the AD UI button to control it
+                                  //Getting the AD UI button to control it.
                         final Button btnOK = prompView.findViewById(R.id.btnEquOKId);
                         final Button btnNegative = prompView.findViewById(R.id.btnEquCancelId);
                         final Button btnManual = prompView.findViewById(R.id.btnEquManualId);
-                                  //Creating the AlertDialog builder
+                                  //Creating the AlertDialog builder.
                         alertDiaBuilder = new AlertDialog.Builder(mainActivity);
-                                  //Setting which layout file to use for the AD
+                                  //Setting which layout file to use for the AD.
                         alertDiaBuilder.setView(prompView);
 
-                                  //Creating the set of radio buttons
+                                  //Creating the set of radio buttons.
                         RadioGroup radioGroup = prompView.findViewById(R.id.radioGroupId);
                                   //Getting the number of radio buttons that the
-                                  //equalizer needs
+                                  //equalizer needs.
                         int radioGroupSize = radioGroup.getChildCount();
                         for(int i = 0; i < radioGroupSize; i++) {
                             RadioButton radioBtnTmp = (RadioButton) radioGroup.getChildAt(i);
                                   //Set of RB that will be visible in the dialog
-                                  //window
+                                  //window.
                             if (i < presetNamesList.size()) {
                                 radioBtnTmp.setText(presetNamesList.get(i).toString());
                             }
                             else {
                                   //Set of RB that will not be visible in dialog
-                                  //window
+                                  //window.
                                 radioBtnTmp.setEnabled(false);
                                 radioBtnTmp.setVisibility(View.GONE);
                             }
                         }
 
                                   //RadioGroup listener that is called when user
-                                  //select a equalizer preset option
+                                  //select a equalizer preset option.
                         radioGroup.setOnCheckedChangeListener(
                                 new RadioGroup.OnCheckedChangeListener() {
                                     @Override
                                     public void onCheckedChanged(RadioGroup group, int checkedId) {
                                         RadioButton rdBtnTmp = group.findViewById(checkedId);
                                   //Getting preset number, setting equalizer to
-                                  //that preset
+                                  //that preset.
                                         presetSelectedNumber = (short) presetNamesList.indexOf(rdBtnTmp.getText().toString());
                                   //Synchronizing the value of presetSelectedNumber
                                   //with that variable with same name that lives in
-                                  //ElControl class
+                                  //ElControl class.
                                         elControl.setPresetSelectedNumber(presetSelectedNumber);
-                                  //Activating the equalizer preset selected
+                                  //Activating the equalizer preset selected.
                                         elControl.equalizerUsePreset(presetSelectedNumber);
-                                  //Setting the main window equalizer button text
+                                  //Setting the main window equalizer button text.
                                         btnSoundEqualizer.setText(R.string.btn_eq_is_on);
                                   //Enabling AlertDialog custom button and setting
                                   //the color text.
@@ -634,59 +722,59 @@ public class MainActivity extends ListActivity {
                                 });
 
                                   //Dialog button listeners to handle click events
-                                  //on these buttons
+                                  //on these buttons.
                         alertDiaBuilder.setCancelable(false);
-                                  //Creating the user interface, but showing it
+                                  //Creating the user interface, but showing it.
                         alertDialog = alertDiaBuilder.create();
-                                  //Showing the AlertDialog UI
+                                  //Showing the AlertDialog UI.
                         alertDialog.show();
 
                                   //Checking if equalizer is ON and a preset has
                                   //has been selected.
                         if (presetSelectedNumber >= 0) {
-                                  //Turning on the preset selected
+                                  //Turning on the preset selected.
                             radioGroup.check(radioGroup.getChildAt(presetSelectedNumber).getId());
                         }
 
                                   //This set of buttons are not the buttons that
                                   //are part of the AlertDialog UI. These buttons
                                   //are part of the layout file used to customize
-                                  //the AlertDialog UI
+                                  //the AlertDialog UI.
 
-                                  //Setting the OK button click listener
+                                  //Setting the OK button click listener.
                         btnOK.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 if (presetSelectedNumber <= -1) {
-                                  //Turning equalizer off. It is not used
+                                  //Turning equalizer off. It is not used.
                                     elControl.releaseEqualizer(0);
                                 }
-                                  //Closing AD UI
+                                  //Closing AD UI.
                                 alertDialog.dismiss();
                             }
                         });
 
-                                  //Setting the Cancel button click listener
+                                  //Setting the Cancel button click listener.
                         btnNegative.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                  //Turning equalizer off. It is not used
+                                  //Turning equalizer off. It is not used.
                                 elControl.releaseEqualizer(0);
-                                  //Closing AD UI
+                                  //Closing AD UI.
                                 alertDialog.dismiss();
-                                  //Setting MainActivity button text
+                                  //Setting MainActivity button text.
                                 btnSoundEqualizer.setText(R.string.btn_eq_is_off);
 
                                 presetSelectedNumber = -1;
                                   //Synchronizing the value of presetSelectedNumber
                                   //with that variable with same name that lives in
-                                  //ElControl class
+                                  //ElControl class.
                                 elControl.setPresetSelectedNumber(presetSelectedNumber);
                             }
                         });
 
-                                  //Setting the Manual button click listener
-                                  //This feature is not working on this version
+                                  //Setting the Manual button click listener.
+                                  //This feature is not working on this version.
                         btnManual.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -696,26 +784,27 @@ public class MainActivity extends ListActivity {
 
                     }
                     break;
-                                  //Activate radio feature
+                                  //Activate radio feature.
                 case BTN_RADIO_ID:
                     l("Starting radio intent");
-                                  //Stopping mp3 playing and equalizer
+                                  //Stopping mp3 playing and equalizer.
                     elControl.stopPlaying(0);
                     elControl.releaseEqualizer(0);
-                                  //Starting the radio turn on activity
+                                  //Starting the radio turn on activity.
                     Intent intento = new Intent(contexto, NKRadio.class);
                     intento.putExtra("NIKO", "Este es el NIKOLAZO");
                     startActivity(intento);
                     break;
 
-            }   //End of switch()
+            }   //End of switch().
 
             if (arrListPlaylistFromDB.size() <= 0) {
                 Toast.makeText(getApplicationContext(), "List Song is empty.", Toast.LENGTH_SHORT).show();
             }
-        }   //End of OnClick() function
+        }   //End of OnClick() function.
 
-    }   //End of inner class UIBotonListener
+    }   //End of inner class UIBotonListener.
+
 
 
 
@@ -739,6 +828,7 @@ public class MainActivity extends ListActivity {
 
 
 
+
     /**
      * onActivityResult(int, int, Intent) callback function is used to manage
      * user updates on the play list data make on another user interface. It
@@ -755,29 +845,29 @@ public class MainActivity extends ListActivity {
 
         if (requestCode == RESULT_FROM_ACTIVITY && resultCode == RESULT_OK) {
                                   //Getting info to know if user did any data
-                                  //update
+                                  //update.
             boolean myBool = data.getBooleanExtra(UPDATE_NEEDED, true);
 
-                                  //Clearing ArrayList to get new updated data
+                                  //Clearing ArrayList to get new updated data.
             if (arrListPlaylistFromDB != null) {
                 arrListPlaylistFromDB.clear();
             }
-                                  //Getting updated data from DB play list table
+                                  //Getting updated data from DB play list table.
             arrListPlaylistFromDB = elModelo.getArrayListFromPlayListTable();
-                                  //if-making sure ArrayList is not null or empty
+                                  //if-making sure ArrayList is not null or empty.
             if (arrListPlaylistFromDB != null && arrListPlaylistFromDB.size() == 0) {
                                   //Synchronizing data functioning on controling
-                                  //class
+                                  //class.
                 elControl.stopPlaying(1);
                 elControl.getArrayListPlayList().clear();
                 elControl.setiSongPlayingNumber(0);
-                                  //Setting info about song that maybe playing now
+                                  //Setting info about song that maybe playing now.
                 txtvwPlayingSongName.setText(MainActivity.PLAYLIST_EMPTY);
                 txtvwSongCurrentTime.setText("0");
                 txtvwSongTotalTime.setText("0");
             }
                                   //Updating list adapter with updated data
-                                  //from DB
+                                  //from DB.
             muxListViewAdapter.getData().clear();
             muxListViewAdapter.getData().addAll(arrListPlaylistFromDB);
             muxListViewAdapter.createHashMap();
@@ -786,14 +876,14 @@ public class MainActivity extends ListActivity {
                                   //list data from db
             elControl.setArrayListPlaylist(arrListPlaylistFromDB);
                                   //Adjusting song number when it is bigger than
-                                  //ArrayList size
+                                  //ArrayList size.
             if (elControl.getiSongPlayingNumber() >= arrListPlaylistFromDB.size()) {
                 elControl.setiSongPlayingNumber(arrListPlaylistFromDB.size() - 1);
             }
 
         }
 
-    }   //End of onActivityResult() function
+    }   //End of onActivityResult() function.
 
 
 
@@ -808,11 +898,11 @@ public class MainActivity extends ListActivity {
     protected void onDestroy(){
         super.onDestroy();
                                   //Stopping the music being playing by another
-                                  //class
+                                  //class.
         elControl.stopPlaying(0);
         elControl.releaseEqualizer(0);
 
-    }   //End of onDestroy() function
+    }   //End of onDestroy() function.
 
 
 
@@ -824,37 +914,37 @@ public class MainActivity extends ListActivity {
      */
     private void checkStorageAccessPermission(){
 
-                                  //if to check if this SDK is Nougat version
+                                  //if to check if this SDK is Nougat version.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                  //Checking if storage access has been granted
+                                  //Checking if storage access has been granted.
             int permisoGranted = ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
             if (permisoGranted == PackageManager.PERMISSION_GRANTED) {
                                   //Permissions to access storage have been
-                                  //granted already
+                                  //granted already.
                 bPermissionsState = true;
             }
             else {
                 bPermissionsState = false;
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
                                   //App does need to info user why storage access
-                                  //is needed
+                                  //is needed.
                     Toast.makeText(this, "Storage access is needed to search MP3 files.", Toast.LENGTH_LONG).show();
                     ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISION_ACCESS_CODE);
                 }
                 else {
                                   //App does not need to info user why storage
-                                  //access is needed
+                                  //access is needed.
                     ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISION_ACCESS_CODE);
                 }
             }
         }
         else {
                                   //Code section to handle storage access on
-                                  //SDK less than N
+                                  //SDK less than N.
             l("Esta es una version de android mas vieja que NOUGAT");
         }
 
-    }   //End of checkStorageAccessPermission() function
+    }   //End of checkStorageAccessPermission() function.
 
 
 
@@ -874,26 +964,34 @@ public class MainActivity extends ListActivity {
                                            @NonNull int[] grantResults) {
 
         switch (requestCode) {
-                                  //Permission granted case
+                                  //Permission granted case.
             case PERMISION_ACCESS_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     bPermissionsState = true;
                 }
                 break;
-                                  //User denied permission to access storage
+                                  //User denied permission to access storage.
             default:
                 bPermissionsState = false;
                 break;
         }
 
-    }   //End of onRequestPermissionsResult () function
+    }   //End of onRequestPermissionsResult() function.
 
 
+
+
+    /**
+     * onBackPressed() function is used when the user click the back button.
+     *
+     */
     @Override
     public void onBackPressed() {
-
         super.onBackPressed();
-    }
+
+    }   //End of onBackPressed() function.
+
+
 
 
     /**
@@ -905,13 +1003,31 @@ public class MainActivity extends ListActivity {
      * @param str type String
      */
     private void l(String str){
+                                  //Local variable for debugging.
+        final String TAG = "NICKY";
+
         Log.d(TAG, this.getClass().getSimpleName() + " -> " + str);
 
-    }   //End of l() function
+    }   //End of l() function.
 
 
 
-}   //End of Class MainActivity
+
+    /**
+     * showToast(String) function is used to show user that something has just
+     * happened. So far it is used only by the ElControl class.
+     *
+     * @param str
+     */
+    public void showToast(String str){
+        Toast.makeText(getApplicationContext(), str, Toast.LENGTH_LONG).show();
+
+    }   //End of showToast(String) function.
+
+
+
+
+}   //End of MainActivity class.
 
 
 

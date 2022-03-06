@@ -24,7 +24,7 @@ import java.util.ArrayList;
  */
 
 public class MuxListViewAdapter extends BaseAdapter {
-                                  //ArrayList holding MP3 file path info
+                                  //ArrayList holding MP3 file path info.
     private ArrayList<String> listMP3RowNumber;
     private ArrayList<String> listMP3FilePath;
     private LayoutInflater inflater;
@@ -51,7 +51,8 @@ public class MuxListViewAdapter extends BaseAdapter {
         inflater = activity.getLayoutInflater();
         createHashMap();
 
-    }   //End of MuxListViewAdapter() function
+    }   //End of MuxListViewAdapter() function.
+
 
 
 
@@ -63,7 +64,9 @@ public class MuxListViewAdapter extends BaseAdapter {
      */
     public ArrayList<String> getData(){
         return listMP3FilePath;
-    }
+
+    }   //End of getData() function.
+
 
 
 
@@ -79,7 +82,9 @@ public class MuxListViewAdapter extends BaseAdapter {
         for(Integer i = 0; i < listMP3FilePath.size(); i++){
             listMP3RowNumber.add(i.toString());
         }
-    }   //End of createHashMap() function
+
+    }   //End of createHashMap() function.
+
 
 
 
@@ -92,7 +97,8 @@ public class MuxListViewAdapter extends BaseAdapter {
     @Override
     public int getCount() {
         return listMP3FilePath.size();
-    }   //End of getCount() function
+
+    }   //End of getCount() function.
 
 
 
@@ -107,7 +113,9 @@ public class MuxListViewAdapter extends BaseAdapter {
     @Override
     public Object getItem(int position) {
         return listMP3FilePath.get(position);
-    }   //End of getItem() function
+
+    }   //End of getItem() function.
+
 
 
 
@@ -120,7 +128,9 @@ public class MuxListViewAdapter extends BaseAdapter {
     @Override
     public long getItemId(int position) {
         return 0;
-    }   //End of getItemId() function
+
+    }   //End of getItemId() function.
+
 
 
 
@@ -140,12 +150,12 @@ public class MuxListViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-                                  //TextView used to set/change the row text
+                                  //TextView used to set/change the row text.
         TextView txtvwRowNumber;
         TextView txtvwMP3FilePath;
 
                                   //Fist time that this function is called by
-                                  //the system
+                                  //the system.
         if(convertView == null) {
                                   //Getting the layout file used in each row
                                   //Por debugging:
@@ -155,15 +165,15 @@ public class MuxListViewAdapter extends BaseAdapter {
                                   //Getting actual TextViews used in each row
         txtvwRowNumber = convertView.findViewById(R.id.txtvwRowNumber);
         txtvwMP3FilePath = convertView.findViewById(R.id.txtvwMP3FilePath);
-                                  //Setting each row text
+                                  //Setting each row text.
         txtvwRowNumber.setText(listMP3RowNumber.get(position ) + "-> ");
-                                  //Getting the song name from the file path
+                                  //Getting the song name from the file path.
         String[] str = listMP3FilePath.get(position).split("/");
         String strTmp = str[str.length -1];
                                   //Removing '/storage/sdcard0' from mp3
-                                  //file absolute path
+                                  //file absolute path.
         txtvwMP3FilePath.setText(strTmp);
-                                  //Setting adjacent row background color
+                                  //Setting adjacent row background color.
         if((position % 2) == 0){
             int miOtroAzul = Color.parseColor("#010445");
             convertView.setBackgroundColor(miOtroAzul);
@@ -174,7 +184,8 @@ public class MuxListViewAdapter extends BaseAdapter {
         }
 
         return convertView;
-    }   //End of getView() function
+    }   //End of getView() function.
+
 
 
 
@@ -187,11 +198,12 @@ public class MuxListViewAdapter extends BaseAdapter {
      * @param str type String
      */
     private void l(String str){
-        Log.d("NIKO", this.getClass().getSimpleName() + " -> " + str);
-    }
+        Log.d("NICKY", this.getClass().getSimpleName() + " -> " + str);
+
+    }   //End of l(String) function.
 
 
-}   //End of Class MuxListViewAdapter
+}   //End of Class MuxListViewAdapter.
 
 
 

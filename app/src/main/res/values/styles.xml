@@ -13,14 +13,14 @@
     <!--El txt size para el lg is de 12 y para el zte 16 -->
     <style name="nikoTextSize" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:textSize">16dp</item>
+        <item name="android:textSize">17dp</item>
     </style>
 
     <!--Color de los botones que estan desactivados, por ejemplo para borrar una cancion. -->
     <!--Estan solo en la listas de los fragmentos. -->
     <style name="nikoUnEnableText" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/colorBtnDesactivadoStyle</item>
-        <item name="android:textSize">16dp</item>
+        <item name="android:textSize">17dp</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

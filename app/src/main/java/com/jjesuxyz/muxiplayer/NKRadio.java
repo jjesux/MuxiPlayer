@@ -39,10 +39,9 @@ import java.util.ArrayList;
 
 public class NKRadio extends Activity {
 
-                                  //Set of variables used in this project
-    public final String TAG = "NICKY";
+                                  //Set of variables used in this project.
     private MediaPlayer mdPlayer;
-                                  //Button and listener variables
+                                  //Button and listener variables.
     private Button btnRadioPlay;
     private final int BTN_RADIOPLAY_ID = R.id.btnRadioPlay;
     private Button btnRadioStop;
@@ -54,7 +53,7 @@ public class NKRadio extends Activity {
 
     private RadioButtonOptionsListeners radioButtonOptionsListeners;
 
-                                  //RadioButton  and listener variables
+                                  //RadioButton  and listener variables.
     private RadioButton rdBtn0;
     private final int RDBUTTON0_ID = R.id.rdbtnStation0;
     private RadioButton rdBtn1;
@@ -70,13 +69,13 @@ public class NKRadio extends Activity {
 
     private RadioButtonPresetsListener radioButtonPresetsListener;
 
-                                  //Variables to hold list of preset station
+                                  //Variables to hold list of preset station.
     private ArrayList<String> listPresetsIP = null;
     private ArrayList<String> listPresetsNames = null;
-                                  //Variables holding radio station playing
+                                  //Variables holding radio station playing.
     private String strRdStationPlayingIP = null;
     private String strRdStationPlayingInfo = null;
-                                  //TextView variables hold radio station info
+                                  //TextView variables hold radio station info.
     private TextView txtvwStationIP = null;
     private TextView txtvwStationInfo = null;
 
@@ -96,26 +95,27 @@ public class NKRadio extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nk_radio_layout);
-                                  //Setting listeners
+                                  //Setting listeners.
         radioButtonOptionsListeners = new RadioButtonOptionsListeners();
         radioButtonPresetsListener = new RadioButtonPresetsListener();
-                                  //Getting list of radio station info
+                                  //Getting list of radio station info.
         listPresetsIP = new ArrayList<>();
         listPresetsNames = new ArrayList<>();
-                                  //Button and listener initialization
+                                  //Button and listener initialization.
         initalizeRadioFeatureButtons();
         setRadioFeatureButtonListeners();
-                                  //RadioButton and listener initialization
+                                  //RadioButton and listener initialization.
         initializeRadioPresetButtons();
         setRadioPresetButtonsListeners();
-                                  //Reading radio station presets from a file
+                                  //Reading radio station presets from a file.
         getRadioButtonTextFromPresetFile(1);
-                                  //Setting the RadioButton text
+                                  //Setting the RadioButton text.
         setRadioButtonsText();
-                                  //Getting last radio station selected
+                                  //Getting last radio station selected.
         setRadioStationToPlayFromFile();
 
-    }   //End of onCreate() function
+    }   //End of onCreate() function.
+
 
 
 
@@ -129,18 +129,17 @@ public class NKRadio extends Activity {
      *
      */
     private void setRadioStationToPlayFromFile(){
-                                  //Reading files to get radio station info
+                                  //Reading files to get radio station info.
         readRadioStationSelectedToFile();
                                   //Getting a pointer to TextView holding radio
-                                  //station
-                                  //playing info
+                                  //station playing info.
         txtvwStationIP =   findViewById(R.id.txtvwStationIP);
         txtvwStationInfo = findViewById(R.id.txtvwStationInfo);
-                                  //Setting TextView text
+                                  //Setting TextView text.
         txtvwStationIP.setText(strRdStationPlayingIP);
         txtvwStationInfo.setText(strRdStationPlayingInfo);
 
-    }   //End of setRadioStationToPLayFromFile() function
+    }   //End of setRadioStationToPLayFromFile() function.
 
 
 
@@ -164,7 +163,8 @@ public class NKRadio extends Activity {
         rdBtn4 =  findViewById(R.id.rdbtnStation4);
         rdBtn5 =  findViewById(R.id.rdbtnStation5);
 
-    }   //End of initializeRadioPresetButtons() function
+    }   //End of initializeRadioPresetButtons() function.
+
 
 
 
@@ -183,7 +183,8 @@ public class NKRadio extends Activity {
         rdBtn4.setOnClickListener(radioButtonPresetsListener);
         rdBtn5.setOnClickListener(radioButtonPresetsListener);
 
-    }   //End of setRadioPresetButtonsListeners() function
+    }   //End of setRadioPresetButtonsListeners() function.
+
 
 
 
@@ -200,7 +201,8 @@ public class NKRadio extends Activity {
         rdBtn4.setText(listPresetsNames.get(4));
         rdBtn5.setText(listPresetsNames.get(5));
 
-    }   //End of setRadioButtonsText() function
+    }   //End of setRadioButtonsText() function.
+
 
 
 
@@ -215,7 +217,8 @@ public class NKRadio extends Activity {
         btnRadioPresets = findViewById(R.id.btnRadioPreset);
         btnRadioEquali =  findViewById(R.id.btnRadioEquali);
 
-    }   //End of initalizeRadioFeatureButtons() function
+    }   //End of initalizeRadioFeatureButtons() function.
+
 
 
 
@@ -230,7 +233,8 @@ public class NKRadio extends Activity {
         btnRadioPresets.setOnClickListener(radioButtonOptionsListeners);
         btnRadioEquali.setOnClickListener(radioButtonOptionsListeners);
 
-    }   //End of setRadioFeatureButtonListeners() function
+    }   //End of setRadioFeatureButtonListeners() function.
+
 
 
     /**************************************************************************
@@ -265,7 +269,7 @@ public class NKRadio extends Activity {
             fileOutputStream.close();
 
         }
-                                  //Exceptions and debugging code
+                                  //Exceptions and debugging code.
         catch (FileNotFoundException fnfex){
             fnfex.printStackTrace();
             dbgFunc(fnfex.getMessage(), 0);
@@ -275,7 +279,8 @@ public class NKRadio extends Activity {
             dbgFunc(ioex.getMessage(), 0);
         }
 
-    }   //End of writeRadioStationSelectedToFile() function
+    }   //End of writeRadioStationSelectedToFile() function.
+
 
 
 
@@ -292,20 +297,20 @@ public class NKRadio extends Activity {
             InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             String strTmp;
-                                  //Reading just one line of radio station info
+                                  //Reading just one line of radio station info.
             while((strTmp = bufferedReader.readLine()) != null){
-                                  //Internet ip address
+                                  //Internet ip address.
                 strRdStationPlayingIP = (strTmp.split(">>"))[0];
-                                  //Radio station info for humans
+                                  //Radio station info for humans.
                 strRdStationPlayingInfo = (strTmp.split(">>"))[1];
             }
-                                  //Closing streams
+                                  //Closing streams.
             bufferedReader.close();
             inputStreamReader.close();
             fileInputStream.close();
 
         }
-                                  //Exceptions and debugging code
+                                  //Exceptions and debugging code.
         catch (FileNotFoundException fnfex){
             fnfex.printStackTrace();
             dbgFunc(fnfex.getMessage(), 0);
@@ -315,7 +320,8 @@ public class NKRadio extends Activity {
             dbgFunc(ioex.getMessage(), 0);
         }
 
-    }   //End of readRadioStationSelectedToFile() function
+    }   //End of readRadioStationSelectedToFile() function.
+
 
 
 
@@ -330,17 +336,17 @@ public class NKRadio extends Activity {
      */
     private void getRadioButtonTextFromPresetFile(int rdPresetList){
                                   //Stream variables used to open and read a
-                                  //text file
+                                  //text file.
         InputStream inputStream;
         InputStreamReader inputStreamReader;
         BufferedReader bufferedReader;
                                   //Open a file with only one radio station
-                                  //info to play
+                                  //info to play.
         if(rdPresetList == 0){
             inputStream = NKRadio.this.getResources().openRawResource(R.raw.radio_estation_play);
         }
                                   //Open a file to read all the preset radio
-                                  //station
+                                  //station.
         else {
             inputStream = NKRadio.this.getResources().openRawResource(R.raw.estaciones);
         }
@@ -350,26 +356,26 @@ public class NKRadio extends Activity {
             bufferedReader = new BufferedReader(inputStreamReader);
             String strTmp;
                                   //Actually reading radio station info name, IP
-                                  //address
+                                  //address.
             while ((strTmp = bufferedReader.readLine()) != null){
                                   //reading only one line to play
                 if(rdPresetList == 0){
                     strRdStationPlayingIP = (strTmp.split(">>"))[0];
                     strRdStationPlayingInfo = (strTmp.split(">>"))[1];
                 }
-                                  //Reading list of preset radio stations
+                                  //Reading list of preset radio stations.
                 else {
                     listPresetsIP.add((strTmp.split(">>"))[0]);
                     listPresetsNames.add((strTmp.split(">>"))[1]);
                 }
             }
-                                  //Closing streams
+                                  //Closing streams.
             bufferedReader.close();
             inputStreamReader.close();
             inputStream.close();
 
         }
-                                  //Exceptions and debugging code
+                                  //Exceptions and debugging code.
         catch(FileNotFoundException fnfex){
             fnfex.printStackTrace();
             dbgFunc(fnfex.getMessage(), 0);
@@ -379,7 +385,8 @@ public class NKRadio extends Activity {
             dbgFunc(ioex.getMessage(), 0);
         }
 
-    }   //End of getRadioButtonTextFromPresetFile() function
+    }   //End of getRadioButtonTextFromPresetFile() function.
+
 
 
 
@@ -410,7 +417,9 @@ public class NKRadio extends Activity {
         }
 
         finish();
-    }   //End of stopPlayingRadio() function
+
+    }   //End of stopPlayingRadio() function.
+
 
 
 
@@ -423,49 +432,50 @@ public class NKRadio extends Activity {
      *
      */
     private void playRadio(){
-                                  //If radio player is not been played
+                                  //If radio player is not been played.
         if(mdPlayer == null) {
             mdPlayer = new MediaPlayer();
             mdPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
 
             try {
-                                  //if radio station info is already in memory
+                                  //if radio station info is already in memory.
                 if(strRdStationPlayingIP != null) {
                     mdPlayer.setDataSource(strRdStationPlayingIP);
                 }
                 else{
                                   //Radio station info is new with another
-                                  //radio station
+                                  //radio station.
                     strRdStationPlayingIP = listPresetsIP.get(0);
                     strRdStationPlayingInfo = listPresetsNames.get(0);
                     mdPlayer.setDataSource(strRdStationPlayingIP);
                                   //Setting TextView text with radio
-                                  //station info
+                                  //station info.
                     txtvwStationInfo.setText(strRdStationPlayingInfo);
                     txtvwStationIP.setText(strRdStationPlayingIP);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            // mdPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-                                  //Getting radio player ready asynchronously
+                                  //Getting radio player ready asynchronously.
             mdPlayer.prepareAsync();
             mdPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
                                   //Actually playing the radio station
-                                  //selected
+                                  //selected.
                     mdPlayer.start();
                 }
             });
         }
                                   //Helping user with info about the radio
-                                  //station state
+                                  //station state.
         else{
             dbgFunc("MdPlayer is trying to connect - Or turn it off first", 0);
         }
 
-    }   //End of playRadio() function
+    }   //End of playRadio() function.
+
+
 
 
     /**************************************************************************
@@ -498,39 +508,39 @@ public class NKRadio extends Activity {
          */
         @Override
         public void onClick(View view){
-                                  //switch block beginning
+                                  //switch block beginning.
             switch (view.getId()){
                                   //Connect to a radio station and play it.
                 case BTN_RADIOPLAY_ID:
                     Toast.makeText(getApplicationContext(), R.string.feature_not, Toast.LENGTH_SHORT).show();
-                                  //STIILL DEBUGGING THIS CASE AND NEXT 2 FUNC
+                                  //STIILL DEBUGGING THIS CASE AND NEXT 2 FUNC.
                     //stopPlayingRadio();
                     //playRadio();
                     break;
-                                  //Stopping or turning off the radio player
+                                  //Stopping or turning off the radio player.
                 case BTN_RADIOSTOP_ID:
                     stopPlayingRadio();
                     break;
-                                  //Show or refresh the preset radio stations
+                                  //Show or refresh the preset radio stations.
                 case BTN_RADIOPRESETS_ID:
                     Toast.makeText(getApplicationContext(), R.string.feature_not, Toast.LENGTH_SHORT).show();
-                                  //STIILL DEBUGGING THIS CASE AND NEXT 2 FUNC
+                                  //STIILL DEBUGGING THIS CASE AND NEXT 2 FUNC.
                     //getRadioButtonTextFromPresetFile(1);
                     //setRadioButtonsText();
                     break;
-                                  //Still working on this case
+                                  //Still working on this case.
                 case BTN_RADIOEQUALI_ID:
                     Toast.makeText(getApplicationContext(), R.string.feature_not, Toast.LENGTH_SHORT).show();
-                                  //STIILL DEBUGGING THIS CASE AND NEXT 2 FUNC
+                                  //STIILL DEBUGGING THIS CASE AND NEXT 2 FUNC.
                     //writeRadioStationSelectedToFile();
                     //readRadioStationSelectedToFile();
                     break;
-            }   //End of switch block
+            }   //End of switch block.
 
-        }   //End of onClick() function
+        }   //End of onClick() function.
 
 
-    }   //End of inner class  RadioButtonOptionsListeners
+    }   //End of inner class  RadioButtonOptionsListeners.
 
 
 
@@ -556,37 +566,37 @@ public class NKRadio extends Activity {
         public void onClick(View view){
             int index;
                                   //Index of the radio station selected from
-                                  //the preset
+                                  //the preset.
             index = listPresetsNames.indexOf(((RadioButton)view).getText().toString());
-                                  //Just checking for out of bound error
+                                  //Just checking for out of bound error.
             if(index < 0 || index > listPresetsIP.size()){
                 dbgFunc("ERROR ERROR", 0);
                 return;
             }
 
-                                  //switch block beginning
+                                  //switch block beginning.
             switch ((view).getId()){
-                                  //Radio station one
+                                  //Radio station one.
                 case RDBUTTON0_ID:
                     strRdStationPlayingIP = listPresetsIP.get(index);
                     strRdStationPlayingInfo = listPresetsNames.get(index);
                     break;
-                                  //Radio station two
+                                  //Radio station two.
                 case RDBUTTON1_ID:
                     strRdStationPlayingIP = listPresetsIP.get(index);
                     strRdStationPlayingInfo = listPresetsNames.get(index);
                     break;
-                                  //Radio station three
+                                  //Radio station three.
                 case RDBUTTON2_ID:
                     strRdStationPlayingIP = listPresetsIP.get(index);
                     strRdStationPlayingInfo = listPresetsNames.get(index);
                     break;
-                                  //Radio station four
+                                  //Radio station four.
                 case RDBUTTON3_ID:
                     strRdStationPlayingIP = listPresetsIP.get(index);
                     strRdStationPlayingInfo = listPresetsNames.get(index);
                     break;
-                                  //Radio station five
+                                  //Radio station five.
                 case RDBUTTON4_ID:
                     strRdStationPlayingIP = listPresetsIP.get(index);
                     strRdStationPlayingInfo = listPresetsNames.get(index);
@@ -597,19 +607,19 @@ public class NKRadio extends Activity {
                     strRdStationPlayingInfo = listPresetsNames.get(index);
                     break;
             }
-                                  //Setting TextView text with radio station info
+                                  //Setting TextView text with radio station info.
             txtvwStationInfo.setText(strRdStationPlayingInfo);
             txtvwStationIP.setText(strRdStationPlayingIP);
                                   //Saving radio station info to remember in next
-                                  //run
+                                  //run.
             writeRadioStationSelectedToFile(strRdStationPlayingIP + ">>" + strRdStationPlayingInfo);
-                                  //Playing radio station selected
+                                  //Playing radio station selected.
             //stopPlayingRadio();
             playRadio();
 
-        }   //End of onClick() function
+        }   //End of onClick() function.
 
-    }   //End of inner class RadioButtonPresetsListener
+    }   //End of inner class RadioButtonPresetsListener.
 
 
 
@@ -630,7 +640,8 @@ public class NKRadio extends Activity {
         super.onDestroy();
         stopPlayingRadio();
 
-    }   //End of onDestroy() function
+    }   //End of onDestroy() function.
+
 
 
 
@@ -649,7 +660,8 @@ public class NKRadio extends Activity {
             Toast.makeText(this, str, Toast.LENGTH_LONG).show();
         }
 
-    }   //End of dbgFunc() function
+    }   //End of dbgFunc() function.
+
 
 
 
@@ -662,14 +674,16 @@ public class NKRadio extends Activity {
      * @param str type String
      */
     private void l(String str){
+        final String TAG = "NICKY";
+
         Log.d(TAG, this.getClass().getSimpleName() + " -> " + str);
 
-    }   //End of l() function
+    }   //End of l() function.
 
 
 
 
-}   //End of NKRadio  class
+}   //End of NKRadio  class.
 
 
 

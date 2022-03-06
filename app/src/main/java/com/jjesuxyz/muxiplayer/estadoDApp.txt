@@ -16,6 +16,24 @@ una mejor presentacion.
 
 *******************************************************************************
 
+
+Update en 3/5/2022 como a las 3:10 pm. Sabado, En Watsonville. Casa.
+En el archivo SingerListFragTab.java ahy una linea 157 or so, que habla de
+un errorque seproduce cuando este modulo entra en accion. Revisar eso....
+
+Update en 3/3/2022 como a las 5:00 pm. Jueves. En Watsonville, ca. Library.
+se eimplemento la seleccion de canciones de forma aleatoria. Hasta el
+moemnto parece que trabaja bien pero tengo checarla mas tiempo.
+
+Update en 3/3/2022 como a las 5:00 pm. Jueves. En Watsonville, ca. Library.
+Se le compucieron-sincronizaron el funcionamiento de los botones de stop y el del
+loop, ya que no estaban bien sincronizados. Hasta este moento parece que
+quedaron bien.
+
+Estos dos upadtes quedaron tambien en la version del clone.
+
+
+
 Update sobre el estado de la app fue hecho en 12/6/2020 como a la 6:11 pm.
 Update mas actual fue hecho 12/15/2020 como a las 6:00 pm.
 
@@ -23,9 +41,6 @@ Updated en 1/24/2021 como a las 7:20 pm.
 Updated en 1/27/2021 como a las 12:43 pm Se compuso algunas cosas que del
 equalizer, no funcionaban bien pero todo era de UI. Tambien se hicieron
 algunos cambios en la UI de la radio.
-
-updated en 1/27/2021 como a las 9:20 pm. se sincronizaron algunos botones de
-la MainActivity.
 
 
 
@@ -64,9 +79,10 @@ archivos que estan en la sdcard. El problema es que en android 10 hay otro
 procedimiento para acceder a la sd card.
 Se le agrego android:requestLegacyEternalStorage.
 
-Tambien se le cambio el text size ya que se veia muy pequena en la pantalla
-de dicho celular.
 Faltaria ver como ponerle algun mecanismo para que se pudiera escoger el text
 size directamente en app ui.
+
+Hoy noted como que algunas canciones que son largas como cambia a otra cancion
+sin dejar que la cancion larga se termine completamente.???????????????
 
 *******************************************************************************

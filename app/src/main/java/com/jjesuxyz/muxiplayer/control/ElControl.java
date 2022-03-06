@@ -17,9 +17,7 @@ import com.jjesuxyz.muxiplayer.modelo.DBData.DBAccessHelper;
 
 import java.io.IOException;
 import java.util.ArrayList;
-
-
-
+import java.util.Random;
 
 
 /**
@@ -34,36 +32,47 @@ import java.util.ArrayList;
 
 public class ElControl implements AudioManager.OnAudioFocusChangeListener{
 
-                                  //Global variable for debugging
+                                  //Global variable for debugging.
     public final String TAG = "NICKY";
 
-                                  //Pointer to the main class of this project
+                                  //Pointer to the main class of this project.
     private MainActivity contextoMA;
                                   //ArrayLIst to hold the list of songs to be
-                                  //played
+                                  //played.
     private ArrayList<String> arrayListPlayList;
     private MediaPlayer mdPlayer;
                                   //Inner class to synchronize SeekBar with
-                                  //song being played
+                                  //song being played.
     private AsyThrMngSeekBar asyThrMngSeekBar = null;
-                                  //Set of variables used with the equalizer
+                                  //Set of variables used with the equalizer.
     private Equalizer equalizer;
     private int numberBands;
     private short numberPresets;
-                                  //Number of equalizer presets
+                                  //Number of equalizer presets.
     private short presetSelectedNumber = -1;
-                                  //Names of equalizer presets
+                                  //Names of equalizer presets.
     private ArrayList<String> presetNamesList = null;
-                                  //Song time information
+                                  //Song time information.
     private int iSongCurrentTime = 0;
     private int iSongTotalTime = 0;
-                                  //Vars to manage pause and loop states
+                                  //Vars to manage pause and loop states.
     private boolean btnLoopState = false;
     private boolean bIsSongPaused = false;
-                                  //Index of song being played
+                                  //Index of song being played.
     private int iSongPlayingNumber = 0;
-                                  //Variable used to show a UI with equalizer btns
+                                  //Variable used to show a UI with equalizer btns.
     private AlertDialog alertDialog = null;
+
+                                  //Variable to hold the random song selection
+                                  //mode. False == OFF.
+    boolean bRandPlay = false;
+                                  //Variable to hold the random numbers that
+                                  //have been selected. This is to make sure
+                                  //that not repeated song is played until the
+                                  //full list is played.
+    ArrayList<Integer> arrayLstIRandom = null;
+
+
 
 
 
@@ -86,6 +95,46 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
 
 
 
+
+    /**
+     * setbRandomPlay(boolean state) function is used to set the random song
+     * selection mode ON or OFF. It is also used to initialize and clear the
+     * the ArrayList used to hold the random numbers that have been selected.
+     *
+     * So far this function is used manly from the MainActivity class.
+     *
+     * @param state
+     */
+    public void setbRandomPlay(boolean state){
+                                  //Var to hold the ramdom mode. True == ON.
+        bRandPlay = state;
+                                  //Random mode is ON, ArrayList is created.
+        if(bRandPlay == true){
+            arrayLstIRandom = new ArrayList<>();
+        }
+                                  //Random mode is OFF, All random numbers are
+                                  //deleted from ArrayList.
+        else if(arrayLstIRandom != null) {
+            arrayLstIRandom.clear();
+        }
+    }   //End of setbRandomPlay() function.
+
+
+
+
+    /**
+     * getbRandomPlay() function is used to return the random song selection
+     * mode state. ON == true. OFF == False.
+     * @return
+     */
+    public boolean getbRandomPlay(){
+        return bRandPlay;
+
+    }   //End of getbRandomPlay() function.
+
+
+
+
     /**
      * setiSongPlayingNumber(int) function is used to set the variable holding
      * the number/index of the song being played. This number is the index in
@@ -96,7 +145,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
     public void setiSongPlayingNumber(int iSongPlayingNumber){
         this.iSongPlayingNumber = iSongPlayingNumber;
 
-    }   //End of setiSongPlayingNumber() function
+    }   //End of setiSongPlayingNumber() function.
+
 
 
 
@@ -110,7 +160,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
     public int getiSongPlayingNumber(){
         return iSongPlayingNumber;
 
-    }   //End of getiSongPlayingNumber() function
+    }   //End of getiSongPlayingNumber() function.
 
 
 
@@ -139,7 +189,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
         }
         dbAccess.close();
 
-    }   //End of setArrListFiles() function
+    }   //End of setArrListFiles() function.
+
 
 
 
@@ -157,7 +208,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
             arrayListPlayList = arrayListPlaylistParam;
         }
 
-    }   //End of setArrListFiles() function
+    }   //End of setArrListFiles() function.
+
 
 
 
@@ -176,7 +228,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
             return null;
         }
 
-    }   //End of getArrListFiles() function
+    }   //End of getArrListFiles() function.
+
 
 
 
@@ -195,7 +248,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
             return "";
         }
 
-    }   //End of getCurrentPlayingSongName() function
+    }   //End of getCurrentPlayingSongName() function.
 
 
 
@@ -223,7 +276,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
     public MediaPlayer getMdPlayer(){
         return mdPlayer;
 
-    }   //End of getMdPlayer() function
+    }   //End of getMdPlayer() function.
+
 
 
 
@@ -238,11 +292,12 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
         if(mdPlayer != null) {
             return mdPlayer.getAudioSessionId();
         }
-        else {                    //if mdPlayer == null
+        else {                    //if mdPlayer == null.
             return -1;
         }
 
-    }   //End of getMdPlayerAudioSessionId() function
+    }   //End of getMdPlayerAudioSessionId() function.
+
 
 
 
@@ -253,7 +308,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      * @return type boolean
      */
     public boolean isMdPlayerPlaying(){
-                                  //True song is being played
+                                  //True song is being played.
         if(mdPlayer != null) {
             return mdPlayer.isPlaying();
         }
@@ -261,7 +316,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
             return false;
         }
 
-    }   //End of isMediaPlayerPlaying
+    }   //End of isMediaPlayerPlaying.
+
 
 
 
@@ -273,10 +329,11 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      * @return type int
      */
     public int getSongTotalTime(){
-                                  //Variable set when song starts playing
+                                  //Variable set when song starts playing.
         return iSongTotalTime;
 
-    }   //End of getSongTotalTime() function
+    }   //End of getSongTotalTime() function.
+
 
 
 
@@ -288,20 +345,21 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      */
     public void stopPlaying(int turnOffType){
         bIsSongPaused = false;
-                                  //SeekBar object
+                                  //SeekBar object.
         if(asyThrMngSeekBar != null){
             asyThrMngSeekBar.cancel(true);
         }
-                                  //MediaPLayer object
+                                  //MediaPLayer object.
         if(mdPlayer != null) {
             mdPlayer.stop();
             mdPlayer.release();
             mdPlayer = null;
         }
-                                  //Equalizer object
+                                  //Equalizer object.
         releaseEqualizer(turnOffType);//1);
 
-    }   //End of stopPlaying() function
+    }   //End of stopPlaying() function.
+
 
 
 
@@ -313,19 +371,20 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      */
     public void pausePlayingSong(){
         if(mdPlayer != null){
-                                  //Pausing song
+                                  //Pausing song.
             if(mdPlayer.isPlaying()){
                 bIsSongPaused = true;
                 mdPlayer.pause();
             }
             else{
-                                  //Restarting song
+                                  //Restarting song.
                 bIsSongPaused = false;
                 mdPlayer.start();
             }
         }
 
-    }   //End of pausePlayingSong() function
+    }   //End of pausePlayingSong() function.
+
 
 
 
@@ -336,7 +395,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      *
      */
     public void playNextSong(){
-                                  //Making sure song number is not beyond ArrayList range
+                                  //Making sure song number is not beyond
+                                  //ArrayList range
         if((iSongPlayingNumber + 1) < arrayListPlayList.size()){
             iSongPlayingNumber = iSongPlayingNumber + 1;
         }
@@ -344,10 +404,10 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
             iSongPlayingNumber = 0;
         }
         String songName = arrayListPlayList.get(iSongPlayingNumber);
-                                  //Actually playing the audio file
+                                  //Actually playing the audio file.
         playMySong(songName);
 
-    }   //End of playNextSong() function
+    }   //End of playNextSong() function.
 
 
 
@@ -359,7 +419,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      *
      */
     public void playPreviousSong(){
-                                  //Making sure song number is not negative
+                                  //Making sure song number is not negative.
         if((iSongPlayingNumber - 1) >= 0){
             iSongPlayingNumber = iSongPlayingNumber - 1;
         }
@@ -367,10 +427,11 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
             iSongPlayingNumber = arrayListPlayList.size() - 1;
         }
         String songName = arrayListPlayList.get(iSongPlayingNumber);
-                                  //Actually playing the audio file
+                                  //Actually playing the audio file.
         playMySong(songName);
 
-    }   //End of playPreviousSong() function
+    }   //End of playPreviousSong() function.
+
 
 
 
@@ -381,15 +442,17 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      * @param position type int
      */
     public void playSongFromList(int position){
-                                  //Making sure song number is within ArrayList size range
+                                  //Making sure song number is within ArrayList
+                                  //size range.
         if(position >= 0 && position <= arrayListPlayList.size()){
             iSongPlayingNumber = position;
         }
          String songName = arrayListPlayList.get(iSongPlayingNumber);
-                                  //Actually playing the the audio file
+                                  //Actually playing the the audio file.
         playMySong(songName);
 
-    }   //End of playSongFromList() function
+    }   //End of playSongFromList() function.
+
 
 
 
@@ -402,14 +465,16 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      * @param songNamePar type String
      */
     public void playSong(String songNamePar){
-                                  //Making sure song number is within ArrayList size range
+                                  //Making sure song number is within ArrayList
+                                  //size range.
         if(iSongPlayingNumber >= 0 && iSongPlayingNumber < arrayListPlayList.size()){
             String songName = arrayListPlayList.get(iSongPlayingNumber);
-                                  //Call function to Actually playing the song
+                                  //Call function to Actually playing the song.
             playMySong(songName);
         }
 
-    }   //End of playSong() function
+    }   //End of playSong() function.
+
 
 
 
@@ -427,75 +492,136 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      * @param songName type String
      */
     private void playMySong(String songName){
-                                  //Making sure MediaPLayer variable is null
+                                  //Making sure MediaPLayer variable is null.
                                   //parameter 1 means not totally turn off
-                                  //equalizer, off then on for next song
+                                  //equalizer, off then on for next song.
         stopPlaying(1);
-                                  //MP object created
+                                  //MP object created.
         mdPlayer = new MediaPlayer();
-                                  //Listen when song ends playing
+                                  //Listen when song ends playing.
         mdPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
             public void onCompletion(MediaPlayer mp) {
-                                  //Making sure that song being played is stopped
+                                  //Making sure that song being played is stopped.
                 stopPlaying(1);
                 iSongCurrentTime = 0;
                 iSongTotalTime = 0;
-                                  //Checking the end of the list of audio files
+                                  //Checking the end of the list of audio files.
                 if (btnLoopState) {
-                    if ((iSongPlayingNumber + 1) < arrayListPlayList.size()) {
-                        iSongPlayingNumber = iSongPlayingNumber + 1;
-                    } else {
-                        iSongPlayingNumber = 0;
+
+                                  // Loop mode is On && Random mode is OFF.
+                    if (bRandPlay == false) {
+                                  //Getting next song index when random mode is off.
+                        if ((iSongPlayingNumber + 1) < arrayListPlayList.size()) {
+                            iSongPlayingNumber = iSongPlayingNumber + 1;
+                        }
+                                  //The whole list of songs has been played.
+                        else {
+                                  //Song index set to zero.
+                            iSongPlayingNumber = 0;
+                        }
+                                  //Playing next if looping is on.
+                        playMySong(arrayListPlayList.get(iSongPlayingNumber));
                     }
-                                  //Playing next if looping is on
-                    playMySong(arrayListPlayList.get(iSongPlayingNumber));
+                                  //Random mode is ON.
+                    else{         //bRandPlay == true.
+                                  //Local variable used just for debugging.
+                        int loopNumber = 0;
+                                  //Getting the next random index number.
+                        Random cRandom = new Random();
+                        int iRandNumber = cRandom.nextInt(arrayListPlayList.size());
+
+                        do {
+                                  //Mainly for debugging.
+                            loopNumber = loopNumber + 1;
+                                  //First random index song selected.
+                            if (arrayLstIRandom.size() <= 0){
+                                arrayLstIRandom.add(iRandNumber);
+                                  //Putting the random number on index to scroll
+                                  //the ListView.
+                                iSongPlayingNumber = iRandNumber;
+                                  //Playing the next random song.
+                                playMySong(arrayListPlayList.get(iRandNumber));
+                                contextoMA.showToast("Next Random:  " + Integer.toString(iRandNumber));
+                                break;
+                            }
+                                  // Random songs selection after first random
+                                  //index selected.
+                                  //Checking that the next index has not been played.
+                            else if (arrayLstIRandom.contains(iRandNumber) == false) {
+                                  //ArrayList of song indexes that been played so
+                                  //far.
+                                arrayLstIRandom.add(iRandNumber);
+                                  //Putting the random number on index to scroll
+                                  //the ListView.
+                                iSongPlayingNumber = iRandNumber;
+                                  //Playing the next random song.
+                                playMySong(arrayListPlayList.get(iRandNumber));
+                                contextoMA.showToast("Next Random:  " + Integer.toString(iRandNumber));
+                                break;
+                            } else {
+                                  //arrayLstIRandom already has that new random
+                                  //number.
+                                  //Make another loop to get another random number.
+                                iRandNumber = cRandom.nextInt(arrayListPlayList.size());
+                                  //Checking the whole list of song has been played.
+                                if(arrayLstIRandom.size() == arrayListPlayList.size()){
+                                    arrayLstIRandom.clear();
+                                }
+                            }
+                        }while(true);
+                                  //End of do-while loop.
+                    }
                 }
                 else {
-                                  //No more playing
+                                  //No more playing.
                     mdPlayer = null;
                                   //Parameter zero means totally turn off the
-                                  //equalizer
+                                  //equalizer.
                     releaseEqualizer(0);
                     contextoMA.setBtnPlayTextColor(false);
+                                  //Set every configuration to not playing.
+                    contextoMA.performAStopBtnClick();
+
                 }
             }
         });
 
-                                  //Setting MP to actually play song
+                                  //Setting MP to actually play song.
         try{
             bIsSongPaused = false;
             mdPlayer.setDataSource(songName);
             mdPlayer.prepare();
             mdPlayer.start();
                                   //Getting and setting song info for users on
-                                  //SeekBar
+                                  //SeekBar.
             iSongCurrentTime = mdPlayer.getCurrentPosition();
             iSongTotalTime = mdPlayer.getDuration() / 1000;
             contextoMA.setSeekBarMax(iSongTotalTime);
             contextoMA.setTxtvwSongTotalTime(String.valueOf(iSongTotalTime));
             contextoMA.setTxtvwPlayingSongName(songName);
-                                  //Synchronizing SeekBar
+                                  //Synchronizing SeekBar.
             asyThrMngSeekBar = null;
             asyThrMngSeekBar = new AsyThrMngSeekBar();
             asyThrMngSeekBar.execute();
-                                  //Scrolling ListView display to show song name being played
+                                  //Scrolling ListView display to show song
+                                  //name being played.
             contextoMA.getMyListView().smoothScrollToPositionFromTop(iSongPlayingNumber, 0, 1000);
-                                  //Activating the equalizer if button is clicked
+                                  //Activating the equalizer if button is clicked.
             if(presetSelectedNumber >= 0){
-                                  //No modify preset y btnEqualizer en MainAct
+                                  //No modify preset y btnEqualizer en MainAct.
                 releaseEqualizer(1);
                 equalizer = new Equalizer(0, mdPlayer.getAudioSessionId());
                 equalizer.setEnabled(true);
                 equalizer.usePreset(presetSelectedNumber);
             }
         }
-                                  //Catching error
+                                  //Catching error.
         catch (IllegalArgumentException | SecurityException | IllegalStateException | IOException e){
             e.printStackTrace();
         }
 
-    }   //End of playMySong() function
+    }   //End of playMySong() function.
 
 
 
@@ -508,7 +634,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
     public void setBtnLoopState(boolean btnLoopState){
         this.btnLoopState = btnLoopState;
 
-    }   //End of setBtnLoopState() function
+    }   //End of setBtnLoopState() function.
 
 
 
@@ -536,7 +662,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
     public void setEqualizerState(){
         setSoundEqualizerServiceON();
 
-    }   //End of function
+    }   //End of setEqualizerState() function.
+
 
 
 
@@ -550,12 +677,12 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
     private void setSoundEqualizerServiceON(){
         if(mdPlayer == null && !isMdPlayerPlaying()){
                                   //Ask user to start playing music before starting
-                                  //equalizer
+                                  //equalizer.
             dbgFunc("Start playing song first.");
         }
         else{                     //AVISO: checar si la session audio id es zero or
-                                  //menor que zero
-                                  //creating new equalizer and getting information
+                                  //menor que zero.
+                                  //creating new equalizer and getting information.
             if(arrayListPlayList.size() > 0 && arrayListPlayList.get(0).equals(MainActivity.PLAYLIST_EMPTY)){
                 dbgFunc("Playlist is empty. Select songs first.");
             }
@@ -565,7 +692,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
                 numberBands = equalizer.getNumberOfBands();
                 numberPresets = equalizer.getNumberOfPresets();
                                   //Getting list of the build in equalizer
-                                  //presets
+                                  //presets.
                 presetNamesList = new ArrayList<String>();
                 for (short i = 0; i < numberPresets; i++) {
                     presetNamesList.add(equalizer.getPresetName(i));
@@ -573,7 +700,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
             }
         }
 
-    }   //End of function
+    }   //End of setSoundEqualizerServiceON() function.
+
 
 
 
@@ -589,7 +717,9 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      */
     public void setPresetSelectedNumber(short presetSelectedNumberPar) {
         presetSelectedNumber = presetSelectedNumberPar;
-    }
+
+    }   //End of setPresetSelectedNumber(short) function.
+
 
 
 
@@ -602,7 +732,9 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      */
     public short getPresetSelectedNumber() {
         return presetSelectedNumber;
-    }
+
+    }   //End of getPresetSelectedNumber() function.
+
 
 
 
@@ -615,7 +747,9 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      */
     public ArrayList getpresetNamesList() {
         return presetNamesList;
-    }   //End of getpresetNamesList() function
+
+    }   //End of getpresetNamesList() function.
+
 
 
 
@@ -629,7 +763,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
     public void equalizerUsePreset(short presetNumber) {
         equalizer.usePreset(presetNumber);
 
-    }   //End of equalizerUsePreset() function
+    }   //End of equalizerUsePreset() function.
+
 
 
 
@@ -643,25 +778,25 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      * @param totalRelease type int
      */
     public void releaseEqualizer(int totalRelease){
-                                  //Release and disabling equalizer
+                                  //Release and disabling equalizer.
         if(equalizer != null) {
             equalizer.setEnabled(false);
             equalizer.release();
             equalizer = null;
         }
 
-                                  //Nulling the ArrayList of preset names
+                                  //Nulling the ArrayList of preset names.
         presetNamesList = null;
                                   //Code execute only when the dialog equalizer
                                   //presets cancel button is clicked. It turns
-                                  //equalizer OFF
+                                  //equalizer OFF.
         if(totalRelease == 0) {
             presetSelectedNumber = -1;
             contextoMA.setPresetSelectedNumber(presetSelectedNumber);
             contextoMA.setBtnSoundEqualizerState(contextoMA.getResources().getString(R.string.btn_eq_is_off));
         }
 
-    }   //End of releaseEqualizer() function
+    }   //End of releaseEqualizer() function.
 
 
 
@@ -681,7 +816,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      */
     @Override
     public void onAudioFocusChange(int focusChange) {
-    }   //End of onAudioFocusChange() function
+    }   //End of onAudioFocusChange() function.
+
 
 
 
@@ -709,31 +845,32 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
         protected String doInBackground(Void... params) {
                                   //Loop to return the progress-time of the song
                                   //being played. It is used in the SeekBar
-                                  //animation
+                                  //animation.
             while(mdPlayer.isPlaying() || bIsSongPaused){
                 if(isCancelled()){
                     break;
                 }
                                   //Sleeping this background task 1 second if the
-                                  //pause button is clicked until clicked againg
+                                  //pause button is clicked until clicked againg.
                 if(bIsSongPaused){
                     SystemClock.sleep(1000);
-                    continue;     //Staying in this paused state
+                    continue;     //Staying in this paused state.
                 }
-                                  //counting the seconds the song has been played
+                                  //counting the seconds the song has been played.
                 counter[0] = mdPlayer.getCurrentPosition() / 1000;
-                                  //Publishing results for whoever may need them
+                                  //Publishing results for whoever may need them.
                 publishProgress(counter[0]);
-                                  //Sleeping one second this task
+                                  //Sleeping one second this task.
                 SystemClock.sleep(1000);
                 if(mdPlayer == null){
                     break;
                 }
             }
-                                  //The final result, when the audio file ends
+                                  //The final result, when the audio file ends.
             return (counter[0]++).toString();
 
-        }   //End of doInBackground() function
+        }   //End of doInBackground() function.
+
 
 
 
@@ -749,7 +886,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
             contextoMA.setTxtvwSongCurrentTime(contador[0].toString());
             contextoMA.setSeekBarProgress(contador[0]);
 
-        }   //End of function
+        }   //End of onProgressUpdate(Integer... contador) function.
+
 
 
 
@@ -758,6 +896,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
          */
         @Override
         protected void onPreExecute(){}
+
 
 
 
@@ -774,7 +913,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
             contextoMA.setTxtvwSongCurrentTime(song_end + contador + secs);
             contextoMA.setSeekBarProgress(0);
 
-        }   //End of function
+        }   //End of onPostExecute(String) function.
+
 
 
 
@@ -793,7 +933,7 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
 
         }
 
-    }   //End of the class AsyThrMngSeekBar
+    }   //End of the class AsyThrMngSeekBar.
 
 
     /**************************************************************************
@@ -812,7 +952,8 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
     private void dbgFunc(String str){
         Toast.makeText(contextoMA, str, Toast.LENGTH_SHORT).show();
 
-    }   //End of function
+    }   //End of dbgFunc(String) function.
+
 
 
 
@@ -826,9 +967,11 @@ public class ElControl implements AudioManager.OnAudioFocusChangeListener{
      */
     private void l(String str){
         Log.d(TAG, this.getClass().getSimpleName() + " -> " + str);
-    }
 
-}   //End of Class ElControl
+    }   //End of l(String) function.
+
+
+}   //End of Class ElControl.
 
 
 

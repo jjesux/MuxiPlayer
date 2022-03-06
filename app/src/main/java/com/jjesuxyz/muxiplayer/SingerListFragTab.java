@@ -53,50 +53,48 @@ import java.util.Collections;
 public class SingerListFragTab extends ListFragment
                                     implements AdapterViewAnimator.OnItemClickListener {
 
-                                  //Global variable for debugginh
-    public final String TAG = "NICKY";
-                                  //Buttons to control/modify data and UI
+                                  //Buttons to control/modify data and UI.
     private Button btnAllSingerPlayAll;
     private Button btnSingerAddSinger;
     private Button btnSingerAddAll;
     private Button btnSingerUpdateSinger;
                                   //Var to know if permission storage access is
-                                  //granted
+                                  //granted.
     private boolean bPermissionsState = false;
                                   //ArrayList holds all MP3 file info that are in
-                                  //SD Card
+                                  //SD Card.
     private ArrayList<String> arrayListFilePathsSDCard;
                                   //ArrayList holds all the singer names that DB
-                                  // table contains
+                                  // table contains.
     private ArrayList<String> arrayListSingerNameTable;
                                   //ArrayList holds all the MP3-song singer
                                   //names-repeated.  It is also used to
-                                  //eliminated repeated names
+                                  //eliminated repeated names.
     private ArrayList<String> arrayListSingerNames;
                                   //ArrayList holds the singer names but not
-                                  //repeated names
+                                  //repeated names.
     private ArrayList<String> localArrayListSingerName;
                                   //ArrayList hold MP3 file info to be inserted
-                                  //into the DB play list table
+                                  //into the DB play list table.
     private ArrayList<String> arrayListIntoPlayList;
-                                  //Var to show file paths info to user
+                                  //Var to show file paths info to user.
     private ListView listView;
-                                  //Var to high light ListView row clicked
+                                  //Var to high light ListView row clicked.
     private View vwLastRowSelected = null;
                                   //Interface to communicate with activity
-                                  //hosting this fragment
+                                  //hosting this fragment.
     private SingerInterfaceListener mCallBack;
-                                  //ListView Adapter
+                                  //ListView Adapter.
     private MuxListViewAdapter muxListViewAdapter;
                                   //Constant var in case permissions have not
-                                  //being granted
+                                  //being granted.
     private final int PERMISSION_ACCESS_CODE = 3456;
-                                  //songs mode -> true  /  singer mode -> false
+                                  //songs mode -> true  /  singer mode -> false.
     private boolean singerSongMode = false;
                                   //Var to hold the number of the row clicked by
-                                  //the user
+                                  //the user.
     private int positionAddPl = -1;
-                                  //Var used to know if there was any data update
+                                  //Var used to know if there was any data update.
     private boolean blPlayListUpdated = false;
     private boolean blPerformeByUser = false;
 
@@ -122,37 +120,37 @@ public class SingerListFragTab extends ListFragment
 
         //l("onCreateViewonCreateView");
 
-                                  //Instantiating AL to hold singer names
+                                  //Instantiating AL to hold singer names.
         localArrayListSingerName = new ArrayList<>();
                                   //Instantiating AL to hold MP3 file info to
-                                  //be inserted into the MP3 file play list table
+                                  //be inserted into the MP3 file play list table.
         arrayListIntoPlayList = new ArrayList<>();
 
-                                  //Button to go back to the main user interface
+                                  //Button to go back to the main user interface.
         btnAllSingerPlayAll = view.findViewById(R.id.btnPlayAllSingerID);
         btnAllSingerPlayAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                                   //Letting know hosting class if there were
-                                  //change in LV data
+                                  //change in LV data.
                 mCallBack.comunicacionInterfaceFunction(blPlayListUpdated, 10);
             }
-        });                       //End of go back button click listener setting
+        });                       //End of go back button click listener setting.
 
                                   //Button to add one row/data MP3 info to DB play
-                                  //list table
+                                  //list table.
         btnSingerAddSinger = view.findViewById(R.id.btnAddSingerID);
         btnSingerAddSinger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String strTmp;
                 if(vwLastRowSelected != null){
-                                  //Getting string data from row clicked by user
+                                  //Getting string data from row clicked by user.
                     strTmp = ((TextView)vwLastRowSelected.findViewById(R.id.txtvwMP3FilePath)).getText().toString();
                     ElModelo elModelo = new ElModelo(getContext());
-                                  //Inserting one record to the DB play list table
+                                  //Inserting one record to the DB play list table.
                                   //Only one record is allowed to be inserted into
-                                  //this table
+                                  //this table.
 
 
 
@@ -165,7 +163,7 @@ public class SingerListFragTab extends ListFragment
 
                     elModelo.insertMultipleRecordsIntoPlayListTable(arrayListIntoPlayList);
                                   //Clearing ArrayList for new mp3 file to insert
-                                  //into table
+                                  //into table.
                     arrayListIntoPlayList.clear();
                     blPlayListUpdated = true;
                     btnSingerAddSinger.setEnabled(false);
@@ -177,105 +175,105 @@ public class SingerListFragTab extends ListFragment
                 }
                 Toast.makeText(getActivity(), "Adding to Singer List:  " + strTmp, Toast.LENGTH_SHORT).show();
             }
-        });                       //End of add button click listener setting
+        });                       //End of add button click listener setting.
 
 
                                   //Button to add all the songs from a same
-                                  //singer into play table
+                                  //singer into play table.
         btnSingerAddAll = view.findViewById(R.id.btnAddSingerAllID);
-                                  //Setting the button click listener
+                                  //Setting the button click listener.
         btnSingerAddAll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                                   //Checking ArrayList to hold the song names
-                                  //is not empty
+                                  //is not empty.
                 if (!localArrayListSingerName.isEmpty()) {
                                   //Checking ArrayList to hold and insert song
-                                  //names into DB table is not empty or null
+                                  //names into DB table is not empty or null.
                     if (arrayListIntoPlayList != null && arrayListIntoPlayList.isEmpty()) {
                                   //Populating ArrayList with song names to
-                                  //insert into table
+                                  //insert into table.
                         arrayListIntoPlayList.addAll(localArrayListSingerName);
-                                  //Initializing Object to manage data and DB
+                                  //Initializing Object to manage data and DB.
                         ElModelo elModelo = new ElModelo(getContext());
-                                  //Inserting song names into DB table
+                                  //Inserting song names into DB table.
                         elModelo.insertMultipleRecordsIntoPlayListTable(arrayListIntoPlayList);
-                                  //Clearing ArrayList for next use
+                                  //Clearing ArrayList for next use.
                         arrayListIntoPlayList.clear();
                         localArrayListSingerName.clear();
-                                  //Setting the button into a disable state
+                                  //Setting the button into a disable state.
                         btnSingerAddAll.setEnabled(false);
                         btnSingerAddAll.setTextColor(ContextCompat.getColor(getContext(), R.color.colorBtnDesactivadoStyle));
                                   //Setting boolean variable to let know other
                                   //part of the app that a database table has
-                                  //been done
+                                  //been done.
                         blPlayListUpdated = true;
                         elModelo = null;
                                   //Clicking button to show singer names on the
-                                  //ListView
+                                  //ListView.
                         btnSingerUpdateSinger.performClick();
                         blPerformeByUser = true;
 
                     }
                 }
                 else {
-                                  //ArrayList holding song names is empty
+                                  //ArrayList holding song names is empty.
                     Toast.makeText(getContext(), "No songs to add to playlist table.", Toast.LENGTH_SHORT).show();
                 }
             }
         });                       //End of adding all songs button click listener
-                                  //setting
+                                  //setting.
 
 
                                   //Button to update the ListView window data from
-                                  //the SD Card
+                                  //the SD Card.
         btnSingerUpdateSinger = view.findViewById(R.id.btnUpdateSingerID);
         btnSingerUpdateSinger.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                                   //Checking if user allowed permission to
-                                  //access storage
+                                  //access storage.
                 checkStorageAccessPermission();
                                   //If permission granted, access data and
-                                  //update DB
+                                  //update DB.
                 if (bPermissionsState) {
-                                  //Instantiating ArrayList to hold singer names
+                                  //Instantiating ArrayList to hold singer names.
                     arrayListSingerNames = new ArrayList<>();
-                                  //Instantiating object to access database
+                                  //Instantiating object to access database.
                     ElModelo elModelo = new ElModelo(getActivity());
                                   //Making sure MP3 ArrayList is not null and
-                                  //it's empty
+                                  //it's empty.
                     if (arrayListFilePathsSDCard != null) {
                         arrayListFilePathsSDCard.clear();
                     } else {
                         arrayListFilePathsSDCard = new ArrayList<>();
                     }
-                                  //Code executed only when user click the button
+                                  //Code executed only when user click the button.
                     if (blPerformeByUser) {
-                                  //Deleting all data from DB singer list table
+                                  //Deleting all data from DB singer list table.
                         elModelo.deleteAllRecordsOnSingerListTable();
                                   //Getting data from SD Card and inserting it
-                                  //into ArrayList
+                                  //into ArrayList.
                         arrayListFilePathsSDCard.addAll(elModelo.getArrayListOfFiles());
                                   //Getting singer names from SD Card list NO
-                                  //REPEATED NAMES
+                                  //REPEATED NAMES.
                         getArrayListSingerNames();
                                   //Sorting NO REPEATED singer names list in
-                                  //ascend order
+                                  //ascend order.
                         Collections.sort(arrayListSingerNames);
                                   //Populating Db singer list table with new
-                                  //data from SD Card
+                                  //data from SD Card.
                         elModelo.insertMultipleRecordsIntoSingerListTable(arrayListSingerNames);
                     }             //End of code executed only by user clicking
-                                  //button
+                                  //button.
 
                                   //Clearing ArrayList old data.
                     arrayListSingerNameTable.clear();
                                   //Adding singer names to AList with data from
-                                  //DB singer list table
+                                  //DB singer list table.
                     arrayListSingerNameTable = elModelo.getAllSingerNamesFromDBSingerListTable("NO SE USA");
                                   //Updating ListView with new data from DB
-                                  //singer list table
+                                  //singer list table.
                     muxListViewAdapter.getData().clear();
                     muxListViewAdapter.getData().addAll(arrayListSingerNameTable);
                     muxListViewAdapter.createHashMap();
@@ -285,11 +283,11 @@ public class SingerListFragTab extends ListFragment
                     btnSingerAddAll.setTextColor(ContextCompat.getColor(getContext(), R.color.colorBtnDesactivadoStyle));
 
                                   //Checking tb full list if empty-populate with
-                                  //SD Card data
+                                  //SD Card data.
                     if (elModelo.isTableEmpty(DBAccessHelper.TABLE_FULL_LIST) == true) {
                         l("table es EMPTY -- POPULATING FULL LIST TABLE:   " + arrayListFilePathsSDCard.size());
                         elModelo.insertMultipleRecordsIntoFullListTable(arrayListFilePathsSDCard);
-                    }             //Just for debugging may be deleted later
+                    }             //Just for debugging may be deleted later.
                     else {
                         l("TB F-LIST NOT EMPTY");
                     }
@@ -300,11 +298,12 @@ public class SingerListFragTab extends ListFragment
                     l("NO PUEDE ACCEDER LA MEMORIA PORQUE LOS PERMISOS NO HAN SIDO OTORGADOS");
                 }
             }
-        });                       //End of update button click listener setting
+        });                       //End of update button click listener setting.
 
         return view;
 
-    }   //End of onCreateView() function
+    }   //End of onCreateView() function.
+
 
 
 
@@ -320,22 +319,23 @@ public class SingerListFragTab extends ListFragment
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-                                  //Code executed when fragment is back to the front
+                                  //Code executed when fragment is back to the front.
         if (isVisibleToUser) {
             if (btnSingerUpdateSinger != null) {
-                                  //Simulating the click
+                                  //Simulating the click.
                 btnSingerUpdateSinger.performClick();
                                   //Boolean to define what code should not be
-                                  //executed
+                                  //executed.
                 blPerformeByUser = true;
             }
         }                         //Allowing code above to be executed when user
-                                  //click button
+                                  //click button.
         else {
             blPerformeByUser = false;
         }
 
-    }   //End of setUserVisibleHint() function
+    }   //End of setUserVisibleHint() function.
+
 
 
 
@@ -354,25 +354,25 @@ public class SingerListFragTab extends ListFragment
      */
     private ArrayList<String> getArrayListSingerNames(){
                                   //Looping the whole MP3 file path list
-                                  //searching singer names
+                                  //searching singer names.
         for (String str : arrayListFilePathsSDCard){
                                   //Separating String into substring to get
-                                  //substring that contains the singer name
+                                  //substring that contains the singer name.
             String[] strArr = str.split("/");
-                                  //Substring containing the singer name
+                                  //Substring containing the singer name.
             String singerNameSong = strArr[strArr.length - 1];
                                   //Separating singer name and MP3 file music
-                                  //name
+                                  //name.
             String[] singerName = singerNameSong.split("-");
             if (singerName.length > 1) {
                                   //Substring with index zero contains the
-                                  //singer name
+                                  //singer name.
                 if (arrayListSingerNames.size() <= 0) {
-                                  //Pushing first singer name into the ArrayList
+                                  //Pushing first singer name into the ArrayList.
                     arrayListSingerNames.add(singerName[0].toLowerCase());
                 }
                 else {
-                                  //Eliminating singer names repeated
+                                  //Eliminating singer names repeated.
                     if (!arrayListSingerNames.contains(singerName[0].toLowerCase())) {
                         arrayListSingerNames.add(singerName[0].toLowerCase());
                     }
@@ -382,7 +382,8 @@ public class SingerListFragTab extends ListFragment
 
         return null;
 
-    }   //End of getArrayListSingerNames() function
+    }   //End of getArrayListSingerNames() function.
+
 
 
 
@@ -399,22 +400,23 @@ public class SingerListFragTab extends ListFragment
         super.onActivityCreated(savedInstanceState);
         //l("onActivityCreatedonActivityCreated");
 
-                                  //boolean to know if any update was done by user
+                                  //boolean to know if any update was done by user.
         blPlayListUpdated = false;
-                                  //Creating object to access the local database
+                                  //Creating object to access the local database.
         ElModelo elModelo = new ElModelo(getContext());
-                                  //Getting all singer names from DB table
+                                  //Getting all singer names from DB table.
         arrayListSingerNameTable = elModelo.getAllSingerNamesFromDBSingerListTable("NO SE USA");
-                                  //Instantiating the ListView adapter
+                                  //Instantiating the ListView adapter.
         muxListViewAdapter = new MuxListViewAdapter(getActivity(), arrayListSingerNameTable);
-                                  //Getting the fragment ListView
+                                  //Getting the fragment ListView.
         listView = getListView();
-                                  //Setting ListView adapter
+                                  //Setting ListView adapter.
         setListAdapter(muxListViewAdapter);
-                                  //Setting the ListView listener object
+                                  //Setting the ListView listener object.
         listView.setOnItemClickListener(this);
 
-    }   //End of onActivityCreated() function
+    }   //End of onActivityCreated() function.
+
 
 
 
@@ -430,7 +432,9 @@ public class SingerListFragTab extends ListFragment
 
         vwLastRowSelected.setBackgroundColor(Color.rgb(10, 10, 10));
         vwLastRowSelected = null;
-    }   //End of setAddDeleteBtnNewState() function
+
+    }   //End of setAddDeleteBtnNewState() function.
+
 
 
 
@@ -452,7 +456,8 @@ public class SingerListFragTab extends ListFragment
             ccex.printStackTrace();
         }
 
-    }   //End of onAttach() function
+    }   //End of onAttach(Activity) function.
+
 
 
 
@@ -476,55 +481,57 @@ public class SingerListFragTab extends ListFragment
 
         //l("singerListFragTab:onItemClick()");
 
-                                  //MP3 File Path Info Mode
+                                  //MP3 File Path Info Mode.
                                   //Updating LView with all MP3 file with singer
-                                 //name clicked
+                                 //name clicked.
         if (singerSongMode == false) {
-                                  //Getting singer name that the user clicked
+                                  //Getting singer name that the user clicked.
             String strMK = ((TextView)view.findViewById(R.id.txtvwMP3FilePath)).getText().toString();
             ElModelo elModelo = new ElModelo(getContext());
             localArrayListSingerName.clear();
-                                  //Getting all songs with the singer name clicked
-                                  //by user
+                                  //Getting all songs with the singer name
+                                  //clicked by user.
             localArrayListSingerName.addAll(elModelo.getSingerNames(strMK.trim().toLowerCase()));
-                                  //Setting button to add all songs to enable state
+                                  //Setting button to add all songs to enable
+                                  //state.
             btnSingerAddAll.setEnabled(true);
             btnSingerAddAll.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
-                                  //Full list tb needs to be populated before getting
-                                  //all songs
+                                  //Full list tb needs to be populated before
+                                  //getting all songs.
             if (localArrayListSingerName.size() <= 0) {
                 btnSingerAddAll.setEnabled(false);
                 btnSingerAddAll.setTextColor(ContextCompat.getColor(getContext(), R.color.colorBtnDesactivadoStyle));
                 Toast.makeText(getContext(), "DB may be empty. Update Full List table.", Toast.LENGTH_LONG).show();
             }
-                                  //Updating LView if every thing above Ok
+                                  //Updating LView if every thing above Ok.
             muxListViewAdapter.getData().clear();
             muxListViewAdapter.getData().addAll(localArrayListSingerName);
             muxListViewAdapter.createHashMap();
             muxListViewAdapter.notifyDataSetChanged();
-                                  //Letting other functions there was one data update
+                                  //Letting other functions there was one data
+                                  //update.
             singerSongMode = true;
         }
-                                  //Singer Name Mode
-        else {                    //Updating LVIew with singer names data
+                                  //Singer Name Mode.
+        else {                    //Updating LVIew with singer names data.
                                   //Row number clicked to used to insert MP3 file
-                                  // into DB
+                                  //into DB.
             positionAddPl = position;
-                                  //High Lighting the row that was clicked
+                                  //High Lighting the row that was clicked.
             if (vwLastRowSelected != null) {
                 vwLastRowSelected.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorLastRowSelectedStyle));//Color.rgb(100, 0, 0));
                 vwLastRowSelected = null;
             }
-                                  //Highlighting present row selected
+                                  //Highlighting present row selected.
             view.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorRowNowSelectingStyle));//Color.rgb(230, 230, 230));
                                   //Last row selected becomes to be present row
-                                  //clicked
+                                  //clicked.
             vwLastRowSelected = view;
             btnSingerAddSinger.setEnabled(true);
             btnSingerAddSinger.setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));//Color.rgb(0, 0, 255));
-        }                         //End of singer name mode
+        }                         //End of singer name mode.
 
-    }   //End of onItemClick() function
+    }   //End of onItemClick() function.
 
 
 
@@ -536,37 +543,37 @@ public class SingerListFragTab extends ListFragment
      * part of this app that storage access is Ok.
      */
     private void checkStorageAccessPermission(){
-                                  //if to check if this SDK is Nougat version
+                                  //if to check if this SDK is Nougat version.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                  //Checking if storage access has been granted
+                                  //Checking if storage access has been granted.
             int permisoGranted = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
             if (permisoGranted == PackageManager.PERMISSION_GRANTED) {
                                   //Permissions to access storage have been
-                                  //granted already
+                                  //granted already.
                 bPermissionsState = true;
             }
             else {
                 bPermissionsState = false;
                 if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
                                   //App does need to info user why storage
-                                  //access is needed
+                                  //access is needed.
                     Toast.makeText(getActivity(), "Se necesita acceder la memoria para leer los musical file", Toast.LENGTH_LONG).show();
                     ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_ACCESS_CODE);
                 }
                 else {
                                   //App does not need to info user why storage
-                                  //access is needed
+                                  //access is needed.
                     ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_ACCESS_CODE);
                 }
             }
         }
         else {
                                   //Code section to handle storage access on SDK
-                                  //less than N
+                                  //less than N.
             l("Esta es una version de android mas vieja que NOUGAT");
         }
 
-    }   //End of checkStorageAccessPermission() function
+    }   //End of checkStorageAccessPermission() function.
 
 
 
@@ -585,21 +592,22 @@ public class SingerListFragTab extends ListFragment
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
         switch (requestCode) {
-                                  //Permission granted case
+                                  //Permission granted case.
             case PERMISSION_ACCESS_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //l("Permission Granted:  " + grantResults.length + "  -  " + grantResults[0]);
                     bPermissionsState = true;
                 }
                 break;
-                                  //User denied permission to access storage
+                                  //User denied permission to access storage.
             default:
                 //l("ALGO SALIO MAL CON LOS PERMISOS. EN LA FUNCION ONREQUESTPERMISSIONRESULT");
                 bPermissionsState = false;
                 break;
         }
 
-    }   //End of onRequestPermissionsResult() function
+    }   //End of onRequestPermissionsResult() function.
+
 
 
 
@@ -620,7 +628,7 @@ public class SingerListFragTab extends ListFragment
          */
         void comunicacionInterfaceFunction(boolean boolUpdate, int resultCode);
 
-    }   //End of ListaCompletaFrgmInterfaceListener interface
+    }   //End of ListaCompletaFrgmInterfaceListener interface.
 
 
 
@@ -634,11 +642,13 @@ public class SingerListFragTab extends ListFragment
      * @param str type String
      */
     private void l(String str){
+        final String TAG = "NICKY";
+
         Log.d(TAG, this.getClass().getSimpleName() + " -> " + str);
-    }
+    }   //End of l(String) function.
 
 
-}   //End of Class SingerListFragTab
+}   //End of Class SingerListFragTab.
 
 
 

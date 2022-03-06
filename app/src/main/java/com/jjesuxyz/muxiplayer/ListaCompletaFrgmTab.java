@@ -44,34 +44,34 @@ import java.util.ArrayList;
 public class ListaCompletaFrgmTab extends ListFragment
                                     implements AdapterViewAnimator.OnItemClickListener{
 
-                                  //Global variable for debugging
+                                  //Global variable for debugging.
     public final String TAG = "NICKY";
-                                  //Global class variable declaration
+                                  //Global class variable declaration.
     private View view;
-                                  //Variables to holds MP3 file paths
+                                  //Variables to holds MP3 file paths.
     private ArrayList<String> arrayListFilePathsToPlayListTb;
     private ArrayList<String> arrayListFilePathsSDCard;
     private ArrayList<String> arrayListFilePathsFulllistTable;
-                                  //It shows file paths to user
+                                  //It shows file paths to user.
     private ListView listView;
-                                  //Buttons to control/modify data and UI
+                                  //Buttons to control/modify data and UI.
     private Button btnPlayAllFiles;
     private Button btnAddSongToPlaylist;
     private Button btnUpdateFullListFromDB;
     private Button btnUpdateDBFromSDCard;
 
 
-                                  //VW used to manage ListView rows selected
+                                  //VW used to manage ListView rows selected.
     private View vwLastRowSelected = null;
-                                  //Local interface to communicate with hosting class
+                                  //Local interface to communicate with hosting class.
     private ListaCompletaFrgmInterfaceListener mCallback;
                                   //Variable set to manage permission to access
-                                  //device storage
+                                  //device storage.
     private final int PERMISSION_ACCESS_CODE = 3456;
     private boolean bPermissionsState = false;
-                                  //To detect data update
+                                  //To detect data update.
     private boolean blPlayListUpdated = false;
-                                  //ListView Adapter
+                                  //ListView Adapter.
     private MuxListViewAdapter muxListViewAdapter;
 
 
@@ -94,47 +94,47 @@ public class ListaCompletaFrgmTab extends ListFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
         view = inflater.inflate(R.layout.lista_completa_layout, container, false);
 
-                                  //Instantiating ArrayList to hold MP3 files
+                                  //Instantiating ArrayList to hold MP3 files.
         arrayListFilePathsToPlayListTb = new ArrayList<>();
 
-                                  //Button to go back to the main UI
+                                  //Button to go back to the main UI.
         btnPlayAllFiles = view.findViewById(R.id.btnPlayAllFilesID);
         btnPlayAllFiles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(mCallback != null) {
                                   //Letting know hosting class if there were
-                                  //change in LV data
+                                  //change in LV data.
                     mCallback.comunicacionInterfaceFunction(blPlayListUpdated, 10);
                 }
             }
-        });                       //End of button click listener setting
+        });                       //End of button click listener setting.
 
 
                                   //Button to add one row/data to DB play list
-                                  //table
+                                  //table.
         btnAddSongToPlaylist = view.findViewById(R.id.btnAddOneFileToPlaylistID);
         btnAddSongToPlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                                   //Boolean var to know that a table update has
-                                  //been done
+                                  //been done.
                 blPlayListUpdated = true;
                                   //Instantiating object to access database to get
-                                  //file paths
+                                  //file paths.
                 ElModelo elModelo = new ElModelo(getContext());
-                                  //Inserting one record to the DB play list table
+                                  //Inserting one record to the DB play list table.
                 elModelo.insertMultipleRecordsIntoPlayListTable(arrayListFilePathsToPlayListTb);
                                   //Clearing ArrayList for new mp3 file to insert
-                                  //into table
+                                  //into table.
                 arrayListFilePathsToPlayListTb.clear();
 
             }
-        });                       //End of button click listener setting
+        });                       //End of button click listener setting.
 
 
                                   //Button to update the ListView window data
-                                  //from the DB
+                                  //from the DB.
         btnUpdateFullListFromDB =  view.findViewById(R.id.btnUpdateDBFullListID);
         btnUpdateFullListFromDB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,7 +142,8 @@ public class ListaCompletaFrgmTab extends ListFragment
                 checkStorageAccessPermission();
 
                 if (bPermissionsState) {
-                                  //Making sure MP3 ArrayList is not null and empty
+                                  //Making sure MP3 ArrayList is not null and
+                                  //empty
                     if(arrayListFilePathsSDCard != null){
                         arrayListFilePathsSDCard.clear();
                     }
@@ -150,12 +151,13 @@ public class ListaCompletaFrgmTab extends ListFragment
                         arrayListFilePathsSDCard = new ArrayList<String>();
                     }
                                   //Instantiating object to access database to
-                                  //get file paths
+                                  //get file paths.
                     ElModelo elModelo = new ElModelo(getActivity());
                                   //Adding MP3's to ArrayList with data from DB full
-                                  //list table
+                                  //list table.
                     arrayListFilePathsFulllistTable = elModelo.getAllMP3FilePathFromDBFulllistTable("NO SE USA");
-                                  //Updating ListView with new data from DB full list table
+                                  //Updating ListView with new data from DB full
+                                  //list table.
                     muxListViewAdapter.getData().clear();
                     muxListViewAdapter.getData().addAll(arrayListFilePathsFulllistTable);
                     muxListViewAdapter.createHashMap();
@@ -168,7 +170,7 @@ public class ListaCompletaFrgmTab extends ListFragment
                 }
 
             }
-        });                       //End of button click listener setting
+        });                       //End of button click listener setting.
 
 
         btnUpdateDBFromSDCard =  view.findViewById(R.id.btnUpdateDBID);
@@ -180,7 +182,7 @@ public class ListaCompletaFrgmTab extends ListFragment
                 checkStorageAccessPermission();
 
                 if (bPermissionsState) {
-                                  //Making sure MP3 ArrayList is not null and empty
+                                  //Making sure MP3 ArrayList is not null and empty.
                     if(arrayListFilePathsSDCard != null){
                         arrayListFilePathsSDCard.clear();
                     }
@@ -190,25 +192,25 @@ public class ListaCompletaFrgmTab extends ListFragment
 
                     Toast.makeText(getActivity(), "Deleting List", Toast.LENGTH_SHORT).show();
                                   //Instantiating object to access database to
-                                  //get file paths
+                                  //get file paths.
                     ElModelo elModelo = new ElModelo(getActivity());
-                                  //Deleting all data from DB full list table
+                                  //Deleting all data from DB full list table.
                     elModelo.deleteAllRecordsOnFullListTable();
                                   //Getting data from SD Card and inserting it
-                                  //into ArrayList
+                                  //into ArrayList.
                     arrayListFilePathsSDCard.addAll(elModelo.getArrayListOfFiles());
                                   //Populating Db full list table with new data
-                                  //from SD Card
+                                  //from SD Card.
                      elModelo.insertMultipleRecordsIntoFullListTable(arrayListFilePathsSDCard);
-                                  //Clearing ArrayList old data
+                                  //Clearing ArrayList old data.
                      arrayListFilePathsFulllistTable.clear();
                                   //Adding MP3's to ArrayList with data from DB
-                                  //full list table
+                                  //full list table.
 
                     Toast.makeText(getActivity(), "Updating list from DBTABLE", Toast.LENGTH_SHORT).show();
                     arrayListFilePathsFulllistTable = elModelo.getAllMP3FilePathFromDBFulllistTable("NO SE USA");
                                   //Updating ListView with new data from DB full
-                                  //list table
+                                  //list table.
                     muxListViewAdapter.getData().clear();
                     muxListViewAdapter.getData().addAll(arrayListFilePathsFulllistTable);
                     muxListViewAdapter.createHashMap();
@@ -225,10 +227,11 @@ public class ListaCompletaFrgmTab extends ListFragment
             }
         });
 
-                                  //View holding info to build the fragment UI
+                                  //View holding info to build the fragment UI.
         return view;
 
-    }   //End of onCreateView() function
+    }   //End of onCreateView() function.
+
 
 
 
@@ -244,22 +247,23 @@ public class ListaCompletaFrgmTab extends ListFragment
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-                                  //Creating object to access the local database
+                                  //Creating object to access the local database.
         ElModelo elModelo = new ElModelo(getContext());
 
 
         arrayListFilePathsFulllistTable = elModelo.getAllMP3FilePathFromDBFulllistTable("NO SE USA");
 
-                                  //Instantiating the ListView adapter
+                                  //Instantiating the ListView adapter.
         muxListViewAdapter = new MuxListViewAdapter(getActivity(), arrayListFilePathsFulllistTable);
-                                  //Getting the fragment ListView
+                                  //Getting the fragment ListView.
         listView = getListView();
-                                  //Setting ListView adapter
+                                  //Setting ListView adapter.
         setListAdapter(muxListViewAdapter);
-                                  //Setting the ListView listener object
+                                  //Setting the ListView listener object.
         listView.setOnItemClickListener(this);
 
-    }   //End of onActivityCreated() function
+    }   //End of onActivityCreated() function.
+
 
 
 
@@ -278,24 +282,24 @@ public class ListaCompletaFrgmTab extends ListFragment
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                                   //Enabling add button to add a row-song name to
-                                  //DB play list
+                                  //DB play list.
         btnAddSongToPlaylist.setEnabled(true);
         btnAddSongToPlaylist.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
                                   //Updating data on ArrayList holding all MP3
-                                  //files
+                                  //files.
        arrayListFilePathsToPlayListTb.add(arrayListFilePathsFulllistTable.get(position));
-                                  //Highlighting last row selected
+                                  //Highlighting last row selected.
         if(vwLastRowSelected != null){
             vwLastRowSelected.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorLastRowSelectedStyle));
             vwLastRowSelected = null;
         }
-                                  //Highlighting present row selected
+                                  //Highlighting present row selected.
         view.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorRowNowSelectingStyle));
                                   //Last row selected becomes to be present row
-                                  //clicked
+                                  //clicked.
         vwLastRowSelected = view;
 
-    }   //End of onItemClick() function
+    }   //End of onItemClick() function.
 
 
 
@@ -319,7 +323,8 @@ public class ListaCompletaFrgmTab extends ListFragment
             ccex.printStackTrace();
         }
 
-    }   //End of onAttach() function
+    }   //End of onAttach() function.
+
 
 
 
@@ -330,37 +335,37 @@ public class ListaCompletaFrgmTab extends ListFragment
      * to let part of this app that storage access is Ok.
      */
     private void checkStorageAccessPermission(){
-                                  //if to check if this SDK is Nougat version
+                                  //if to check if this SDK is Nougat version.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                                  //Checking if storage access has been granted
+                                  //Checking if storage access has been granted.
             int permisoGranted = ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE);
             if (permisoGranted == PackageManager.PERMISSION_GRANTED) {
                                   //Permissions to access storage have been
-                                  //granted already
+                                  //granted already.
                 bPermissionsState = true;
             }
             else {
                 bPermissionsState = false;
                 if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
                                   //App does need to info user why storage access
-                                  //is needed
+                                  //is needed.
                     Toast.makeText(getActivity(), "Se necesita acceder la memoria para leer los musical file", Toast.LENGTH_LONG).show();
                     ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_ACCESS_CODE);
                 }
                 else {
                                   //App does not need to info user why storage
-                                  //access is needed
+                                  //access is needed.
                     ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_ACCESS_CODE);
                 }
             }
         }
         else {
                                   //Code section to handle storage access on SDK
-                                  //less than N
+                                  //less than N.
             l("Esta es una version de android mas vieja que NOUGAT");
         }
 
-    }   //End of checkStorageAccessPermission() function
+    }   //End of checkStorageAccessPermission() function.
 
 
 
@@ -379,21 +384,22 @@ public class ListaCompletaFrgmTab extends ListFragment
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
         switch (requestCode) {
-                                  //Permission granted case
+                                  //Permission granted case.
             case PERMISSION_ACCESS_CODE:
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //l("Permission Granted:  " + grantResults.length + "  -  " + grantResults[0]);
                     bPermissionsState = true;
                 }
                 break;
-                                  //User denied permission to access storage
+                                  //User denied permission to access storage.
             default:
                 //l("ALGO SALIO MAL CON LOS PERMISOS. EN LA FUNCION ONREQUESTPERMISSIONRESULT");
                 bPermissionsState = false;
                 break;
         }
 
-    }   //End of onRequestPermissionsResult () function
+    }   //End of onRequestPermissionsResult () function.
+
 
 
 
@@ -413,7 +419,7 @@ public class ListaCompletaFrgmTab extends ListFragment
          */
         void comunicacionInterfaceFunction(boolean boolUpdate, int resultCode);
 
-    }   //End of ListaCompletaFrgmInterfaceListener interface
+    }   //End of ListaCompletaFrgmInterfaceListener interface.
 
 
 
@@ -429,11 +435,11 @@ public class ListaCompletaFrgmTab extends ListFragment
     private void l(String str){
         Log.d(TAG, this.getClass().getSimpleName() + " -> " + str);
 
-    }   //End of l() function
+    }   //End of l() function.
 
 
 
-}   //End of Class ListaCompletaFrgmTab
+}   //End of Class ListaCompletaFrgmTab.
 
 
 

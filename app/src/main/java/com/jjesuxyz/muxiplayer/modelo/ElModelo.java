@@ -2,7 +2,6 @@ package com.jjesuxyz.muxiplayer.modelo;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -26,18 +25,14 @@ import java.util.ArrayList;
  */
 
 public class ElModelo {
-
-                                  //Global variable for debugging
-    public final String TAG = "NICKY";
-
                                   //Object to be pass to the class accessing
-                                  //the local DB
+                                  //the local DB.
     private Context context;
                                   //ArrayList to hold MP3 file paths obtained
-                                  //from SD Card
+                                  //from SD Card.
     private ArrayList<String> arrListFiles;
     private ArrayList<String> arrayListPLayList;
-                                  //Variable to access local database
+                                  //Variable to access local database.
     private DBAccess dbAccess;
 
 
@@ -55,7 +50,8 @@ public class ElModelo {
         arrListFiles = new ArrayList<>();
         this.context = context;
 
-    }   //End of constructor
+    }   //End of class constructor.
+
 
 
 
@@ -70,21 +66,22 @@ public class ElModelo {
      */
     public void insertMultipleRecordsIntoPlayListTable(ArrayList<String> arrayListFilePath){
                                   //Checking that ArrayList has been
-                                  //instantiated before????
+                                  //instantiated before????.
         if (arrayListFilePath != null) {
-                                  //Getting access to the local database
+                                  //Getting access to the local database.
             dbAccess = new DBAccess(context);
-                                  //Inserting multiple records into the database
+                                  //Inserting multiple records into the database.
             dbAccess.insertMultipleRecordsIntoPlayListTable(arrayListFilePath);
             dbAccess.close();
             dbAccess = null;
         }
         else {
-                                  //Code just for debugging purposes
+                                  //Code just for debugging purposes.
             l("Function insertMultipleRecordsIntoPlayListTable(AL<Str> => NULL) ");
         }
 
-    }   //End of insertMultipleRecordsIntoPlayListTable() function
+    }   //End of insertMultipleRecordsIntoPlayListTable() function.
+
 
 
 
@@ -99,21 +96,23 @@ public class ElModelo {
      */
     public void insertMultipleRecordsIntoFullListTable(ArrayList<String> arrayListFilePath){
                                   //Checking that ArrayList has been
-                                  //instantiated before????
+                                  //instantiated before????.
         if (arrayListFilePath != null) {
-                                  //Getting access to the local database
+                                  //Getting access to the local database.
             dbAccess = new DBAccess(context);
-                                  //Inserting multiple records into the database table
+                                  //Inserting multiple records into the database
+                                  //table.
             dbAccess.insertMultipleRecordsIntoFullListTable(arrayListFilePath);
             dbAccess.close();
             dbAccess = null;
         }
         else {
-                                  //Code just for debugging purposes
+                                  //Code just for debugging purposes.
             l("Function insertMultipleRecordsIntoPlayListTable(AL<Str> => NULL) ");
         }
 
-    }   //End of insertMultipleRecordsIntoPlayListTable() function
+    }   //End of insertMultipleRecordsIntoPlayListTable() function.
+
 
 
 
@@ -128,22 +127,23 @@ public class ElModelo {
      */
     public void insertMultipleRecordsIntoSingerListTable(ArrayList<String> arrayListSingerName){
                                         //Checking that ArrayList has been
-                                        //instantiated before????
+                                        //instantiated before????.
         if (arrayListSingerName != null) {
-                                        //Getting access to the local database
+                                        //Getting access to the local database.
             dbAccess = new DBAccess(context);
                                         //Inserting multiple records into the
-                                        //database table
+                                        //database table.
             dbAccess.insertMultipleRecordsIntoSingerListTable(arrayListSingerName);
             dbAccess.close();
             dbAccess = null;
         }
         else {
-                                        //Code just for debugging purposes
+                                        //Code just for debugging purposes.
             l("Function insertMultipleRecordsIntoSingerListTable(AL<Str> => NULL) ");
         }
 
-    }   //End of insertMultipleRecordsIntoSingerListTable() function
+    }   //End of insertMultipleRecordsIntoSingerListTable() function.
+
 
 
 
@@ -157,24 +157,25 @@ public class ElModelo {
      * @return type ArrayList
      */
     public ArrayList<String> getArrayListFromPlayListTable(){
-                                  //ArrayList to hold all MP3 records
+                                  //ArrayList to hold all MP3 records.
         arrayListPLayList = new ArrayList<>();
-                                  //Instantiating object to access local DB
+                                  //Instantiating object to access local DB.
         dbAccess = new DBAccess(context);
-                                  //Getting all MP3 records from local DB
+                                  //Getting all MP3 records from local DB.
         Cursor cursor = dbAccess.getAllMP3FilePathsFromDBPlaylistTable();
         int index = cursor.getColumnIndex(DBAccessHelper.TABLE_PLAY_LIST);
-                                  //Extracting MP3 records from Cursor
+                                  //Extracting MP3 records from Cursor.
         while (cursor.moveToNext()) {
             String str = cursor.getString(0);
             arrayListPLayList.add(str);
         }
-                                  //Closing local DB
+                                  //Closing local DB.
         dbAccess.close();
-                                  //Returning all MP3 files gotten from local Db
+                                  //Returning all MP3 files gotten from local Db.
         return arrayListPLayList;
 
-    }   //End of getArrayListFromPlayListTable() function
+    }   //End of getArrayListFromPlayListTable() function.
+
 
 
 
@@ -191,24 +192,25 @@ public class ElModelo {
      * @return type ArrayList
      */
     public ArrayList<String> getAllMP3FilePathFromDBFulllistTable(String strParam) {
-                                  //ArrayList to hold all MP3 records
+                                  //ArrayList to hold all MP3 records.
         arrayListPLayList = new ArrayList<>();
-                                  //Instantiating object to access local DB
+                                  //Instantiating object to access local DB.
         dbAccess = new DBAccess(context);
-                                  //Getting all MP3 records from local DB
+                                  //Getting all MP3 records from local DB.
         Cursor cursor = dbAccess.getAllMP3FilePathsFromDBFullListTable();
         int index = cursor.getColumnIndex(DBAccessHelper.TABLE_FULL_LIST);
-                                  //Extracting MP3 records from Cursor
+                                  //Extracting MP3 records from Cursor.
         while (cursor.moveToNext()) {
             String str = cursor.getString(0);
             arrayListPLayList.add(str);
         }
-                                  //Closing local DB
+                                  //Closing local DB.
         dbAccess.close();
-                                  //Returning all MP3 files gotten from local Db
+                                  //Returning all MP3 files gotten from local Db.
         return arrayListPLayList;
 
-    }   //End of getAllMP3FilePathFromDBFulllistTable() function
+    }   //End of getAllMP3FilePathFromDBFulllistTable() function.
+
 
 
 
@@ -225,24 +227,26 @@ public class ElModelo {
      * @return type ArrayList
      */
     public ArrayList<String> getAllSingerNamesFromDBSingerListTable(String strParam) {
-                                  //ArrayList to hold all singer names
+                                  //ArrayList to hold all singer names.
         arrayListPLayList = new ArrayList<>();
-                                  //Instantiating object to access local DB
+                                  //Instantiating object to access local DB.
         dbAccess = new DBAccess(context);
-                                  //Getting all singer names from local DB
+                                  //Getting all singer names from local DB.
         Cursor cursor = dbAccess.getAllSingerNamesFromDBSingerListTable();
         int index = cursor.getColumnIndex(DBAccessHelper.TABLE_SINGER_LIST);
-                                  //Extracting singer names from Cursor
+                                  //Extracting singer names from Cursor.
         while (cursor.moveToNext()) {
             String str = cursor.getString(0);
             arrayListPLayList.add(str);
         }
-                                  //Closing local DB
+                                  //Closing local DB.
         dbAccess.close();
-                                  //Returning all singer names gotten from local Db
+                                  //Returning all singer names gotten from
+                                  //local Db.
         return arrayListPLayList;
 
-    }   //End of getAllSingerNamesFromDBSingerListTable() function
+    }   //End of getAllSingerNamesFromDBSingerListTable() function.
+
 
 
 
@@ -259,22 +263,23 @@ public class ElModelo {
      */
     public int deleteOneRowOnPlayListTable(String strTmp){
                                   //Variable to hold the number of deleted
-                                  //records
+                                  //records.
         int delRecordResult;
                                   //Instantiating DBAccess object to actually
-                                  //access the DB
+                                  //access the DB.
         dbAccess = new DBAccess(context);
                                   //Deleting one record from database play
-                                  //list table
+                                  //list table.
         delRecordResult = dbAccess.deleteOneRowsFromPlaylistTable(strTmp);
-                                  //if for debugging purposes
+                                  //if for debugging purposes.
         if (delRecordResult <= 0){
             l("Funcion deleteOneRowOnPlayListTable(String ERROR " + delRecordResult);
         }
 
         return delRecordResult;
 
-    }   //End of deleteOneRowOnPlayListTable() function
+    }   //End of deleteOneRowOnPlayListTable() function.
+
 
 
 
@@ -287,22 +292,24 @@ public class ElModelo {
      * @return type int
      */
     public int deleteAllRecordsOnPlayListTable(){
-                                  //Variable to hold the number of deleted records
+                                  //Variable to hold the number of deleted
+                                  //records.
         int delRecordResult;
                                   //Instantiating DBAccess to actually access the
-                                  //local DB
+                                  //local DB.
         dbAccess = new DBAccess(context);
                                   //Deleting all records from database play list
-                                  //table
+                                  //table.
         delRecordResult = dbAccess.deleteAllRowsFromPlaylistTable();
         if (delRecordResult <= 0){
             l("Deleted records number with Function deleteAllRowsFromPlayListTable()" + delRecordResult);
         }
                                   //Returning number of deleted records from play
-                                  //list table
+                                  //list table.
         return delRecordResult;
 
-    }   //End of deleteAllRecordsOnPlayListTable() function
+    }   //End of deleteAllRecordsOnPlayListTable() function.
+
 
 
 
@@ -315,22 +322,24 @@ public class ElModelo {
      * @return type int
      */
     public int deleteAllRecordsOnFullListTable(){
-                                  //Variable to hold the number of deleted records
+                                  //Variable to hold the number of deleted
+                                  //records.
         int delRecordResult;
                                   //Instantiating DBAccess to actually access the
-                                  //local DB
+                                  //local DB.
         dbAccess = new DBAccess(context);
                                   //Deleting all records from database full list
-                                  //table
+                                  //table.
         delRecordResult = dbAccess.deleteAllRowsFromFulllistTable();
         if (delRecordResult <= 0){
             l("Deleted records number with Function deleteAllRowsFromFullListTable()" + delRecordResult);
         }
                                   //Returning number of deleted records from full
-                                  //list table
+                                  //list table.
         return delRecordResult;
 
-    }   //End of deleteAllRecordsOnFullListTable() function
+    }   //End of deleteAllRecordsOnFullListTable() function.
+
 
 
 
@@ -343,22 +352,23 @@ public class ElModelo {
      * @return type int
      */
     public int deleteAllRecordsOnSingerListTable(){
-                                  //Variable to hold the number of deleted records
+                                  //Variable to hold the number of deleted
+                                  //records.
         int delRecordResult;
                                   //Instantiating DBAccess to actually access
-                                  //the local DB
+                                  //the local DB.
         dbAccess = new DBAccess(context);
                                   //Deleting all records from database singer
-                                  //list table
+                                  //list table.
         delRecordResult = dbAccess.deleteAllRowsFromSingerListTable();
         if (delRecordResult <= 0){
             l("Deleted records number with Function deleteAllRowsFromSingerListTable()" + delRecordResult);
         }
                                   //Returning number of deleted records from
-                                  //full list table
+                                  //full list table.
         return delRecordResult;
 
-    }   //End of deleteAllRecordsOnFullListTable() function
+    }   //End of deleteAllRecordsOnFullListTable() function.
 
 
 
@@ -377,7 +387,8 @@ public class ElModelo {
 
         return arrListFiles;
 
-    }   //End of getArrayListOfFiles() function
+    }   //End of getArrayListOfFiles() function.
+
 
 
 
@@ -397,9 +408,12 @@ public class ElModelo {
             Toast.makeText(context, "BaseDirectorioLength:  recursion 0", Toast.LENGTH_SHORT).show();
 
             //NEW CODE TO BE RESOLVED-HAY ERRORES CUANDO SON DEVICES DIFERENTES
-  //This file path works for LG with screen broken and for Motorola G Power with Android 10
+
+ // This file path works for LG with screen broken and for Motorola G Power with Android 10
             // este como que ya no funciona file = new File("/storage/emulated/0");
-            file = new File("/storage/3061-6433/");
+            //file = new File("/storage/3061-6433/");
+ //This file path works for Motorola g Power 2021.
+            file = new File("/storage/78C9-1509/");
 
  //This file path works for ZTE with android Nougat
             //file = new File("/storage/78C9-1509/Music/");
@@ -413,20 +427,20 @@ public class ElModelo {
             getAllMP3FilesFromSDCard(file, ++level);
         }
         else{
-            if (file != null){    //Making sure file is not null
-                                  //Pushing mp3 files into the ArrayList
+            if (file != null){    //Making sure file is not null.
+                                  //Pushing mp3 files into the ArrayList.
                 if(file.isFile()) {
                     if (isFileMP3(file.getAbsolutePath())) {
                         arrListFiles.add(file.getAbsolutePath());
                     }
-                }                 //Moving into another directory, deeper level
+                }                 //Moving into another directory, deeper level.
                 else if(file.isDirectory() && level <= 5){
                     level = level + 1;
                     File[] arrFiles = file.listFiles();
-                                  //Traversing directories
+                                  //Traversing directories.
                     if(arrFiles != null){
                         for(int i = 0; i < arrFiles.length; i++){
-                                  //This recursive function is calling itself
+                                  //This recursive function is calling itself.
                             getAllMP3FilesFromSDCard(arrFiles[i], level);
                         }
                     }
@@ -440,7 +454,8 @@ public class ElModelo {
             }
         }
 
-    }   //End of getAllMP3Files() function
+    }   //End of getAllMP3Files() function.
+
 
 
 
@@ -460,7 +475,8 @@ public class ElModelo {
             return false;
         }
 
-    }   //End of isFileMP3() function
+    }   //End of isFileMP3() function.
+
 
 
 
@@ -473,16 +489,18 @@ public class ElModelo {
      * @return type boolean
      */
     public boolean isTableEmpty(String strTableName) {
-                                  //Getting access to the local database
+                                  //Getting access to the local database.
         DBAccess dbAccess = new DBAccess(context);
-                                  //Calling another function that actually access the DB
+                                  //Calling another function that actually access
+                                  //the DB.
         boolean blIsTbEmpty = dbAccess.isTableEmpty(strTableName);
-                                  //Closing the database
+                                  //Closing the database.
         dbAccess.close();
 
         return blIsTbEmpty;
 
-    }   //End of isTableEmpty() function
+    }   //End of isTableEmpty() function.
+
 
 
 
@@ -496,15 +514,17 @@ public class ElModelo {
      */
     public ArrayList<String> getSingerNames(String singerNombre) {
                                   //ArrayList to hold the MP3 music file sang by
-                                  //the singer
+                                  //the singer.
         ArrayList<String> arrayListPLayList = new ArrayList<>();
-                                  //Getting access to local database
+                                  //Getting access to local database.
         DBAccess dbAccess = new DBAccess(context);
-                                  //Retrieving MP3 record info from database table
+                                  //Retrieving MP3 record info from database
+                                  //table
         Cursor cursor = dbAccess.getAllMP3FilePathsFromDBFullListTable();
         int index = cursor.getColumnIndex(DBAccessHelper.TABLE_FULL_LIST);
                                   //Traversing cursor searching MP3 file with
-                                  //singer name equal to the singerNombre parameter
+                                  //singer name equal to the singerNombre
+                                  //parameter.
         while (cursor.moveToNext()) {
             String str = cursor.getString(0);
                                   //Comparing singer names
@@ -512,13 +532,14 @@ public class ElModelo {
                 arrayListPLayList.add(str);
             }
         }
-                                  //Closing local DB
+                                  //Closing local DB.
         dbAccess.close();
                                   //Returning all singer names gotten from
-                                  //local Db
+                                  //local Db.
         return arrayListPLayList;
 
-    }   //End of getSingerNames function
+    }   //End of getSingerNames function.
+
 
 
 
@@ -531,12 +552,15 @@ public class ElModelo {
      * @param str type String
      */
     private void l(String str){
+                                  //Local variable for debugging.
+        final String TAG = "NICKY";
+
         Log.d(TAG, this.getClass().getSimpleName() + " -> " + str);
 
-    }   //End of l() function
+    }   //End of l() function.
 
 
-}   //End of Class ElModelo
+}   //End of Class ElModelo.
 
 
 

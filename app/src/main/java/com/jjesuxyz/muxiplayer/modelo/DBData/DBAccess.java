@@ -26,9 +26,9 @@ import java.util.ArrayList;
  */
 
 public class DBAccess {
-                                  //Global class variable declaration
+                                  //Global class variable declaration.
     private Context contexto;
-                                  //Variable to access database
+                                  //Variable to access database.
     private SQLiteDatabase database = null;
     private DBAccessHelper dbAccessHelper;
 
@@ -46,18 +46,19 @@ public class DBAccess {
     public DBAccess(Context contexto){
 
         this.contexto = contexto;
-                                  //Getting access to the database class helper
+                                  //Getting access to the database class helper.
         dbAccessHelper = new DBAccessHelper(this.contexto);
         try{
-                                  //Opening the local database in a writable mode
+                                  //Opening the local database in a writable mode.
             open();
         }
         catch(SQLException sqle){
-                                  //if any error
+                                  //if any error.
             sqle.printStackTrace();
         }
 
-    }//End of constructor
+    }   //End of class constructor.
+
 
 
 
@@ -71,11 +72,13 @@ public class DBAccess {
     private void open() throws SQLException{
 
         database = dbAccessHelper.getWritableDatabase();
-                                  //Just debugging la connection to DB
+                                  //Just debugging la connection to DB.
         if(database == null){
             l("DB is NULL DBAccess->open()");
         }
-    }//End of function
+
+    }//End of open() function.
+
 
 
 
@@ -85,16 +88,17 @@ public class DBAccess {
      *
      */
     public void close(){
-                                  //Database connection object
+                                  //Database connection object.
         if(database != null){
             database.close();
         }
-                                  //Database connection helper object
+                                  //Database connection helper object.
         if(dbAccessHelper != null){
             dbAccessHelper.close();
         }
 
-    }//End of function
+    }//End of close() function.
+
 
 
 
@@ -110,32 +114,32 @@ public class DBAccess {
         ArrayList<String[]> result = new ArrayList<>();
         int i;
                                   //SQLite command to get db structure, tables
-                                  //and columns
+                                  //and columns.
         Cursor c = database.rawQuery("SELECT name FROM SQLite_master WHERE type='table'", null);
 
         result.add(c.getColumnNames());
-                                  //for loop
+                                  //for loop.
         for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
             String[] temp = new String[c.getColumnCount()];
-                                  //for loop to visit every table in the DB
+                                  //for loop to visit every table in the DB.
             for (i = 0; i < temp.length; i++) {
                 temp[i] = c.getString(i);
 
                 Cursor c1 = database.rawQuery("SELECT * FROM "+temp[i], null);
                 c1.moveToFirst();
                 String[] COLUMNS = c1.getColumnNames();
-                                  //for loop to visit every column in each table
+                                  //for loop to visit every column in each table.
                 for(int j = 0; j < COLUMNS.length; j++) {
                     c1.move(j);
-                    //l("    COLUMN - " + COLUMNS[j]);
-                }                 //End of inner-inner for loop
+                }                 //End of inner-inner for loop.
 
-            }                     //End of inner for loop
+            }                     //End of inner for loop.
 
             result.add(temp);
-        }                         //End of outer for loop
+        }                         //End of outer for loop.
 
-    }//End of function
+    }//End of getDatabaseStructure() function.
+
 
 
 
@@ -155,9 +159,9 @@ public class DBAccess {
         String strTableName = tableName;
         boolean empty = false;
         Cursor cursor;
-                                  //Querying db table
+                                  //Querying db table.
         cursor = database.rawQuery("SELECT COUNT(*) FROM " + strTableName, null);
-                                  //Checking if cursor is empty or null
+                                  //Checking if cursor is empty or null.
         if(cursor != null && cursor.moveToFirst() && cursor.getInt(0) == 0){
             empty = true;
         }
@@ -166,7 +170,8 @@ public class DBAccess {
 
         return empty;
 
-    }//End of function
+    }//End of isTableEmpty(String) function.
+
 
 
 
@@ -190,16 +195,17 @@ public class DBAccess {
         ContentValues valuesFullList = new ContentValues();
 
         valuesFullList.put(DBAccessHelper.COLUMN_FILE_PATH, fullSongPath);
-                                  //Inserting values into the database table
+                                  //Inserting values into the database table.
         insertedRowId = database.insert(DBAccessHelper.TABLE_FULL_LIST, null, valuesFullList);
-                                  //Code for debugging purposes
+                                  //Code for debugging purposes.
         if(insertedRowId < 0){
             l("Error inserting record: class-DBAccess->createAndInsertRecordFullListTable()");
         }
 
         return insertedRowId;
 
-    }//End of function
+    }//End of insertRecordIntoFullListTable(String, String) function.
+
 
 
 
@@ -216,7 +222,7 @@ public class DBAccess {
      * @param arrayListFilePathsSDCard type ArrayList<String>
      */
     public void insertMultipleRecordsIntoFullListTable(ArrayList<String> arrayListFilePathsSDCard){
-                                  //Variable for debugging purposes
+                                  //Variable for debugging purposes.
         long insertRowId;
                                   //Setting the column values into a
                                   //ContentValues obj.
@@ -224,16 +230,16 @@ public class DBAccess {
 
         for(int i = 0; i < arrayListFilePathsSDCard.size(); i++){
             valuesFullList.put(DBAccessHelper.COLUMN_FILE_PATH, arrayListFilePathsSDCard.get(i));
-                                  //Inserting values into the database table
+                                  //Inserting values into the database table.
             insertRowId = database.insert(DBAccessHelper.TABLE_FULL_LIST, null, valuesFullList);
             valuesFullList.clear();
-                                  //Code for debugging purposes
+                                  //Code for debugging purposes.
             if(insertRowId < 0){
                 l("Error inserting records: class-DBAccess->insertMultipleRecordsIntoFullListTable()");
             }
         }
 
-    }//End of function
+    }//End of insertMultipleRecordsIntoFullListTable() function.
 
 
 
@@ -251,23 +257,23 @@ public class DBAccess {
      * @param arrayListFilePathsSDCard type ArrayList<String>
      */
     public void insertMultipleRecordsIntoSingerListTable(ArrayList<String> arrayListFilePathsSDCard){
-                                  //Variable for debugging purposes
+                                  //Variable for debugging purposes.
         long insertRowId;
                                   //Setting the column values into a ContentValues obj.
         ContentValues valuesFullList = new ContentValues();
 
         for(int i = 0; i < arrayListFilePathsSDCard.size(); i++){
             valuesFullList.put(DBAccessHelper.COLUMN_SINGERLIST_NAMES, arrayListFilePathsSDCard.get(i));
-                                  //Inserting values into the database table
+                                  //Inserting values into the database table.
             insertRowId = database.insert(DBAccessHelper.TABLE_SINGER_LIST, null, valuesFullList);
             valuesFullList.clear();
-                                  //Code for debugging purposes
+                                  //Code for debugging purposes.
             if(insertRowId < 0){
                 l("Error inserting records: class-DBAccess->insertMultipleRecordsIntoSingerListTable()");
             }
         }
 
-    }//End of function
+    }//End of insertMultipleRecordsIntoSingerListTable() function.
 
 
 
@@ -285,19 +291,21 @@ public class DBAccess {
      */
     public long insertRecordIntoPlaylistTable(String fullSongPath){
         long insertedRowId;
-                                  //Setting the column values into a ContentValues obj
+                                  //Setting the column values into a
+                                  //ContentValues obj.
         ContentValues valuesPlaylist = new ContentValues();
         valuesPlaylist.put(DBAccessHelper.COLUMN_PLAYLIST_SONGS, fullSongPath);
-                                  //Inserting values into the database table
+                                  //Inserting values into the database table.
         insertedRowId = database.insert(DBAccessHelper.TABLE_PLAY_LIST, null, valuesPlaylist);
-                                  //Code for debugging purposes
+                                  //Code for debugging purposes.
         if(insertedRowId < 0){
             l("Error inserting record class-DBAccess->insertRecordIntoPlaylistTable()");
         }
 
         return insertedRowId;
 
-    }//End of function
+    }//End of insertRecordIntoPlaylistTable(String) function.
+
 
 
 
@@ -312,25 +320,26 @@ public class DBAccess {
      * @param arrayListFilePaths type ArrayList
      */
     public void insertMultipleRecordsIntoPlayListTable(ArrayList<String> arrayListFilePaths){
-                                  //Variable used to check for db insertion error
+                                  //Variable used to check for db insertion error.
         long insertRowId;
-                                  //ContentValue to hold record to be inserted
+                                  //ContentValue to hold record to be inserted.
         ContentValues valuesFullList = new ContentValues();
                                   //Iterating the ArrayList to insert records
-                                  //into DB table
+                                  //into DB table.
         for(int i = 0; i < arrayListFilePaths.size(); i++){
-                                  //Setting records into the ContentValue object
+                                  //Setting records into the ContentValue object.
             valuesFullList.put(DBAccessHelper.COLUMN_PLAYLIST_SONGS, arrayListFilePaths.get(i));
-                                  //Inserting the record
+                                  //Inserting the record.
             insertRowId = database.insert(DBAccessHelper.TABLE_PLAY_LIST, null, valuesFullList);
             valuesFullList.clear();
-                                  //Checking for errors
+                                  //Checking for errors.
             if(insertRowId < 0){
                 l("Error inserting records: class-DBAccess->insertMultipleRecordsIntoPlayListTable()");
             }
         }
 
-    }//End of function
+    }//End of insertMultipleRecordsIntoPlayListTable() function.
+
 
 
 
@@ -346,20 +355,22 @@ public class DBAccess {
      * @return type long
      */
     public long insertRecordIntoSingerListTable(String singerFullPath){
-                                  //Varaible used for debugging purposes
+                                  //Variable used for debugging purposes.
         long insertedRowId;
-                                  //ContentValue used to help to make the insertion
+                                  //ContentValue used to help to make the
+                                  //insertion.
         ContentValues valuesSingerList = new ContentValues();
         valuesSingerList.put(DBAccessHelper.COLUMN_SINGERLIST_NAMES, singerFullPath);
-                                  //Making the insertion
+                                  //Making the insertion.
         insertedRowId = database.insert(DBAccessHelper.TABLE_SINGER_LIST, null, valuesSingerList);
-                                  //Debugging block
+                                  //Debugging block.
         if(insertedRowId < 0){
             l("Error inserting record clase-DBAccess->insertRecordIntoSingerListTable()");
         }
         return insertedRowId;
 
-    }//End of function
+    }//End of insertRecordIntoSingerListTable() function.
+
 
 
 
@@ -382,7 +393,8 @@ public class DBAccess {
 
         return cur;
 
-    }//End of function
+    }//End of getAllMP3FilePathsFromDBFullListTable() function.
+
 
 
 
@@ -402,7 +414,8 @@ public class DBAccess {
         cursor = database.query(DBAccessHelper.TABLE_PLAY_LIST, columns, null, null, null, null, null);
         return cursor;
 
-    }//End of function
+    }//End of getAllMP3FilePathsFromDBPlaylistTable() function.
+
 
 
 
@@ -422,7 +435,8 @@ public class DBAccess {
                                                                                         null, null);
         return cursor;
 
-    }//End of function
+    }//End of getAllSingerNamesFromDBSingerListTable() function.
+
 
 
 
@@ -439,17 +453,18 @@ public class DBAccess {
      */
     public int deleteAllRowsFromFulllistTable(){
         int deletedRows = 0;
-                                  //Executing the delete request
+                                  //Executing the delete request.
         try{
             deletedRows = database.delete(DBAccessHelper.TABLE_FULL_LIST, "1", null);
         }
-        catch(Exception e){		  //Checking for errors
+        catch(Exception e){		  //Checking for errors.
             Toast.makeText(contexto, "Error: " + e.getMessage() , Toast.LENGTH_LONG).show();
         }
 
         return deletedRows;
 
-    }//End of function
+    }//End of deleteAllRowsFromFulllistTable() function.
+
 
 
 
@@ -463,18 +478,19 @@ public class DBAccess {
      */
     public int deleteAllRowsFromPlaylistTable(){
         int deletedRows = 0;
-                                  //Executing the delete request
+                                  //Executing the delete request.
         try{
             deletedRows = database.delete(DBAccessHelper.TABLE_PLAY_LIST, "1", null);
             database.close();
         }
-        catch(Exception e){		  //Checking for errors
+        catch(Exception e){		  //Checking for errors.
             Toast.makeText(contexto, "Error: " + e.getMessage() , Toast.LENGTH_LONG).show();
         }
 
         return deletedRows;
 
-    }//End of function
+    }//End of deleteAllRowsFromPlaylistTable() function.
+
 
 
 
@@ -491,19 +507,20 @@ public class DBAccess {
     public int deleteOneRowsFromPlaylistTable(String strFilePath){
         String[] whereArgs = new String[]{strFilePath};
         int deletedRows = 0;
-                                  //Executing the delete request
+                                  //Executing the delete request.
         try{
             deletedRows = database.delete(DBAccessHelper.TABLE_PLAY_LIST,
                                             DBAccessHelper.COLUMN_PLAYLIST_SONGS + " = ?", whereArgs);
             database.close();
         }
-        catch(Exception e){		  //Checking for errors
+        catch(Exception e){		  //Checking for errors.
             Toast.makeText(contexto, "Error: " + e.getMessage() , Toast.LENGTH_LONG).show();
         }
 
         return deletedRows;
 
-    }//End of function
+    }//End of deleteOneRowsFromPlaylistTable(String) function.
+
 
 
 
@@ -520,17 +537,18 @@ public class DBAccess {
      */
     public int deleteAllRowsFromSingerListTable(){
         int deletedRows = 0;
-                                  //Executing the delete request
+                                  //Executing the delete request.
         try{
             deletedRows = database.delete(DBAccessHelper.TABLE_SINGER_LIST, "1", null);
         }
-        catch(Exception e){		  //Checking for errors
+        catch(Exception e){		  //Checking for errors.
             Toast.makeText(contexto, "Error: " + e.getMessage() , Toast.LENGTH_LONG).show();
         }
 
         return deletedRows;
 
-    }//End of function
+    }//End of deleteAllRowsFromSingerListTable() function.
+
 
 
 
@@ -543,13 +561,14 @@ public class DBAccess {
      * @param str type String
      */
     private void l(String str){
-        Log.d("NIKO", this.getClass().getSimpleName() + " -> " + str);
-    }
+        final String TAG = "NICKY";
+
+        Log.d(TAG, this.getClass().getSimpleName() + " -> " + str);
+    }   //End of l(String) function.
 
 
 
-
-}   //End of Class DBAccess.java
+}   //End of Class DBAccess.
 
 
 

@@ -22,7 +22,7 @@ import android.util.Log;
 
 public class DBAccessHelper extends SQLiteOpenHelper{
 
-                                  //Global class variables declaration
+                                  //Global class variables declaration.
     public static final String TABLE_FULL_LIST =  "tb_full_list";
     public static final String COLUMN_ID_FL =     "_id";
     public static final String COLUMN_FILE_PATH = "col_file_path";
@@ -35,7 +35,7 @@ public class DBAccessHelper extends SQLiteOpenHelper{
 
     private static final String DATABASE_NAME =   "nk.db";
     private static final int DATABASE_VERSION = 1;
-                                  //String to create the database tables command
+                                  //String to create the database tables command.
     private static final String DATABASE_CREATE_FULLLIST =
                         "CREATE TABLE " + TABLE_FULL_LIST + "("
                                         + COLUMN_ID_FL + " integer primary key autoincrement, "
@@ -62,7 +62,9 @@ public class DBAccessHelper extends SQLiteOpenHelper{
      */
     public DBAccessHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }//End of class constructor
+
+    }//End of class constructor.
+
 
 
 
@@ -85,7 +87,8 @@ public class DBAccessHelper extends SQLiteOpenHelper{
             sqle.printStackTrace();
         }
 
-    }//End of function
+    }//End of onCreate(SQLiteDatabase function.
+
 
 
 
@@ -100,7 +103,8 @@ public class DBAccessHelper extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-    }
+    }   //End of onUpgrade() function.
+
 
 
 
@@ -113,8 +117,11 @@ public class DBAccessHelper extends SQLiteOpenHelper{
      * @param str type String
      */
     private void l(String str){
-        Log.d("NIKO", this.getClass().getSimpleName() + " -> " + str);
-    }
+        final String TAG = "NICKY";
+
+        Log.d(TAG, this.getClass().getSimpleName() + " -> " + str);
+
+    }   //End of l(String) function.
 
 
 

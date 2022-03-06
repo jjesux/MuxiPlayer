@@ -50,6 +50,7 @@ public class MusLib2 extends AppCompatActivity
 
 
 
+
     /**
      * onPageScrolled(int, float, int) function is not implemented in this
      * project yet.
@@ -61,7 +62,8 @@ public class MusLib2 extends AppCompatActivity
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         /**********************************************************************/
-    }   //End of onPageScrolled() function
+    }   //End of onPageScrolled() function.
+
 
 
 
@@ -75,14 +77,15 @@ public class MusLib2 extends AppCompatActivity
      */
     @Override
     public void onPageSelected(int position) {
-        //Log.d("NIKO", "onPageSelected(position: " + position);
+
         androidx.appcompat.app.ActionBar actionB = getSupportActionBar();
         if (actionB != null) {
-                                  //Changing fragment to be displayed
+                                  //Changing fragment to be displayed.
             actionB.setSelectedNavigationItem(position);
         }
 
-    }   //End of onPageSelected() function
+    }   //End of onPageSelected() function.
+
 
 
 
@@ -95,7 +98,9 @@ public class MusLib2 extends AppCompatActivity
     @Override
     public void onPageScrollStateChanged(int state) {
         /**********************************************************************/
-    }   //End of onPageScrollStateChanged() function
+
+    }   //End of onPageScrollStateChanged() function.
+
 
 
 
@@ -111,15 +116,16 @@ public class MusLib2 extends AppCompatActivity
      */
     @Override
     public void comunicacionInterfaceFunction(boolean blUpdate, int resultCode) {
-                                  //Data to be send to parent activity
+                                  //Data to be send to parent activity.
         Intent intent = new Intent();
         intent.putExtra(MainActivity.UPDATE_NEEDED, blUpdate);
-                                  //Sending dat/info to the parent activity
+                                  //Sending dat/info to the parent activity.
         setResult(MainActivity.RESULT_OK, intent);
-                                  //Self destruction
+                                  //Self destruction.
         finish();
 
-    }   //End of comunicacionInterfaceFunction() function
+    }   //End of comunicacionInterfaceFunction() function.
+
 
 
 
@@ -134,16 +140,17 @@ public class MusLib2 extends AppCompatActivity
     @Override
     public void onBackPressed(){
                                   //Creating data to pass to MainActivity when
-                                  //back key pressed
+                                  //back key pressed.
         Intent intent = new Intent();
                                   //true asks MainActivity ListView to update
-                                  //itself from DB
+                                  //itself from DB.
         intent.putExtra(MainActivity.UPDATE_NEEDED, true);
         setResult(MainActivity.RESULT_OK, intent);
 
         super.onBackPressed();
 
-    }   //End of onBackPressed() function
+    }   //End of onBackPressed() function.
+
 
 
 
@@ -154,7 +161,8 @@ public class MusLib2 extends AppCompatActivity
     protected void onDestroy(){
         super.onDestroy();
 
-    }   //End of onDestroy() funtion
+    }   //End of onDestroy() funtion.
+
 
 
 
@@ -167,12 +175,12 @@ public class MusLib2 extends AppCompatActivity
      * @param str type String
      */
     private void l(String str){
-        Log.d("NIKO", this.getClass().getSimpleName() + " -> " + str);
+        Log.d("NICKY", this.getClass().getSimpleName() + " -> " + str);
 
-    }   //End of l() function
+    }   //End of l() function.
 
 
-}   //End of Class MusLib2
+}   //End of Class MusLib2.
 
 
 
