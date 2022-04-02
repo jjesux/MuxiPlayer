@@ -1,5 +1,14 @@
 
 
+Esta application solo a sido probada en los telefonos que yo he tenido. Es
+decir solo se a probado en celulares Huawei, ZTE 7.1.1, LG 8.1, Motorola, y en
+algunos emuladores que se crearon usando Android Studio.
+Asi que si se instala en celulares diferentes a los mencionados arriva es
+probable que corra bien pero es muy posible que no pueada acceder a el
+directorio de la SD Card por causa de no tener la dirreccion (path) correcta.
+El resultado seria entonces que no va mostrar ningun archivo mp3 en la libreria.
+
+
 Esta version fue creada en 12/5/2020.
 
 Se usa el android studio 6.3.6.
@@ -24,13 +33,16 @@ un errorque seproduce cuando este modulo entra en accion. Revisar eso....
 Update en 3/3/2022 como a las 5:00 pm. Jueves. En Watsonville, ca. Library.
 se eimplemento la seleccion de canciones de forma aleatoria. Hasta el
 moemnto parece que trabaja bien pero tengo checarla mas tiempo.
+Para activarla hay que hacer un long click on the LOOP button. One click
+on it is to activate the looping mode and a long click is to activate the
+looping mode and the random mode. A second long click turn off the random
+mode but keep the looping mode on, but a second normal click turn off the
+looping and random mode off.
 
 Update en 3/3/2022 como a las 5:00 pm. Jueves. En Watsonville, ca. Library.
 Se le compucieron-sincronizaron el funcionamiento de los botones de stop y el del
 loop, ya que no estaban bien sincronizados. Hasta este moento parece que
 quedaron bien.
-
-Estos dos upadtes quedaron tambien en la version del clone.
 
 
 
@@ -86,3 +98,10 @@ Hoy noted como que algunas canciones que son largas como cambia a otra cancion
 sin dejar que la cancion larga se termine completamente.???????????????
 
 *******************************************************************************
+
+
+Update en 3/30/2022 como a las 4:30 pm. en Watsonville.
+en el ZTE la app se detiene-crashes cuando se lee los files de sd card, pero
+solo cuando se leen todos los archivos. Pero aparte de eso aparentemente
+funciona bien en todo lo demas. Un problema es que AS no muestra ningun LogCat
+mensage.

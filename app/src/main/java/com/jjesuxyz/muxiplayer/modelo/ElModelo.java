@@ -2,6 +2,8 @@ package com.jjesuxyz.muxiplayer.modelo;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.os.Build;
+import android.os.Environment;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -402,57 +404,120 @@ public class ElModelo {
      * @param level type int
      */
     private void getAllMP3FilesFromSDCard(File file, int level){
+        int aSDKVersion = 0;
+                                  //This line is for debugging.
+        String aStrName =  Build.MODEL + " - " + Build.MANUFACTURER + " - " + Build.HOST ;
+
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                                   //Checking if it is the first function call
-        if(file == null && level <= 1){
-            //l("BaseDirectorioXXX:  " + Environment.getExternalStorageDirectory().getAbsolutePath());
-            Toast.makeText(context, "BaseDirectorioLength:  recursion 0", Toast.LENGTH_SHORT).show();
+            if (file == null && level <= 1) {
+                Toast.makeText(context, "BaseDirectorioLength:  recursion 0", Toast.LENGTH_SHORT).show();
+                                  //Switch block to detect Android version, and
+                                  //manufacturer, and define the SD Card path
+                                  //Getting the SDK Version.
+                aSDKVersion = Build.VERSION.SDK_INT;
 
-            //NEW CODE TO BE RESOLVED-HAY ERRORES CUANDO SON DEVICES DIFERENTES
+                switch (aSDKVersion) {
+                                  //Android 4.4 SDK 19 KitKat.
+                    case 19:
+                        aStrName = "KitKat";
+                        break;
+                                  //Android 5 SDK 21 Lillipop.
+                    case 21:
+                        aStrName = "Lillipop";
+                        break;
+                                  //Android 5.1 SDK 22 Lillipop.
+                    case 22:
+                        aStrName = "Lillipop";
+                        break;
+                                  //Android 6 SDK 23 Marshmallow.
+                    case 23:
+                        aStrName = "Marshmallow";
+                        break;
+                                  //Android 7 SDK 24 Nougat.
+                    case 24:
+                        aStrName = "Nougat";
+                        file = new File("/storage/78C9-1509/Music/");
+                        break;
+                                  //Android 7.1 SDK 25 Nougat.
+                    case 25:
+                        aStrName = "Nougat";
+                                  //ZTE Android 7.1.1
+                        file = new File("/storage/3061-6433/Music/");
+                        break;
+                                  //Android 8 SDK 2 Oreo.
+                    case 26:
+                        aStrName = "Oreo";
+                        break;
+                                  //Android 8.1 SDK 27 Oreo.
+                    case 27:
+                        aStrName = "Oreo";
+                        if (Build.MANUFACTURER.equalsIgnoreCase("LGE")) {
+                            file = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
+                        }
+                        if (Build.MANUFACTURER.equalsIgnoreCase("google"))
+                            file = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
+                        break;
+                                  //Android 9 SDK 28 Pie.
+                    case 28:
+                        aStrName = "Pie";
+                        break;
+                                  //Android 10 SDK 29 Q.
+                    case 29:
+                        aStrName = "Q";
+                        if (Build.MANUFACTURER.equalsIgnoreCase("motorola"))
+                            file = new File("/storage/78C9-1509/");
+                        else if (Build.MANUFACTURER.equalsIgnoreCase("google"))
+                            file = new File("/storage/1E11-2C11/");
+                        break;
+                                  //Android 11 SDK 30.
+                    case 30:
+                        aStrName = "Nombre-30";
+                        break;
+                                  //Android 12 SDK 31-32.
+                    case 31:
+                        aStrName = "Nombre-31";
+                        break;
+                }   // End of switch block.
 
- // This file path works for LG with screen broken and for Motorola G Power with Android 10
-            // este como que ya no funciona file = new File("/storage/emulated/0");
-            //file = new File("/storage/3061-6433/");
- //This file path works for Motorola g Power 2021.
-            file = new File("/storage/78C9-1509/");
+                                  //For debugging.
+                l("SDK Version " + String.valueOf(aSDKVersion) + " - " + aStrName);
 
- //This file path works for ZTE with android Nougat
-            //file = new File("/storage/78C9-1509/Music/");
+                Toast.makeText(context, "BaseDirectorio:  " + file.getPath(), Toast.LENGTH_SHORT).show();
+                getAllMP3FilesFromSDCard(file, ++level);
 
-//This file path works for virtual device Nexus 5X api 27
-            //file = new File(Environment.getExternalStorageDirectory().getAbsolutePath());
-
-            //NEW CODE END/////////////////////////////////////////////////////
-
-            Toast.makeText(context, "BaseDirectorio:  " + file.getPath(), Toast.LENGTH_SHORT).show();
-            getAllMP3FilesFromSDCard(file, ++level);
-        }
-        else{
-            if (file != null){    //Making sure file is not null.
+            }   //End of if(file==null && level <= 1)
+            else {
+                                  //Making sure file is not null.
+                if (file != null) {
                                   //Pushing mp3 files into the ArrayList.
-                if(file.isFile()) {
-                    if (isFileMP3(file.getAbsolutePath())) {
-                        arrListFiles.add(file.getAbsolutePath());
-                    }
-                }                 //Moving into another directory, deeper level.
-                else if(file.isDirectory() && level <= 5){
-                    level = level + 1;
-                    File[] arrFiles = file.listFiles();
-                                  //Traversing directories.
-                    if(arrFiles != null){
-                        for(int i = 0; i < arrFiles.length; i++){
-                                  //This recursive function is calling itself.
-                            getAllMP3FilesFromSDCard(arrFiles[i], level);
+                    if (file.isFile()) {
+                        if (isFileMP3(file.getAbsolutePath())) {
+                            arrListFiles.add(file.getAbsolutePath());
                         }
                     }
-                    else{
-                        l("Directory is possible empty. Array of files is null:  ");
+                                  //Moving into another directory, deeper level.
+                    else if (file.isDirectory() && level <= 5) {
+                        level = level + 1;
+                        File[] arrFiles = file.listFiles();
+                                  //Traversing directories.
+                        if (arrFiles != null) {
+                            for (int i = 0; i < arrFiles.length; i++) {
+                                  //This recursive function is calling itself.
+                                getAllMP3FilesFromSDCard(arrFiles[i], level);
+                            }
+                        }
+                        else {
+                            l("Directory is possible empty. Array of files is null:  ");
+                        }
                     }
                 }
-            }
-            else {
-                l("Error: File object to access SD Card directory is null");
-            }
-        }
+                else {
+                    l("Error: File object to access SD Card directory is null");
+                }
+            }   //End of if(file==null && level <= 1)//else
+
+        }   //End of if(Environment.
 
     }   //End of getAllMP3Files() function.
 
