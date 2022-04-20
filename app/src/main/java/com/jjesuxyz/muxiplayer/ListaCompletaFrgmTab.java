@@ -44,8 +44,7 @@ import java.util.ArrayList;
 public class ListaCompletaFrgmTab extends ListFragment
                                     implements AdapterViewAnimator.OnItemClickListener{
 
-                                  //Global variable for debugging.
-    public final String TAG = "NICKY";
+
                                   //Global class variable declaration.
     private View view;
                                   //Variables to holds MP3 file paths.
@@ -169,7 +168,10 @@ public class ListaCompletaFrgmTab extends ListFragment
                     l("NO PUEDE ACCEDER LA MEMORIA PORQUE LOS PERMISOS NO HAN SIDO OTORGADOS");
                 }
 
-            }
+                l("Saliendo de la btnUpdateFullListFromDB -> onClick() function");
+
+            }                     //End of onClick() callback function
+
         });                       //End of button click listener setting.
 
 
@@ -222,7 +224,7 @@ public class ListaCompletaFrgmTab extends ListFragment
                     l("NO PUEDE ACCEDER LA MEMORIA PORQUE LOS PERMISOS NO HAN SIDO OTORGADOS");
                 }
 
-                //l("TERMINANDO EL IF-UPDATE DE LA DB  TABLE");
+                l("TERMINANDO EL IF-UPDATE DE LA DB  TABLE");
 
             }
         });
@@ -261,6 +263,9 @@ public class ListaCompletaFrgmTab extends ListFragment
         setListAdapter(muxListViewAdapter);
                                   //Setting the ListView listener object.
         listView.setOnItemClickListener(this);
+
+        l("Saliendo de la onActivityCreated() function");
+
 
     }   //End of onActivityCreated() function.
 
@@ -433,6 +438,8 @@ public class ListaCompletaFrgmTab extends ListFragment
      * @param str type String
      */
     private void l(String str){
+                                  //Local variable for debugging.
+        final String TAG = "NICKY";
         Log.d(TAG, this.getClass().getSimpleName() + " -> " + str);
 
     }   //End of l() function.

@@ -1,0 +1,99 @@
+
+This version was created using Android Studio on 12/5/2020.
+
+
+This application has been tested only on android devices Huawei, ZTE 7.1.1,
+LG 8.1, Motorola G Power 2021, and some android emulators. These emulators
+were created using Android Studio 3.6.6.
+So if this application is installed on different android devices it may run
+well without crashing or it may do so. This is because, so far it accesses
+only the SD Card, and the directory path is hard coded from the above device.
+So the directory path may be different and the applicatioin would not read
+any mp3 file.
+
+
+In order to show, on the artist name tab. the mp3 file name belonging to an
+artist, the following song file name format is needed:
+.../singerName - songName.mp3
+If this format is not used, then the song name may not appear on the artist
+names list tab.
+
+*******************************************************************************
+
+Date formatt: m/d/y.
+
+
+Update on 3/30/2022 - 4:30 pm in Watsonville.
+The last update makes the application runing on the ZTE device to stop or crash
+when the applicatioin access the SD Card to read and update the databese holding
+all the mp3 file names.
+
+To fix: Maybe using a try-catch can fix the issue since all the other features
+and functionalities run very well.
+
+
+Update on 3/5/2022 - 3:10 pm, saturday in Watsonville.
+The file SingerListFragTab.java on line 157 or so says that line causes an error
+when this class is working.
+
+
+Update on 3/3/2022 - 5:00 pm, thursday in Watsonville.
+The random selection of mp3 files to play feature was coded/implemented. So far
+it seems to me that it works fine. To activate this feature a long click on the
+LOOP button is needed. One normal click will only activated the loop feature.
+To turn it off a second long click or normal click is needed.
+
+
+Update on 3/3/2022 - 5:00 pm, thursday in Watsonville.
+The stop and loop buttons were synchronized. They were kind of synchronized. It
+seems to me that those buttons are working ok.
+
+
+Update on 12/3/2021 - 1:36 pm, friday in Watsonville.
+The Manifest file was updated. This update was needed so the application could
+access the SD Card, on the Motorola G Power, without implementing the new way
+Android required to access the SD Card.
+
+android:requestLegacyEternalStorage was added to the file.
+
+To do: I think that showing users a UI so they can select in which directory the
+mp3 files are located.
+
+
+
+Update on 1/27/2021 - 7:20 pm, in Irapuato.
+Some UI features of the equalizer were fixed. They did not worked correctly.
+Some changes were make on the radio UI.
+
+
+To do: I need to research how to accesss SD Card in a general way. So far the
+SD Card path is hard coded for the devices discribed above.
+
+
+To do: how to merge the functionality of the play and pause buttons.  It is like
+when the button is clicked change that button text to pause as well as its
+functionality.
+
+
+To do: how to make the name of the song playing blink on the list view showing
+all the song names, and thus remove the text view showing the name of the song
+that it is been playing.
+
+
+To fix: When a song is selected on the libreia UI the row changes color, but I
+think that is not working correctly. It does not cause the application to crash
+or stop. I think it is just a synchronization issue.
+
+
+To fix: Organize the files on the Value directory.
+
+
+To do: rebuild or make the radio UI, or eliminate some buttons.
+
+
+To fix: the ZTE phone does not show any Log message when connected to the
+Android Studio running on my computer.
+
+
+
+

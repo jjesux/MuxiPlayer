@@ -94,8 +94,6 @@ Se le agrego android:requestLegacyEternalStorage.
 Faltaria ver como ponerle algun mecanismo para que se pudiera escoger el text
 size directamente en app ui.
 
-Hoy noted como que algunas canciones que son largas como cambia a otra cancion
-sin dejar que la cancion larga se termine completamente.???????????????
 
 *******************************************************************************
 
@@ -105,3 +103,6 @@ en el ZTE la app se detiene-crashes cuando se lee los files de sd card, pero
 solo cuando se leen todos los archivos. Pero aparte de eso aparentemente
 funciona bien en todo lo demas. Un problema es que AS no muestra ningun LogCat
 mensage.
+
+*******************************************************************************
+
